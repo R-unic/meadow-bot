@@ -1,7 +1,9 @@
 import { Discord, Slash } from "discordx";
-import type { CommandInteraction } from "discord.js";
 import { Category } from "@discordx/utilities";
+import type { CommandInteraction } from "discord.js";
+
 import { deleteIfPossible } from "../../utility.js";
+import Embed from "../../embed-presets.js";
 
 const description = "Returns the latency between your computer and Discord's servers";
 
@@ -15,6 +17,8 @@ export class Ping {
     const latency = msg.createdTimestamp - command.createdTimestamp;
     deleteIfPossible(msg);
 
-    await command.reply(`Pong! Latency: ${Math.max(latency, 0)}ms`);
+    await command.reply({
+      embeds: [Embed.success(`Pong! Latency: ${Math.max(latency, 0)}ms`)]
+    });
   }
 }
