@@ -5,12 +5,11 @@ import type { CommandInteraction } from "discord.js";
 import { deleteIfPossible } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
-const description = "Returns the latency between your computer and Discord's servers";
 
 @Discord()
 @Category("Info")
 export class Ping {
-  @Slash({ description })
+  @Slash({ description: "Returns the latency between your computer and Discord's servers" })
   async ping(command: CommandInteraction): Promise<void> {
     if (!command.channel) return;
     const msg = await command.channel.send("Pinging...");
