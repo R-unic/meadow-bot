@@ -1,0 +1,31 @@
+{
+  "name": "meadow-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/R-unic/meadow-bot.git"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "ts",
+    "typescript",
+    "runes",
+    "meadow",
+    "runic"
+  ],
+  "author": "R-unic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/R-unic/meadow-bot/issues"
+  },
+  "homepage": "https://github.com/R-unic/meadow-bot#readme",
+  "dependencies": {
+    "discordx": "^11.9.0"
+  }
+}
