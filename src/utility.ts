@@ -1,4 +1,7 @@
+import type { Client } from "discordx";
 import type { Message } from "discord.js";
+
+import Log from "./logger.js";
 
 /**
  * Checks if a message is deletable, and if so deletes it after a specified amount of time (or 0 seconds).
@@ -12,4 +15,34 @@ export function deleteIfPossible(message: Message, time = 0): void {
       await message.delete();
     } catch(e) {}
   }, time);
+}
+
+/**
+ * Fetches the registered global application commands and returns an object
+ * containing the command names as keys and their corresponding IDs as values.
+ *
+ * If there are no commands or an error occurs, an empty object is returned.
+ * @param client The Discord Client instance.
+ * @returns An object containing command names and their corresponding IDs.
+ */
+export async function getCommandIDs(client: Client): Promise<{ [name: string]: string }> {
+  try {
+      const commands = await client.application?.commands.fetch();
+      if (!commands)
+        return {};
+
+      return Object.fromEntries(commands.map(command => [command.name, command.id]));
+  } catch (error) {
+    Log.error(`Issue fetching global commands: ${error}`);
+    return {};
+  }
+}
+
+/**
+ * Capitalises the first letter of each word in a string.
+ * @param s The string to be capitalised.
+ * @returns The capitalised string.
+ */
+export function capitalize(s: string): string {
+  return s.replace(/\S+/g, word => word.slice(0, 1).toUpperCase() + word.slice(1));
 }

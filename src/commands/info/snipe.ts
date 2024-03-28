@@ -8,7 +8,7 @@ import Embed from "../../embed-presets.js";
 @Discord()
 @Category("Info")
 export class Snipe {
-  @Slash({ description: "Returns the last message that was deleted, or a message sent `offset` messages ago" })
+  @Slash({ description: "Returns the last message that was deleted, or the message sent `offset` messages ago" })
   async snipe(
     @SlashOption({
       description: "The offset to search through the list of snipes for",
