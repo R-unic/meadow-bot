@@ -5,7 +5,8 @@
   "main": "dist/main.js",
   "type": "module",
   "scripts": {
-    "start": "node dist/main.js"
+    "start": "pm2 start ./dist/main.js ./dist/main.js",
+    "dev": "nodemon -e js,json"
   },
   "repository": {
     "type": "git",
@@ -35,6 +36,7 @@
     "dotenv": "^16.4.5"
   },
   "devDependencies": {
+    "nodemon": "^3.1.0",
     "pm2": "^5.3.1"
   }
 }
