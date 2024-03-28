@@ -25,7 +25,7 @@ bot.once("ready", async () => {
 bot.on("interactionCreate", interaction => void bot.executeInteraction(interaction));
 
 async function run(): Promise<void> {
-  await importx(`${dirname(import.meta.url)}/{events,commands}/**/*.{ts,js}`);
+  await importx(`${dirname(import.meta.url)}/{event-managers,commands}/**/*.{ts,js}`);
   if (!process.env.TOKEN)
     return Log.error("Could not find TOKEN in .env file");
 
