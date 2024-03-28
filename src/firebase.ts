@@ -38,12 +38,13 @@ export class Firebase {
     const data = await this.get<T[]>(path, []);
     if (maxArraySize !== undefined)
       if (data.length >= maxArraySize) {
-        const diff = Math.max(maxArraySize - data.length, -1);
+        const diff = data.length - maxArraySize;
         for (let i = 0; i < diff + 1; i++)
           data.shift();
       }
 
-    this.set(`${path}/${data.length}`, value);
+    data.push(value);
+    this.set(path, data);
   }
 
   private getEndpoint(path?: string): string {
