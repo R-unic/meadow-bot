@@ -3,6 +3,8 @@ import type { Message } from "discord.js";
 import { Firebase } from "./firebase.js";
 import type Snipe from "./structs/snipe";
 
+const MAX_SNIPES_PER_GUILD = 15; // also per category, meaning the number of delete snipes does not count towards the max amount of edit snipes
+
 export class GuildData {
   public static readonly db = new Firebase("guildData", process.env.FIREBASE_URL!);
 
@@ -17,6 +19,6 @@ export class GuildData {
       channelID: message.channelId,
       messageContent: message.content,
       timestamp: Date.now()
-    });
+    }, MAX_SNIPES_PER_GUILD);
   }
 }

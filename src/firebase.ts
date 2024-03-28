@@ -34,8 +34,15 @@ export class Firebase {
     await this.set(path, await this.get<number>(path) + delta);
   }
 
-  public async addToArray<T>(path: string, value: T): Promise<void> {
+  public async addToArray<T>(path: string, value: T, maxArraySize?: number): Promise<void> {
     const data = await this.get<T[]>(path, []);
+    if (maxArraySize !== undefined)
+      if (data.length >= maxArraySize) {
+        const diff = Math.max(maxArraySize - data.length, -1);
+        for (let i = 0; i < diff + 1; i++)
+          data.shift();
+      }
+
     this.set(`${path}/${data.length}`, value);
   }
 
