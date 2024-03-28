@@ -55,6 +55,8 @@ export class Help {
         ]
       });
     }
+
+    await command.reply({ embeds: [Embed.success("Sent a help menu to your DMs!")] })
   }
 
   /**
