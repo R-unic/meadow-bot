@@ -17,7 +17,10 @@ export class Ping {
     deleteIfPossible(msg);
 
     await command.reply({
-      embeds: [Embed.success(`Pong! Latency: ${Math.max(latency, 0)}ms`)]
+      embeds: [
+        Embed.common("Pong!", "🏓")
+          .setDescription(`Latency: ${Math.max(latency, 0)}ms`)
+      ]
     });
   }
 }

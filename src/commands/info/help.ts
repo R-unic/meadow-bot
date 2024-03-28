@@ -49,7 +49,7 @@ export class Help {
             .addComponents(
               new StringSelectMenuBuilder()
                 .setCustomId("helpSelect")
-                .setPlaceholder("...")
+                .setPlaceholder("Select category")
                 .addOptions(...categories),
             )
         ]
