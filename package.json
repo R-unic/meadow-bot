@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "type": "module",
   "scripts": {
-    "start": "pm2 start ./dist/main.js ./dist/main.js",
+    "start": "npx pm2 delete 0 && pm2 start ./dist/main.js",
     "dev": "nodemon -e js,json"
   },
   "repository": {
