@@ -1,12 +1,12 @@
 import { dirname, importx } from "@discordx/importer";
-import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
+import { IntentsBitField } from "discord.js";
 import { configDotenv } from "dotenv";
 
 import Log from "./logger.js";
 
 configDotenv();
-export const bot = new Client({
+export const client = new Client({
   silent: true,
   intents: [
     IntentsBitField.Flags.Guilds,
@@ -17,19 +17,19 @@ export const bot = new Client({
   ]
 });
 
-bot.once("ready", async () => {
-  await bot.initApplicationCommands();
+client.once("ready", async () => {
+  await client.initApplicationCommands();
   Log.info("Bot online!")
 });
 
-bot.on("interactionCreate", interaction => void bot.executeInteraction(interaction));
+client.on("interactionCreate", interaction => void client.executeInteraction(interaction));
 
 async function run(): Promise<void> {
   await importx(`${dirname(import.meta.url)}/{event-managers,commands}/**/*.{ts,js}`);
   if (!process.env.TOKEN)
     return Log.error("Could not find TOKEN in .env file");
 
-  await bot.login(process.env.TOKEN);
+  await client.login(process.env.TOKEN);
 }
 
-void run();
+run();
