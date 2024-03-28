@@ -1,3 +1,5 @@
+import Log from "./logger";
+
 export class Firebase {
   private readonly auth = `.json?auth=${process.env.FIREBASE_AUTH}`;
 
@@ -16,7 +18,7 @@ export class Firebase {
       method: "PUT",
       body: JSON.stringify(value),
       headers
-    }).catch(err => console.warn(`[Firebase] Error: ${err}`));
+    }).catch(err => Log.error(`[Firebase]: ${err}`));
   }
 
   public async get<T>(path?: string, defaultValue?: T): Promise<T> {
