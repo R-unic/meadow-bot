@@ -3,6 +3,8 @@ import { IntentsBitField } from "discord.js";
 import { Client } from "discordx";
 import { configDotenv } from "dotenv";
 
+import Log from "./logger.js";
+
 configDotenv();
 export const bot = new Client({
   silent: true,
@@ -17,7 +19,7 @@ export const bot = new Client({
 
 bot.once("ready", async () => {
   await bot.initApplicationCommands();
-  console.log("Bot online!");
+  Log.info("Bot online!")
 });
 
 bot.on("interactionCreate", interaction => void bot.executeInteraction(interaction));
@@ -25,7 +27,7 @@ bot.on("interactionCreate", interaction => void bot.executeInteraction(interacti
 async function run(): Promise<void> {
   await importx(`${dirname(import.meta.url)}/{events,commands}/**/*.{ts,js}`);
   if (!process.env.TOKEN)
-    throw Error("Could not find TOKEN in .env file");
+    return Log.error("Could not find TOKEN in .env file");
 
   await bot.login(process.env.TOKEN);
 }
