@@ -27,7 +27,7 @@ export class Snipe {
     if (!snipe)
       return void await command.reply({ embeds: [Embed.error("There are no stored message deletion snipes yet.")] });
 
-    const author = await command.guild.members.fetch(snipe.authorID)
+    const author = await command.guild.members.fetch(snipe.authorID);
     await command.reply({
       embeds: [
         Embed.common(`Sniped!`, "🔫")

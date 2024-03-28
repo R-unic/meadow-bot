@@ -7,7 +7,7 @@ export class GuildData {
   public static readonly db = new Firebase("guildData", process.env.FIREBASE_URL!);
 
   public static async getSnipes(guildID: string, type: "delete" | "edit"): Promise<Snipe[]> {
-    return await this.db.get<Snipe[]>(`snipes/${guildID}/${type}`, [])
+    return await this.db.get<Snipe[]>(`snipes/${guildID}/${type}`, []);
   }
 
   public static async addSnipe(message: Message, type: "delete" | "edit"): Promise<void> {
