@@ -1,4 +1,4 @@
-import Log from "./logger";
+import Log from "./logger.js";
 
 export class Firebase {
   private readonly auth = `.json?auth=${process.env.FIREBASE_AUTH}`;
