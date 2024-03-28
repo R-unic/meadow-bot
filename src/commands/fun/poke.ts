@@ -21,7 +21,10 @@ export class Poke {
     if (!command.channel) return;
     await command.reply({
       content: userMention(user.id),
-      embeds: [Embed.common("Poke!", "👉")]
+      embeds: [
+        Embed.common("Poke!", "👉")
+          .setColor("#FCF67C")
+      ]
     });
   }
 }
