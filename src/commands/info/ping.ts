@@ -20,6 +20,7 @@ export class Ping {
       embeds: [
         Embed.common("Pong!", "🏓")
           .setDescription(`Latency: ${Math.max(latency, 0)}ms`)
+          .setColor("#4479CF")
       ]
     });
   }
