@@ -8,7 +8,7 @@
     "stop": "forever stop 0",
     "start": "forever start -a -e error.log --uid production dist/main.js",
     "dev": "nodemon -e js,json",
-    "push": "git push -u && git push --all live"
+    "push": "git push -u && git push live master"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,7 @@
     "runic"
   ],
   "author": "R-unic",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/R-unic/meadow-bot/issues"
   },
