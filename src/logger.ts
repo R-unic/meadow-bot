@@ -22,6 +22,7 @@ export default class Log {
 
   private static log(method: LogMethod, ...messages: unknown[]): void {
     const color = COLOR_SCHEME[method];
-    console.log(`[${color}${method.toUpperCase()}${RESET_COLOR}]: ${messages.join(" ")}`);
+    const time = (new Date).toLocaleTimeString().split(" ")[0]
+    console.log(`[\u001b[49m${time}${RESET_COLOR}] [${color}${method.toUpperCase()}${RESET_COLOR}]: ${messages.join(" ")}`);
   }
 }
