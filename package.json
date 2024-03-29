@@ -7,6 +7,7 @@
   "scripts": {
     "stop": "forever stop 0 || true",
     "start": "forever start -a -e error.log --uid production dist/main.js",
+    "restart": "npm build -s && npm stop -s && npm start -s",
     "build": "rm -rf dist/ && tsc",
     "dev": "nodemon -e js,json"
   },
