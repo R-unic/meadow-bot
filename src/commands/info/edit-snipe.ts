@@ -33,7 +33,6 @@ export class EditSnipe {
     await command.reply({
       embeds: [
         Embed.common("Sniped Edit!", "🔫")
-          .setColor("#4479CF")
           .setDescription(`${messageLink(snipe.channelID, snipe.messageID)}\n**Original message:** ${snipe.messageContent}\n**Edited message:** ${message.content}`)
           .setTimestamp(snipe.timestamp)
           .setAuthor({

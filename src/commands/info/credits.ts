@@ -24,7 +24,6 @@ export class Credits {
               inline: true
             }
           ])
-          .setColor("#4479CF")
       ]
     });
   }

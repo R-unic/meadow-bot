@@ -89,7 +89,6 @@ export class Help {
   private baseEmbed(client: Client) {
     return Embed.common("Help Menu")
       .setDescription("These are all of my commands!")
-      .setColor("#4479CF")
       .setThumbnail(`${client.user?.displayAvatarURL()}`);
   }
 }

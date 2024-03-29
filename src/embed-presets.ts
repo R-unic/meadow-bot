@@ -15,13 +15,13 @@ export default class Embed {
 
   public static note(message: string): EmbedBuilder {
     return this.common("Note", "📝")
-      .setColor("#4479CF")
       .setDescription(message);
   }
 
   public static common(title: string, emoji?: string): EmbedBuilder {
     return new EmbedBuilder()
       .setTitle(title + (emoji !== undefined ? " " + emoji : ""))
+      .setColor("#4479CF")
       .setTimestamp()
       .setFooter({
         text: "Developed by @_runic_",

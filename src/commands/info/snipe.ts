@@ -31,7 +31,6 @@ export class Snipe {
     await command.reply({
       embeds: [
         Embed.common("Sniped!", "🔫")
-          .setColor("#4479CF")
           .setDescription(`${channelMention(snipe.channelID)}\n**Deleted message:** ${snipe.messageContent}`)
           .setTimestamp(snipe.timestamp)
           .setAuthor({
