@@ -23,6 +23,7 @@ export class Poke {
       content: userMention(user.id),
       embeds: [
         Embed.common("Poke!", "👉")
+          .setDescription(`${userMention(command.user.id)} has poked you!`)
           .setColor("#FCF67C")
       ]
     });
