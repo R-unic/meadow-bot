@@ -1,6 +1,6 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
-import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
+import { ApplicationCommandOptionType, type CommandInteraction, channelMention } from "discord.js";
 
 import { GuildData } from "../../data.js";
 import Embed from "../../embed-presets.js";
@@ -32,7 +32,7 @@ export class Snipe {
       embeds: [
         Embed.common("Sniped!", "🔫")
           .setColor("#4479CF")
-          .setDescription(`**Deleted message:** ${snipe.messageContent}`)
+          .setDescription(`${channelMention(snipe.channelID)}\n**Deleted message:** ${snipe.messageContent}`)
           .setTimestamp(snipe.timestamp)
           .setAuthor({
             name: author.user.username,
