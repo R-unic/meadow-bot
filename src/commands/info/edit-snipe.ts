@@ -22,7 +22,7 @@ export class EditSnipe {
   ): Promise<void> {
     if (!command.guild) return;
 
-    const snipes = await GuildData.getSnipes(command.guild.id, "edit");
+    const snipes = await GuildData.getSnipes("edit");
     const [snipe] = snipes.slice(-offset);
     if (!snipe)
       return void await command.reply({ embeds: [Embed.error("There are no stored message edit snipes yet.")] });

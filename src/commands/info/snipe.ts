@@ -22,7 +22,7 @@ export class Snipe {
   ): Promise<void> {
     if (!command.guild) return;
 
-    const snipes = await GuildData.getSnipes(command.guild.id, "delete");
+    const snipes = await GuildData.getSnipes("delete");
     const [snipe] = snipes.slice(-offset);
     if (!snipe)
       return void await command.reply({ embeds: [Embed.error("There are no stored message deletion snipes yet.")] });
