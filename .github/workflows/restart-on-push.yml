@@ -26,7 +26,7 @@ jobs:
         run: npx tsc
       - name: Stop the bot (if it's running)
         run:
-          forever stop production || true
+          npx forever stop production || true
       - name: Start the bot
         run:
           npm start
