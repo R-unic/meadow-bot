@@ -22,6 +22,10 @@ export class Credits {
               name: "Hosting",
               value: userMention("1037800611669889114"),
               inline: true
+            }, {
+              name: "Source code",
+              value: "[github.com/R-unic/meadow-bot](https://github.com/R-unic/meadow-bot)",
+              inline: true
             }
           ])
       ]
