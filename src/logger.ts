@@ -3,6 +3,7 @@ type LogMethod = keyof Omit<typeof Log, "prototype">;
 const RESET_COLOR = "\u001b[0m";
 const COLOR_SCHEME: Record<LogMethod, string> = {
   info: "\u001b[32m",
+  debug: "\u001b[94m",
   warning: "\u001b[31m",
   error: "\u001b[31m"
 };
@@ -10,6 +11,10 @@ const COLOR_SCHEME: Record<LogMethod, string> = {
 export default class Log {
   public static info(...messages: unknown[]): void {
     this.log("info", ...messages);
+  }
+
+  public static debug(...messages: unknown[]): void {
+    this.log("debug", ...messages);
   }
 
   public static warning(...messages: unknown[]): void {
