@@ -5,6 +5,7 @@
   "main": "dist/main.js",
   "type": "module",
   "scripts": {
+    "stop": "forever stop 0",
     "start": "forever start -a -e error.log --uid production dist/main.js",
     "dev": "nodemon -e js,json",
     "push": "git push -u && git push --all live"
