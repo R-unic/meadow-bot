@@ -5,7 +5,6 @@ import type { CommandInteraction } from "discord.js";
 import { deleteIfPossible } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
-
 @Discord()
 @Category("Info")
 export class Ping {
