@@ -7,8 +7,9 @@
   "scripts": {
     "stop": "forever stop 0",
     "start": "forever start -a -e error.log --uid production dist/main.js",
+    "build": "rm -rf dist/ && tsc",
     "dev": "nodemon -e js,json",
-    "push": "git push -u && git push live master"
+    "push": "git push -u && git push -f live master"
   },
   "repository": {
     "type": "git",
