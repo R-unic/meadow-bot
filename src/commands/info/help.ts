@@ -9,7 +9,7 @@ import Embed from "../../embed-presets.js";
 @Category("Info")
 export class Help {
   @Slash({ description: "Returns all of the commands the bot has" })
-  async help(command: CommandInteraction, client: Client): Promise<void> {
+  public async help(command: CommandInteraction, client: Client): Promise<void> {
     if (!command.channel) return;
 
     const embed = this.baseEmbed(client);

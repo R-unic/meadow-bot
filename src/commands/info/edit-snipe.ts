@@ -9,7 +9,7 @@ import Embed from "../../embed-presets.js";
 @Category("Info")
 export class EditSnipe {
   @Slash({ description: "Returns the last message that was edited, or the message sent `offset` messages ago" })
-  async "edit-snipe"(
+  public async "edit-snipe"(
     @SlashOption({
       description: "The offset to search through the list of snipes for",
       name: "offset",

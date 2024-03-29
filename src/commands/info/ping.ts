@@ -9,7 +9,7 @@ import Embed from "../../embed-presets.js";
 @Category("Info")
 export class Ping {
   @Slash({ description: "Returns the latency between your computer and Discord's servers" })
-  async ping(command: CommandInteraction): Promise<void> {
+  public async ping(command: CommandInteraction): Promise<void> {
     if (!command.channel) return;
     const msg = await command.channel.send("Pinging...");
     const latency = msg.createdTimestamp - command.createdTimestamp;
