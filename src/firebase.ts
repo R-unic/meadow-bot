@@ -1,5 +1,10 @@
 import Log from "./logger.js";
 
+if (!process.env.FIREBASE_AUTH)
+  throw new Error("No value for FIREBASE_AUTH in .env file")
+if (!process.env.FIREBASE_URL)
+  throw new Error("No value for FIREBASE_URL in .env file")
+
 export class Firebase {
   private readonly auth = `.json?auth=${process.env.FIREBASE_AUTH}`;
 
