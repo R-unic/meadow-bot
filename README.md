@@ -4,3 +4,4 @@ Bot for [Rune's Meadow Discord server](https://discord.gg/8QMCrrUpMe)
 ## To-do
 - Activity status
 - Send a "thank you" embed when someone Nitro boosts
+- Tags
