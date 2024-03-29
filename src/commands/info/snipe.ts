@@ -30,7 +30,7 @@ export class Snipe {
     const author = await command.guild.members.fetch(snipe.authorID);
     await command.reply({
       embeds: [
-        Embed.common(`Sniped!`, "🔫")
+        Embed.common("Sniped!", "🔫")
           .setColor("#4479CF")
           .setDescription(`**Deleted message:** ${snipe.messageContent}`)
           .setTimestamp(snipe.timestamp)

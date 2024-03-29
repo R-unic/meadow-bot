@@ -32,7 +32,7 @@ export class EditSnipe {
     const message = await messageChannel.messages.fetch(snipe.messageID);
     await command.reply({
       embeds: [
-        Embed.common(`Sniped Edit!`, "🔫")
+        Embed.common("Sniped Edit!", "🔫")
           .setColor("#4479CF")
           .setDescription(`**Original message:** ${snipe.messageContent}\n**Edited message:** ${message.content}`)
           .setTimestamp(snipe.timestamp)
