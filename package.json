@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "forever start -a -e error.log --uid production dist/main.js",
-    "dev": "nodemon -e js,json"
+    "dev": "nodemon -e js,json",
+    "push": "git push -u && git push live master"
   },
   "repository": {
     "type": "git",
