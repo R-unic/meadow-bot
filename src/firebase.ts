@@ -1,5 +1,6 @@
 import Log from "./logger.js";
 
+// Complain if we don't have values to input
 if (!process.env.FIREBASE_AUTH)
   throw new Error("No value for FIREBASE_AUTH in .env file")
 if (!process.env.FIREBASE_URL)
