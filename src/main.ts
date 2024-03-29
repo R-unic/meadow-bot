@@ -1,6 +1,6 @@
 import { dirname, importx } from "@discordx/importer";
 import { Client } from "discordx";
-import { IntentsBitField } from "discord.js";
+import { ActivityType, IntentsBitField } from "discord.js";
 import { configDotenv } from "dotenv";
 
 import Log from "./logger.js";
@@ -19,7 +19,14 @@ export const client = new Client({
 
 client.once("ready", async () => {
   await client.initApplicationCommands();
-  Log.info("Bot online!")
+  client.user?.setPresence({
+    status: "online",
+    activities: [{
+      name: "/help",
+      type: ActivityType.Listening
+    }]
+  });
+  Log.info("Bot online!");
 });
 
 client.on("interactionCreate", interaction => void client.executeInteraction(interaction));
