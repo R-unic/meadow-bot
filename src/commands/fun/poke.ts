@@ -19,6 +19,7 @@ export class Poke {
     command: CommandInteraction
   ): Promise<void> {
     if (!command.channel) return;
+
     await command.reply({
       content: userMention(user.id),
       embeds: [

@@ -8,4 +8,7 @@ interface Snipe {
   readonly timestamp: number;
 }
 
-export default Snipe;
+interface Tag {
+  readonly name: string;
+  readonly content: string;
+}
