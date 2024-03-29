@@ -5,7 +5,7 @@
   "main": "dist/main.js",
   "type": "module",
   "scripts": {
-    "stop": "forever stop 0",
+    "stop": "forever stop 0 || true",
     "start": "forever start -a -e error.log --uid production dist/main.js",
     "build": "rm -rf dist/ && tsc",
     "dev": "nodemon -e js,json",
