@@ -62,6 +62,10 @@ export class Tags {
     command: CommandInteraction
   ): Promise<void> {
     if (!command.channel) return;
+    if (!await GuildData.getTag(name))
+      return void await command.reply({
+        embeds: [Embed.error(`No tag with the name "${name}" exists.`)]
+      });
 
     await GuildData.deleteTag(name);
     await command.reply({
@@ -83,7 +87,6 @@ export class Tags {
   ): Promise<void> {
     if (!command.channel) return;
     const tag = await GuildData.getTag(name);
-
     if (!tag)
       return void await command.reply({
         embeds: [Embed.error(`No tag with the name "${name}" exists.`)]
