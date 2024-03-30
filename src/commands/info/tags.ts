@@ -1,4 +1,4 @@
-import { Discord, Slash, SlashGroup, SlashOption } from "discordx";
+import { Discord, Guard, Slash, SlashGroup, SlashOption } from "discordx";
 import { Category, PermissionGuard } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
@@ -14,6 +14,7 @@ import { GuildData } from "src/data.js";
 export class Tags {
   @Slash({ description: "Create a new tag" })
   @SlashGroup("tags")
+  @Guard(PermissionGuard([ "ManageGuild" ]))
   public async create(
     @SlashOption({
       description: "The name of the tag, will be used to fetch",
