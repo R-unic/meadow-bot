@@ -16,7 +16,7 @@ export class Firebase {
     this.baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
   }
 
-  public async set<T>(path?: string, value?: T, headers?: Record<string, string>): Promise<void> {
+  public async set(path?: string, value?: unknown, headers?: Record<string, string>): Promise<void> {
     if ((value instanceof Array && value.length === 0) || (value instanceof Object && Object.entries(value).length === 0))
       return this.delete(path);
 

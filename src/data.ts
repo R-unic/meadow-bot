@@ -24,6 +24,11 @@ export class GuildData {
     await this.db.addToArray<Tag>("tags", { name, content });
   }
 
+  public static async deleteTag(name: string): Promise<void> {
+    const index = (await this.getTags()).map(({ name }) => name).indexOf(name);
+    await this.db.delete(`tags/${index}`);
+  }
+
   public static async getSnipes(type: "delete" | "edit"): Promise<Snipe[]> {
     return await this.db.get<Snipe[]>(`snipes/${type}`, []);
   }

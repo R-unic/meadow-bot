@@ -21,7 +21,7 @@ export class Tags {
   )
   public async create(
     @SlashOption({
-      description: "The name of the tag, will be used to fetch",
+      description: "The name of the tag. Will be used to fetch the tag",
       name: "name",
       required: true,
       type: ApplicationCommandOptionType.String,
@@ -41,6 +41,31 @@ export class Tags {
     await GuildData.addTag(name, content);
     await command.reply({
       embeds: [Embed.success(`Successfully created tag "${name}"!`)]
+    });
+  }
+
+  @Slash({ description: "Delete an existing tag" })
+  @SlashGroup("tags")
+  @Guard(
+    PermissionGuard([ "ManageGuild" ], {
+      embeds: [Embed.noPermissions()]
+    })
+  )
+  public async delete(
+    @SlashOption({
+      description: "The name of the tag to delete",
+      name: "name",
+      required: true,
+      type: ApplicationCommandOptionType.String,
+    })
+    name: string,
+    command: CommandInteraction
+  ): Promise<void> {
+    if (!command.channel) return;
+
+    await GuildData.deleteTag(name);
+    await command.reply({
+      embeds: [Embed.success(`Successfully deleted tag "${name}"!`)]
     });
   }
 
