@@ -8,6 +8,7 @@
     "stop": "forever stop 0 || true",
     "start": "forever start -a -e error.log -o out.log --uid production dist/main.js",
     "restart": "npm run build -s && npm stop -s && npm start -s",
+    "clear-logs": "rm -rf error.log && rm -rf out.log",
     "build": "rm -rf dist/ && tsc",
     "dev": "nodemon -e js,json"
   },

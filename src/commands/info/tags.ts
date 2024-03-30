@@ -2,8 +2,8 @@ import { Discord, Guard, Slash, SlashGroup, SlashOption } from "discordx";
 import { Category, PermissionGuard } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
+import { GuildData } from "../../data.js";
 import Embed from "../../embed-presets.js";
-import { GuildData } from "src/data.js";
 
 @Discord()
 @Category("Info")
