@@ -100,10 +100,11 @@ export class Tags {
     if (!command.channel) return;
 
     const tags = await GuildData.getTags();
+    const tagList = tags.map(({ name }) => name).join(", ");
     await command.reply({
       embeds: [
         Embed.common("All Existing Tags", "🏷️")
-          .setDescription(tags.map(({ name }) => name).join(", "))
+          .setDescription(tagList === "" ? "**No tags exist yet.**" : tagList)
       ]
     });
   }
