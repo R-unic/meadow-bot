@@ -14,7 +14,11 @@ import Embed from "../../embed-presets.js";
 export class Tags {
   @Slash({ description: "Create a new tag" })
   @SlashGroup("tags")
-  @Guard(PermissionGuard([ "ManageGuild" ]))
+  @Guard(
+    PermissionGuard([ "ManageGuild" ], {
+      embeds: [Embed.noPermissions()]
+    })
+  )
   public async create(
     @SlashOption({
       description: "The name of the tag, will be used to fetch",

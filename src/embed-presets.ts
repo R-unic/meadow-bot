@@ -3,8 +3,12 @@ import { EmbedBuilder } from "discord.js";
 export default class Embed {
   public static success(message: string): EmbedBuilder {
     return this.common("Success", "✅")
-      .setColor("#3BCC6E")
-      .setDescription(message);
+    .setColor("#3BCC6E")
+    .setDescription(message);
+  }
+
+  public static noPermissions(): EmbedBuilder {
+    return this.error("You do not have permissions to use this command!");
   }
 
   public static error(message: string): EmbedBuilder {
