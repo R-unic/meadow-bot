@@ -1,5 +1,5 @@
 import { Discord, Slash, SlashGroup, SlashOption } from "discordx";
-import { Category } from "@discordx/utilities";
+import { Category, PermissionGuard } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
 import Embed from "../../embed-presets.js";
