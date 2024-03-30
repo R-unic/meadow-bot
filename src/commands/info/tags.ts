@@ -40,7 +40,7 @@ export class Tags {
 
     await GuildData.addTag(name, content);
     await command.reply({
-      embeds: [Embed.success(`Successfully created tag "${name}"!`)]
+      embeds: [Embed.success(`Successfully created tag \`${name}\`!`)]
     });
   }
 
@@ -64,12 +64,12 @@ export class Tags {
     if (!command.channel) return;
     if (!await GuildData.getTag(name))
       return void await command.reply({
-        embeds: [Embed.error(`No tag with the name "${name}" exists.`)]
+        embeds: [Embed.error(`No tag with the name \`${name}\` exists.`)]
       });
 
     await GuildData.deleteTag(name);
     await command.reply({
-      embeds: [Embed.success(`Successfully deleted tag "${name}"!`)]
+      embeds: [Embed.success(`Successfully deleted tag \`${name}\`!`)]
     });
   }
 
@@ -89,7 +89,7 @@ export class Tags {
     const tag = await GuildData.getTag(name);
     if (!tag)
       return void await command.reply({
-        embeds: [Embed.error(`No tag with the name "${name}" exists.`)]
+        embeds: [Embed.error(`No tag with the name \`${name}\` exists.`)]
       });
 
     await command.reply({
