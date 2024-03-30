@@ -5,6 +5,6 @@ import { client } from "./main.js";
 configDotenv();
 const rest = (new REST).setToken(process.env.TOKEN!);
 rest.put(
-  Routes.applicationCommands(client.user?.id!),
+  Routes.applicationCommands("1188234972100829274"),
   { body: client.applicationCommands }
 );
