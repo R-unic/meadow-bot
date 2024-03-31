@@ -39,7 +39,7 @@ export class Data {
       });
 
     await command.reply({
-      embeds: [Embed.success(`\`\`\`json\n${JSON.stringify(result)}\`\`\``)]
+      embeds: [Embed.success(`\`\`\`json\n${JSON.stringify(result, undefined, 2)}\`\`\``)]
     });
   }
 }
