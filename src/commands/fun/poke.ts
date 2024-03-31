@@ -8,7 +8,7 @@ import Embed from "../../embed-presets.js";
 @Category("Fun")
 export class Poke {
   @Slash({ description: "Pokes a user" })
-  async poke(
+  public async poke(
     @SlashOption({
       description: "The user to poke",
       name: "user",

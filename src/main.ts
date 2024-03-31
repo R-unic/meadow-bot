@@ -6,7 +6,7 @@ import { configDotenv } from "dotenv";
 import Log from "./logger.js";
 
 configDotenv();
-export const client = new Client({
+const client = new Client({
   silent: true,
   intents: [
     IntentsBitField.Flags.Guilds,
