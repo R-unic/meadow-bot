@@ -14,7 +14,9 @@ export class NitroBoost {
   @Guard(NotBot)
   public async guildMemberUpdate([oldMember, member]: ArgsOf<"guildMemberUpdate">): Promise<void> {
     const rolesGained = Array.from(member.roles.valueOf().difference(oldMember.roles.valueOf()).values());
-    if (!rolesGained.map(({ id }) => id).includes(BOOSTER_ROLE) && !member.roles.valueOf().has(BOOSTER_ROLE)) return; // did not boost
+    if (oldMember.roles.valueOf().has(BOOSTER_ROLE)) return; // already had booster role
+    if (!rolesGained.map(({ id }) => id).includes(BOOSTER_ROLE)) return; // did not boost
+    if (!member.roles.valueOf().has(BOOSTER_ROLE)) return; // if we don't have the role at all
 
     const channel = await member.guild.channels.fetch(THANK_YOU_CHANNEL);
     if (!channel || !channel.isTextBased())
