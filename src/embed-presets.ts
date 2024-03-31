@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, type PermissionsString } from "discord.js";
 
 export default class Embed {
   public static success(message: string): EmbedBuilder {
@@ -7,8 +7,8 @@ export default class Embed {
     .setDescription(message);
   }
 
-  public static noPermissions(): EmbedBuilder {
-    return this.error("You do not have permissions to use this command!");
+  public static noPermissions(requiredPermissions: PermissionsString[]): EmbedBuilder {
+    return this.error(`You do not have permissions to use this command!\n${requiredPermissions.join(", ")}`);
   }
 
   public static error(message: string): EmbedBuilder {

@@ -1,7 +1,11 @@
+import { PermissionGuard } from "@discordx/utilities";
 import type { Client } from "discordx";
-import type { Message } from "discord.js";
+import type { Message, PermissionsString } from "discord.js";
 
 import Log from "./logger.js";
+import Embed from "./embed-presets.js";
+
+export const RequirePermissions = (permissions: PermissionsString[]) => PermissionGuard(permissions, { embeds: [Embed.noPermissions(permissions)] });
 
 /**
  * Checks if a message is deletable, and if so deletes it after a specified amount of time (or 0 seconds).

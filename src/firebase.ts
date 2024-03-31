@@ -54,6 +54,20 @@ export class Firebase {
   }
 
   private getEndpoint(path?: string): string {
+    path = this.fixPath(path);
     return this.baseURL + this.name + encodeURIComponent(path === undefined ? "" : `/${path}`) + this.auth;
+  }
+
+  private fixPath(path?: string): string {
+    if (path === undefined) return "";
+    path = this.removeExtraSlash(path);
+    return path;
+  }
+
+  private removeExtraSlash(path: string): string {
+    if (path.endsWith("/"))
+      path = path.slice(0, -1);
+
+    return path.endsWith("/") ? this.removeExtraSlash(path) : path;
   }
 }

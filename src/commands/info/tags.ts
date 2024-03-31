@@ -3,6 +3,7 @@ import { Category, PermissionGuard } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
 import { GuildData } from "../../data.js";
+import { RequirePermissions } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -14,11 +15,7 @@ import Embed from "../../embed-presets.js";
 export class Tags {
   @Slash({ description: "Create a new tag" })
   @SlashGroup("tags")
-  @Guard(
-    PermissionGuard([ "ManageGuild" ], {
-      embeds: [Embed.noPermissions()]
-    })
-  )
+  @Guard(RequirePermissions(["ManageGuild"]))
   public async create(
     @SlashOption({
       description: "The name of the tag. Will be used to fetch the tag",
@@ -46,11 +43,7 @@ export class Tags {
 
   @Slash({ description: "Delete an existing tag" })
   @SlashGroup("tags")
-  @Guard(
-    PermissionGuard([ "ManageGuild" ], {
-      embeds: [Embed.noPermissions()]
-    })
-  )
+  @Guard(RequirePermissions(["ManageGuild"]))
   public async delete(
     @SlashOption({
       description: "The name of the tag to delete",
