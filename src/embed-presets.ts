@@ -8,7 +8,7 @@ export default class Embed {
   }
 
   public static noPermissions(requiredPermissions: PermissionsString[]): EmbedBuilder {
-    return this.error(`You do not have permissions to use this command!\n${requiredPermissions.join(", ")}`);
+    return this.error(`You do not have permissions to use this command!\n${requiredPermissions.map(perm => `\`${perm}\``).join(", ")}`);
   }
 
   public static error(message: string): EmbedBuilder {
