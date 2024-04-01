@@ -66,11 +66,11 @@ export class Tags {
     });
   }
 
-  @Slash({ description: "Fetches a tag and displays it" })
+  @Slash({ description: "Views a tag" })
   @SlashGroup("tags")
-  public async fetch(
+  public async view(
     @SlashOption({
-      description: "The name of the tag to fetch",
+      description: "The name of the tag to view",
       name: "name",
       required: true,
       type: ApplicationCommandOptionType.String,
