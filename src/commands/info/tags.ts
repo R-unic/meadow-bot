@@ -3,7 +3,7 @@ import { Category, PermissionGuard } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
 import { GuildData } from "../../data/guild.js";
-import { RequirePermissions } from "../../utility.js";
+import { capitalize, RequirePermissions } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -86,7 +86,7 @@ export class Tags {
       });
 
     await command.reply({
-      embeds: [Embed.common(tag.name).setDescription(tag.content)]
+      embeds: [Embed.common(capitalize(tag.name)).setDescription(tag.content)]
     });
   }
 
