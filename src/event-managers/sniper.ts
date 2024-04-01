@@ -2,7 +2,7 @@ import { type ArgsOf, Discord, Guard, On } from "discordx";
 import { NotBot } from "@discordx/utilities";
 import type { Message } from "discord.js";
 
-import { GuildData } from "../data.js";
+import { GuildData } from "../data/guild.js";
 
 @Discord()
 export class Sniper {

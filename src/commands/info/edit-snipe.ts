@@ -2,7 +2,7 @@ import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type TextChannel, type CommandInteraction, messageLink } from "discord.js";
 
-import { GuildData } from "../../data.js";
+import { GuildData } from "../../data/guild.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()

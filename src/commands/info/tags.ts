@@ -2,7 +2,7 @@ import { Discord, Guard, Slash, SlashGroup, SlashOption } from "discordx";
 import { Category, PermissionGuard } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
-import { GuildData } from "../../data.js";
+import { GuildData } from "../../data/guild.js";
 import { RequirePermissions } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 

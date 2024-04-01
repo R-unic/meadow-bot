@@ -10,10 +10,9 @@ export class Firebase {
   private readonly auth = `.json?auth=${process.env.FIREBASE_AUTH}`;
 
   public constructor(
-    private readonly name: string,
     private readonly baseURL: string
   ) {
-    this.baseURL = baseURL.endsWith("/") ? baseURL : baseURL + "/";
+    this.baseURL = this.fixPath(baseURL);
   }
 
   public async set(path?: string, value?: unknown, headers?: Record<string, string>): Promise<void> {
@@ -55,7 +54,7 @@ export class Firebase {
 
   private getEndpoint(path?: string): string {
     path = this.fixPath(path);
-    return this.baseURL + this.name + encodeURIComponent(path === undefined ? "" : `/${path}`) + this.auth;
+    return this.baseURL + encodeURIComponent(path === undefined ? "" : `/${path}`) + this.auth;
   }
 
   private fixPath(path?: string): string {
