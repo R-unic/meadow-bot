@@ -21,8 +21,7 @@ export class Data {
       description: "The path of the data",
       name: "path",
       required: true,
-      type: ApplicationCommandOptionType.String,
-      minLength: 3,
+      type: ApplicationCommandOptionType.String
     })
     path: string,
     command: CommandInteraction
@@ -39,7 +38,7 @@ export class Data {
       });
 
     await command.reply({
-      embeds: [Embed.success(`\`\`\`json\n${JSON.stringify(result, undefined, 2)}\`\`\``)]
+      embeds: [Embed.success(`\`\`\`json\n${JSON.stringify(result, undefined, 2).slice(0, 4095)}\`\`\``)]
     });
   }
 }
