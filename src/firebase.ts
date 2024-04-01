@@ -35,6 +35,10 @@ export class Firebase {
     await this.set(path, undefined, { "X-HTTP-Method-Override": "DELETE" });
   }
 
+  public async reset(): Promise<void> {
+    await this.delete("");
+  }
+
   public async increment(path?: string, delta = 1): Promise<void> {
     await this.set(path, await this.get<number>(path) + delta);
   }
