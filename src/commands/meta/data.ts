@@ -37,7 +37,7 @@ export class Data {
         });
 
       await command.reply({
-        embeds: [Embed.success(`\`\`\`json\n${escapeInlineCode(escapeCodeBlock(JSON.stringify(result ?? {}, undefined, 2).slice(0, 4085)))}\`\`\``)]
+        embeds: [Embed.success(`\`\`\`json\n${escapeInlineCode(escapeCodeBlock(JSON.stringify(result ?? {}, undefined, 2))).slice(0, 4085)}\`\`\``)]
       });
     } catch (error) {
       await command.reply({
