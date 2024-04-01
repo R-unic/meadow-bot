@@ -31,6 +31,7 @@ export class EditSnipe {
     const messageChannel = <TextChannel>await command.guild.channels.fetch(snipe.channelID);
     const message = await messageChannel.messages.fetch(snipe.messageID);
     await command.reply({
+      files: snipe.attachments,
       embeds: [
         Embed.common("Sniped Edit!", "🔫")
           .setDescription(`${messageLink(snipe.channelID, snipe.messageID)}\n**Original message:** ${snipe.messageContent}\n**Edited message:** ${message.content}`)

@@ -29,6 +29,7 @@ export class Snipe {
 
     const author = await command.guild.members.fetch(snipe.authorID);
     await command.reply({
+      files: snipe.attachments,
       embeds: [
         Embed.common("Sniped!", "🔫")
           .setDescription(`${channelMention(snipe.channelID)}\n**Deleted message:** ${snipe.messageContent}`)

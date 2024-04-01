@@ -39,6 +39,7 @@ export class GuildData {
       messageID: message.id,
       channelID: message.channelId,
       messageContent: message.content,
+      attachments: Array.from(message.attachments.values()),
       timestamp: Date.now()
     }, MAX_SNIPES_PER_GUILD);
   }
