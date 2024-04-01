@@ -31,13 +31,13 @@ export class Data {
     try {
       const db = new Firebase(process.env.FIREBASE_URL!);
       const result = await db.get(path);
-      if (result === undefined)
+      if (result === undefined && path !== "")
         return void await command.reply({
           embeds: [Embed.error(`There is no data at path \`${path}\`.`)]
         });
 
       await command.reply({
-        embeds: [Embed.success(`\`\`\`json\n${JSON.stringify(result, undefined, 2).slice(0, 4085)}\`\`\``)]
+        embeds: [Embed.success(`\`\`\`json\n${JSON.stringify(result ?? {}, undefined, 2).slice(0, 4085)}\`\`\``)]
       });
     } catch (error) {
       await command.reply({
