@@ -1,6 +1,6 @@
 import { Discord, Guard, Slash, SlashGroup, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
-import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
+import { ApplicationCommandOptionType, escapeCodeBlock, escapeInlineCode, type CommandInteraction } from "discord.js";
 
 import { Firebase } from "../../firebase.js";
 import { RequirePermissions } from "../../utility.js";
@@ -37,7 +37,7 @@ export class Data {
         });
 
       await command.reply({
-        embeds: [Embed.success(`\`\`\`json\n${JSON.stringify(result ?? {}, undefined, 2).slice(0, 4085)}\`\`\``)]
+        embeds: [Embed.success(`\`\`\`json\n${escapeInlineCode(escapeCodeBlock(JSON.stringify(result ?? {}, undefined, 2).slice(0, 4085)))}\`\`\``)]
       });
     } catch (error) {
       await command.reply({
