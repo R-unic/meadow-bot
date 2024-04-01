@@ -20,10 +20,10 @@ export class Data {
     @SlashOption({
       description: "The path of the data",
       name: "path",
-      required: true,
+      required: false,
       type: ApplicationCommandOptionType.String
     })
-    path: string,
+    path = "",
     command: CommandInteraction
   ): Promise<void> {
     if (!command.channel) return;

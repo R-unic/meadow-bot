@@ -12,7 +12,7 @@ export class Firebase {
   public constructor(
     private readonly baseURL: string
   ) {
-    this.baseURL = this.fixPath(baseURL);
+    this.baseURL = this.fixPath(baseURL) + "/";
   }
 
   public async set(path?: string, value?: unknown, headers?: Record<string, string>): Promise<void> {
@@ -27,8 +27,12 @@ export class Firebase {
   }
 
   public async get<T>(path?: string, defaultValue?: T): Promise<T> {
-    return <T>await fetch(this.getEndpoint(path), { method: "GET" })
-      .then(res => res.json()) ?? defaultValue!;
+    try {
+      return <T>await fetch(this.getEndpoint(path), { method: "GET" })
+        .then(res => res.json()) ?? defaultValue!;
+    } catch (error) {
+      throw Log.error(`[Firebase]: ${error}`);
+    }
   }
 
   public async delete(path?: string): Promise<void> {
