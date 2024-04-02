@@ -1,5 +1,6 @@
 import { Discord, Guard, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
+import { dirname } from "@discordx/importer";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
 import { File, RequirePermissions } from "../../utility.js";
@@ -31,7 +32,7 @@ export class ViewLog {
         embeds: [Embed.error(`\`${type}\` is not a valid log type.\nValid log types: ${VALID_TYPES_LIST}`)]
       });
 
-    const logFilePath = `${__dirname}/../../../${type}.log`;
+    const logFilePath = `${dirname(import.meta.url)}/../../../${type}.log`;
     const logContents = File.exists(logFilePath) ? File.read(logFilePath) : "";
     await command.reply({
       embeds: [
