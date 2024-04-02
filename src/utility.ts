@@ -1,6 +1,7 @@
 import { PermissionGuard } from "@discordx/utilities";
 import type { Client } from "discordx";
 import type { Message, PermissionsString } from "discord.js";
+import { type PathLike, copyFileSync, readFileSync, rmSync, statSync } from "fs";
 
 import Log from "./logger.js";
 import Embed from "./embed-presets.js";
@@ -52,4 +53,36 @@ export async function getCommandIDs(client: Client): Promise<{ [name: string]: s
  */
 export function capitalize(s: string): string {
   return s.replace(/\S+/g, word => word.slice(0, 1).toUpperCase() + word.slice(1));
+}
+
+export namespace File {
+  export function read(path: PathLike): string {
+    if (!exists(path) && isDirectory(path))
+      throw new Error("Attempt to read a non-existent file or a directory.");
+
+    return readFileSync(path).toString();
+  }
+
+  export function move(from: PathLike, to: PathLike) {
+    copyFileSync(from, to);
+    rmSync(from);
+  }
+
+  export function exists(path: PathLike) {
+    try {
+      const stats = statSync(path);
+      return stats.isFile();
+    } catch(e) {
+      return false;
+    }
+  }
+
+  export function isDirectory(path: PathLike): boolean {
+    try {
+      const stats = statSync(path);
+      return exists(path) && stats.isDirectory();
+    } catch(e) {
+      return false;
+    }
+  }
 }

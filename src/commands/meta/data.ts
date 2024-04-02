@@ -1,6 +1,6 @@
 import { Discord, Guard, Slash, SlashGroup, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
-import { ApplicationCommandOptionType, escapeCodeBlock, escapeInlineCode, type CommandInteraction } from "discord.js";
+import { ApplicationCommandOptionType, escapeInlineCode, type CommandInteraction } from "discord.js";
 
 import { Firebase } from "../../firebase.js";
 import { RequirePermissions } from "../../utility.js";
