@@ -37,7 +37,7 @@ export class ViewLog {
     await command.reply({
       embeds: [
         Embed.common(`Contents of \`${type}.log\``)
-          .setDescription(`\`\`\`ansi${(logContents === "" ? "(File empty)" : logContents).slice(0, 4085)}\`\`\``)
+          .setDescription(`\`\`\`ansi\n${(logContents === "" ? "(File empty)" : logContents).slice(0, 4084)}\`\`\``)
       ]
     });
   }
