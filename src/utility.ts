@@ -56,6 +56,13 @@ export function capitalize(s: string): string {
 }
 
 export namespace File {
+  export function remove(path: PathLike, force = false, recursive = false): void {
+    if (!exists(path))
+      throw new Error("Attempt to remove a non-existent file");
+
+    rmSync(path, { force, recursive });
+  }
+
   export function read(path: PathLike): string {
     if (!exists(path) && isDirectory(path))
       throw new Error("Attempt to read a non-existent file or a directory.");
