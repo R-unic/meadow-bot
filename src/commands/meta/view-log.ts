@@ -13,7 +13,7 @@ const VALID_TYPES_LIST = VALID_LOG_TYPES.map(t => `\`${t}\``).join(", ");
 @Guard(RequirePermissions(["Administrator"]))
 export class ViewLog {
   @Slash({ description: "View the logs for the given log type" })
-  public async view(
+  public async "view-log"(
     @SlashOption({
       description: `The type of logs to view (${VALID_TYPES_LIST})`,
       name: "type",
