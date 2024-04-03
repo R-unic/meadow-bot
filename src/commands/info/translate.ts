@@ -30,6 +30,21 @@ export class Translate {
       name: "language",
       required: true,
       type: ApplicationCommandOptionType.String,
+      autocomplete: interaction => interaction.respond([
+        {
+          name: "American English",
+          value: "en-US"
+        }, {
+          name: "British English",
+          value: "en-GB"
+        }, {
+          name: "Spanish",
+          value: "es"
+        }, {
+          name: "French",
+          value: "fr"
+        },
+      ]),
       minLength: 2,
       maxLength: 5
     })
