@@ -1,6 +1,6 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, messageLink } from "discord.js";
 import type { TextBasedChannel, CommandInteraction, Snowflake, GuildBasedChannel, PrivateThreadChannel, DMChannel, PartialDMChannel, AnyThreadChannel, NonThreadGuildBasedChannel } from "discord.js";
 import { type TargetLanguageCode, Translator } from "deepl-node";
 
@@ -56,7 +56,11 @@ export class Translate {
     await command.reply({
       embeds: [
         Embed.common(`\`${result.detectedSourceLang}\` -> \`${targetLanguage}\``)
-          .setDescription(result.text)
+          .setDescription(`${messageLink(command.channel.id, message.id)}\n**${message.author.username}:** ${result.text}`)
+          .setAuthor({
+            name: message.author.username,
+            iconURL: message.author.displayAvatarURL()
+          })
       ]
     });
   }
