@@ -15,7 +15,7 @@ const translator = new Translator(process.env.DEEPL_API!);
 @Discord()
 @Category("Info")
 export class Translate {
-  @Slash({ description: "Translates the message corresponding to `message-id` to `language`. " + NOTE })
+  @Slash({ description: "Translates the message corresponding to `message-id` to `language`" })
   public async translate(
     @SlashOption({
       description: "The ID of the message to translate",
