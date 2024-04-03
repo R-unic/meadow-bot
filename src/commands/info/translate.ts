@@ -37,19 +37,37 @@ export class Translate {
       required: true,
       type: ApplicationCommandOptionType.String,
       autocomplete: interaction => interaction.respond([
-        {
-          name: "American English",
-          value: "en-US"
-        }, {
-          name: "British English",
-          value: "en-GB"
-        }, {
-          name: "Spanish",
-          value: "es"
-        }, {
-          name: "French",
-          value: "fr"
-        },
+        { name: "English (US)", value: "en-US" },
+        { name: "English (UK)", value: "en-GB" },
+        { name: "Spanish", value: "es" },
+        { name: "French", value: "fr" },
+        { name: "German", value: "de" },
+        { name: "Italian", value: "it" },
+        { name: "Chinese (Mandarin)", value: "zh" },
+        { name: "Japanese", value: "ja" },
+        { name: "Korean", value: "ko" },
+        { name: "Russian", value: "ru" },
+        { name: "Dutch", value: "nl" },
+        { name: "Bulgarian", value: "bg" },
+        { name: "Danish", value: "da" },
+        { name: "Portuguese (Brazil)", value: "pt-BR" },
+        { name: "Portuguese (Portugal)", value: "pt-PT" },
+        { name: "Greek", value: "el" },
+        { name: "Czech", value: "cs" },
+        { name: "Estonian", value: "et" },
+        { name: "Finnish", value: "fi" },
+        { name: "Hungarian", value: "hu" },
+        { name: "Indonesian", value: "id" },
+        { name: "Lithuanian", value: "lt" },
+        { name: "Latvian", value: "lv" },
+        { name: "Norwegian Bokmål", value: "nb" },
+        { name: "Polish", value: "pl" },
+        { name: "Romanian", value: "ro" },
+        { name: "Slovak", value: "sk" },
+        { name: "Slovenian", value: "sl" },
+        { name: "Swedish", value: "sv" },
+        { name: "Turkish", value: "tr" },
+        { name: "Ukrainian", value: "uk" },
       ]),
       minLength: 2,
       maxLength: 5
