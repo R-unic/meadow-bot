@@ -22,6 +22,12 @@ export class Translate {
       name: "message-id",
       required: true,
       type: ApplicationCommandOptionType.String,
+      autocomplete: interaction => interaction.respond([
+        {
+          name: "Last message",
+          value: interaction.channel!.lastMessageId!.toString()
+        }
+      ]),
       minLength: 8
     })
     messageID: Snowflake,
