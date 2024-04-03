@@ -1,16 +1,44 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, messageLink } from "discord.js";
-import type { TextBasedChannel, CommandInteraction, Snowflake, GuildBasedChannel, PrivateThreadChannel, DMChannel, PartialDMChannel, AnyThreadChannel, NonThreadGuildBasedChannel } from "discord.js";
+import type { CommandInteraction, Snowflake } from "discord.js";
 import { type TargetLanguageCode, Translator } from "deepl-node";
 
 import Embed from "../../embed-presets.js";
 
 if (!process.env.DEEPL_API)
-throw new Error("No value for DEEPL_API in .env file")
+  throw new Error("No value for DEEPL_API in .env file")
 
-const NOTE = "NOTE: You need to use this command in the same channel as the message you're trying to translate"
 const translator = new Translator(process.env.DEEPL_API!);
+const NOTE = "NOTE: You need to use this command in the same channel as the message you're trying to translate";
+const LANGUAGE_MAP = [
+  { name: "English", value: "en-US" },
+  { name: "Spanish", value: "es" },
+  { name: "French", value: "fr" },
+  { name: "German", value: "de" },
+  { name: "Italian", value: "it" },
+  { name: "Chinese (Mandarin)", value: "zh" },
+  { name: "Japanese", value: "ja" },
+  { name: "Korean", value: "ko" },
+  { name: "Russian", value: "ru" },
+  { name: "Dutch", value: "nl" },
+  { name: "Bulgarian", value: "bg" },
+  { name: "Danish", value: "da" },
+  { name: "Portuguese (Brazil)", value: "pt-BR" },
+  { name: "Portuguese (Portugal)", value: "pt-PT" },
+  { name: "Greek", value: "el" },
+  { name: "Czech", value: "cs" },
+  { name: "Estonian", value: "et" },
+  { name: "Finnish", value: "fi" },
+  { name: "Hungarian", value: "hu" },
+  { name: "Indonesian", value: "id" },
+  { name: "Polish", value: "pl" },
+  { name: "Romanian", value: "ro" },
+  { name: "Slovak", value: "sk" },
+  { name: "Swedish", value: "sv" },
+  { name: "Turkish", value: "tr" },
+  { name: "Ukrainian", value: "uk" }
+];
 
 @Discord()
 @Category("Info")
@@ -36,39 +64,7 @@ export class Translate {
       name: "language",
       required: true,
       type: ApplicationCommandOptionType.String,
-      autocomplete: interaction => interaction.respond([
-        { name: "English (US)", value: "en-US" },
-        { name: "English (UK)", value: "en-GB" },
-        { name: "Spanish", value: "es" },
-        { name: "French", value: "fr" },
-        { name: "German", value: "de" },
-        { name: "Italian", value: "it" },
-        { name: "Chinese (Mandarin)", value: "zh" },
-        { name: "Japanese", value: "ja" },
-        { name: "Korean", value: "ko" },
-        { name: "Russian", value: "ru" },
-        { name: "Dutch", value: "nl" },
-        { name: "Bulgarian", value: "bg" },
-        { name: "Danish", value: "da" },
-        { name: "Portuguese (Brazil)", value: "pt-BR" },
-        { name: "Portuguese (Portugal)", value: "pt-PT" },
-        { name: "Greek", value: "el" },
-        { name: "Czech", value: "cs" },
-        { name: "Estonian", value: "et" },
-        { name: "Finnish", value: "fi" },
-        { name: "Hungarian", value: "hu" },
-        { name: "Indonesian", value: "id" },
-        { name: "Lithuanian", value: "lt" },
-        { name: "Latvian", value: "lv" },
-        { name: "Norwegian Bokmål", value: "nb" },
-        { name: "Polish", value: "pl" },
-        { name: "Romanian", value: "ro" },
-        { name: "Slovak", value: "sk" },
-        { name: "Slovenian", value: "sl" },
-        { name: "Swedish", value: "sv" },
-        { name: "Turkish", value: "tr" },
-        { name: "Ukrainian", value: "uk" },
-      ]),
+      autocomplete: interaction => interaction.respond(LANGUAGE_MAP),
       minLength: 2,
       maxLength: 5
     })
