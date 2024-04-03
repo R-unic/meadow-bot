@@ -11,8 +11,8 @@ const LOGS = ["out", "error"];
 configDotenv();
 
 // delete old logs
-for (const name of LOGS)
-  File.remove(`${ROOT}/../${name}.log`);
+// for (const name of LOGS)
+//   File.remove(`${ROOT}/../${name}.log`);
 
 const client = new Client({
   silent: true,
