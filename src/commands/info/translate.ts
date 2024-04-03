@@ -2,7 +2,7 @@ import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, messageLink } from "discord.js";
 import type { CommandInteraction, Snowflake } from "discord.js";
-import { type TargetLanguageCode, Translator } from "deepl-node";
+import { LanguageCode, SourceLanguageCode, type TargetLanguageCode, Translator } from "deepl-node";
 
 import Embed from "../../embed-presets.js";
 
@@ -11,33 +11,41 @@ if (!process.env.DEEPL_API)
 
 const translator = new Translator(process.env.DEEPL_API!);
 const NOTE = "NOTE: You need to use this command in the same channel as the message you're trying to translate";
-const LANGUAGE_MAP = [
-  { name: "English", value: "en-US" },
-  { name: "Spanish", value: "es" },
-  { name: "French", value: "fr" },
-  { name: "German", value: "de" },
-  { name: "Italian", value: "it" },
-  { name: "Chinese (Mandarin)", value: "zh" },
-  { name: "Japanese", value: "ja" },
-  { name: "Korean", value: "ko" },
-  { name: "Russian", value: "ru" },
-  { name: "Dutch", value: "nl" },
-  { name: "Bulgarian", value: "bg" },
-  { name: "Danish", value: "da" },
-  { name: "Portuguese (Brazil)", value: "pt-BR" },
-  { name: "Portuguese (Portugal)", value: "pt-PT" },
-  { name: "Greek", value: "el" },
-  { name: "Czech", value: "cs" },
-  { name: "Estonian", value: "et" },
-  { name: "Finnish", value: "fi" },
-  { name: "Hungarian", value: "hu" },
-  { name: "Indonesian", value: "id" },
-  { name: "Polish", value: "pl" },
-  { name: "Romanian", value: "ro" },
-  { name: "Swedish", value: "sv" },
-  { name: "Turkish", value: "tr" },
-  { name: "Ukrainian", value: "uk" }
-];
+
+function getLanguageMap(target = false): { name: string; value: string; }[] {
+  const map = [
+    { name: "English", value: target ? "en-US" : "en" },
+    { name: "Spanish", value: "es" },
+    { name: "French", value: "fr" },
+    { name: "German", value: "de" },
+    { name: "Italian", value: "it" },
+    { name: "Chinese (Mandarin)", value: "zh" },
+    { name: "Japanese", value: "ja" },
+    { name: "Korean", value: "ko" },
+    { name: "Russian", value: "ru" },
+    { name: "Dutch", value: "nl" },
+    { name: "Bulgarian", value: "bg" },
+    { name: "Danish", value: "da" },
+    { name: "Greek", value: "el" },
+    { name: "Czech", value: "cs" },
+    { name: "Estonian", value: "et" },
+    { name: "Finnish", value: "fi" },
+    { name: "Hungarian", value: "hu" },
+    { name: "Indonesian", value: "id" },
+    { name: "Polish", value: "pl" },
+    { name: "Romanian", value: "ro" },
+    { name: "Swedish", value: "sv" },
+    { name: "Turkish", value: "tr" },
+    { name: "Ukrainian", value: "uk" }
+  ];
+
+  if (target)
+    map.push({ name: "Portuguese (Brazil)", value: "pt-BR" }, { name: "Portuguese (Portugal)", value: "pt-PT" });
+  else
+    map.push({ name: "Portuguese", value: "pt" });
+
+  return map;
+}
 
 @Discord()
 @Category("Info")
@@ -63,11 +71,21 @@ export class Translate {
       name: "language",
       required: true,
       type: ApplicationCommandOptionType.String,
-      autocomplete: interaction => interaction.respond(LANGUAGE_MAP),
+      autocomplete: interaction => interaction.respond(getLanguageMap(true)),
       minLength: 2,
       maxLength: 5
     })
     targetLanguage: TargetLanguageCode,
+    @SlashOption({
+      description: "The language to translate from",
+      name: "input-language",
+      required: true,
+      type: ApplicationCommandOptionType.String,
+      autocomplete: interaction => interaction.respond(getLanguageMap()),
+      minLength: 2,
+      maxLength: 5
+    })
+    inputLanguage: SourceLanguageCode | undefined,
     command: CommandInteraction
   ): Promise<void> {
     if (!command.channel) return;
@@ -86,7 +104,7 @@ export class Translate {
         ephemeral: true
       });
 
-    const result = await translator.translateText(message.content,  null, targetLanguage);
+    const result = await translator.translateText(message.content, inputLanguage === undefined ? null : inputLanguage, targetLanguage);
     await command.reply({
       embeds: [
         Embed.common(`\`${result.detectedSourceLang}\` -> \`${targetLanguage}\``)
