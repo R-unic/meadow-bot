@@ -23,6 +23,7 @@ export default class Log {
 
   public static error(...messages: unknown[]): void {
     this.log("error", ...messages);
+    throw messages.join(" ");
   }
 
   private static log(method: LogMethod, ...messages: unknown[]): void {

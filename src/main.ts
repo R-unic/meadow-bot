@@ -25,6 +25,8 @@ const client = new Client({
   ]
 });
 
+client.on("error", Log.error);
+
 client.once("ready", async () => {
   await client.initApplicationCommands();
   client.user?.setPresence({
