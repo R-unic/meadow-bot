@@ -7,13 +7,15 @@ import { type TargetLanguageCode, Translator } from "deepl-node";
 import Embed from "../../embed-presets.js";
 
 if (!process.env.DEEPL_API)
-  throw new Error("No value for DEEPL_API in .env file")
+throw new Error("No value for DEEPL_API in .env file")
 
+const NOTE = "NOTE: You need to use this command in the same channel as the message you're trying to translate"
 const translator = new Translator(process.env.DEEPL_API!);
+
 @Discord()
 @Category("Info")
 export class Translate {
-  @Slash({ description: "Translates the message corresponding to `message-id` to `language`" })
+  @Slash({ description: "Translates the message corresponding to `message-id` to `language`. " + NOTE })
   public async translate(
     @SlashOption({
       description: "The ID of the message to translate",
@@ -36,18 +38,10 @@ export class Translate {
   ): Promise<void> {
     if (!command.channel) return;
 
-    const guild = await command.guild?.fetch()!;
-    const channels = await guild.channels.fetch();
-    const [messagePromise] = Array.from(channels
-      .filter((channel): channel is NonThreadGuildBasedChannel => channel !== null)
-      .filter((channel): channel is Exclude<TextBasedChannel, AnyThreadChannel | DMChannel | PartialDMChannel> => !channel.isThread() && channel.isTextBased())
-      .mapValues(async channel => await channel.messages.fetch(messageID))
-      .values());
-
-    const message = await messagePromise;
+    const message = await command.channel.messages.fetch(messageID);
     if (!message)
       return void await command.reply({
-        embeds: [Embed.error(`Could not find message with ID \`${messageID}\``)],
+        embeds: [Embed.error(`Could not find message with ID \`${messageID}\`\n${NOTE}`)],
         ephemeral: true
       });
 
