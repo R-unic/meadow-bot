@@ -56,7 +56,8 @@ export class Translate {
     await command.reply({
       embeds: [
         Embed.common(`\`${result.detectedSourceLang}\` -> \`${targetLanguage}\``)
-          .setDescription(`${messageLink(command.channel.id, message.id)}\n**${message.author.username}:** ${result.text}`)
+          .setURL(messageLink(command.channel.id, message.id))
+          .setDescription(result.text)
           .setAuthor({
             name: message.author.username,
             iconURL: message.author.displayAvatarURL()
