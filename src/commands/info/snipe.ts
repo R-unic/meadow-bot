@@ -25,7 +25,10 @@ export class Snipe {
     const snipes = await GuildData.getSnipes("delete");
     const [snipe] = snipes.slice(-offset);
     if (!snipe)
-      return void await command.reply({ embeds: [Embed.error("There are no stored message deletion snipes yet.")] });
+      return void await command.reply({
+        embeds: [Embed.error("There are no stored message deletion snipes yet.")],
+        ephemeral: true
+      });
 
     const author = await command.guild.members.fetch(snipe.authorID);
     await command.reply({

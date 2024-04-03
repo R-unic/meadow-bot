@@ -29,7 +29,8 @@ export class ViewLog {
     type = type.toLowerCase();
     if (!VALID_LOG_TYPES.includes(type))
       return void await command.reply({
-        embeds: [Embed.error(`\`${type}\` is not a valid log type.\nValid log types: ${VALID_TYPES_LIST}`)]
+        embeds: [Embed.error(`\`${type}\` is not a valid log type.\nValid log types: ${VALID_TYPES_LIST}`)],
+        ephemeral: true
       });
 
     const logFilePath = `${dirname(import.meta.url)}/../../../${type}.log`;

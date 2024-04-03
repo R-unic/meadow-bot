@@ -82,7 +82,8 @@ export class Tags {
     const tag = await GuildData.getTag(name);
     if (!tag)
       return void await command.reply({
-        embeds: [Embed.error(`No tag with the name \`${name}\` exists.`)]
+        embeds: [Embed.error(`No tag with the name \`${name}\` exists.`)],
+        ephemeral: true
       });
 
     await command.reply({

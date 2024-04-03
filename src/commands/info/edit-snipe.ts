@@ -25,7 +25,10 @@ export class EditSnipe {
     const snipes = await GuildData.getSnipes("edit");
     const [snipe] = snipes.slice(-offset);
     if (!snipe)
-      return void await command.reply({ embeds: [Embed.error("There are no stored message edit snipes yet.")] });
+      return void await command.reply({
+        embeds: [Embed.error("There are no stored message edit snipes yet.")],
+        ephemeral: true
+      });
 
     const author = await command.guild.members.fetch(snipe.authorID);
     const messageChannel = <TextChannel>await command.guild.channels.fetch(snipe.channelID);

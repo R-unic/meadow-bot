@@ -33,7 +33,8 @@ export class Data {
       const result = await db.get(path);
       if (result === undefined && path !== "")
         return void await command.reply({
-          embeds: [Embed.error(`There is no data at path \`${path}\`.`)]
+          embeds: [Embed.error(`There is no data at path \`${path}\`.`)],
+          ephemeral: true
         });
 
       await command.reply({
@@ -41,7 +42,8 @@ export class Data {
       });
     } catch (error) {
       await command.reply({
-        embeds: [Embed.error(<string>error)]
+        embeds: [Embed.error(<string>error)],
+        ephemeral: true
       });
     }
   }
