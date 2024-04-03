@@ -34,7 +34,6 @@ const LANGUAGE_MAP = [
   { name: "Indonesian", value: "id" },
   { name: "Polish", value: "pl" },
   { name: "Romanian", value: "ro" },
-  { name: "Slovak", value: "sk" },
   { name: "Swedish", value: "sv" },
   { name: "Turkish", value: "tr" },
   { name: "Ukrainian", value: "uk" }
