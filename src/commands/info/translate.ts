@@ -79,7 +79,7 @@ export class Translate {
     @SlashOption({
       description: "The language to translate from",
       name: "input-language",
-      required: true,
+      required: false,
       type: ApplicationCommandOptionType.String,
       autocomplete: interaction => interaction.respond(getLanguageMap()),
       minLength: 2,
