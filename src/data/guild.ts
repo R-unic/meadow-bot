@@ -10,7 +10,7 @@ const MAX_SNIPES_PER_GUILD = 15; // also per category, meaning the number of del
 // For example: "guild/tags" becomes `guild/tags/${guildID}`, `guild/snipes/${type}` becomes `guild/snipes/${guildID}/${type}`, etc.
 // You can even have the guild IDs be the main key. What I mean by this is doing `guild/${guildID}/tags` instead of `guild/tags/${guildID}`, and so on for every other key.
 export class GuildData {
-  public static readonly db = new Firebase(process.env.FIREBASE_URL!);
+  private static readonly db = new Firebase(process.env.FIREBASE_URL!);
 
   public static async getTag(name: string): Promise<Maybe<Tag>> {
     return (await this.getTags()).find(tag => tag.name === name);
