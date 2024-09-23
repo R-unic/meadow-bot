@@ -9,7 +9,8 @@ import Embed from "../../embed-presets.js";
 export class Credits {
   @Slash({ description: "Displays information about the creation/hosting of this bot" })
   public async credits(command: CommandInteraction): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
+
     await command.reply({
       embeds: [
         Embed.common("Credits", "🗒️")

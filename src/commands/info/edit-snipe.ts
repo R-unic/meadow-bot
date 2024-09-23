@@ -20,7 +20,7 @@ export class EditSnipe {
     offset = 1,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.guild) return;
+    if (command.guild === null) return;
 
     const snipes = await GuildData.getSnipes("edit");
     const [snipe] = snipes.slice(-offset);

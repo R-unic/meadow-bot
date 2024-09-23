@@ -18,7 +18,7 @@ export class Poke {
     user: User,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     await command.reply({
       content: userMention(user.id),

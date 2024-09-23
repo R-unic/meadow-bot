@@ -11,11 +11,10 @@ import Embed from "../../embed-presets.js";
 export class Refresh {
   @Slash({ description: "Refreshes all application commands. Do not use super often or risk rate limiting" })
   public async refresh(command: CommandInteraction, client: Client): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     client.application?.commands.set([]);
     await client.initApplicationCommands();
-
     await command.reply({
       embeds: [Embed.success(`Successfully refreshed all application commands!`)]
     });

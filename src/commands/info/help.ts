@@ -10,7 +10,7 @@ import Embed from "../../embed-presets.js";
 export class Help {
   @Slash({ description: "Returns all of the commands the bot has" })
   public async help(command: CommandInteraction, client: Client): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     const embed = this.baseEmbed(client);
     const categories = Array.from(new Set(
@@ -65,7 +65,7 @@ export class Help {
   @SelectMenuComponent({ id: "helpSelect" })
   async handleMenu(interaction: StringSelectMenuInteraction, client: Client): Promise<void> {
     const [selectedValue] = interaction.values;
-    if (!selectedValue)
+    if (selectedValue === undefined)
       return deleteIfPossible(interaction.message);
 
     const selectedCategory = selectedValue.replace(/^help-/, "").toLowerCase();

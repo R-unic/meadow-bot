@@ -1,9 +1,9 @@
 import { type ArgsOf, Discord, Guard, On } from "discordx";
 import { NotBot } from "@discordx/utilities";
-import { toRoman } from "roman-numerals";
+const { default: { toRoman } } = await import("roman-numerals");
 
-import { LevelSystemData } from "src/data/level-system.js";
-import Embed from "src/embed-presets";
+import { LevelSystemData } from "../data/level-system.js";
+import Embed from "../embed-presets.js";
 
 @Discord()
 export class Sniper {

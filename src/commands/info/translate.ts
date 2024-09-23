@@ -60,7 +60,7 @@ export class Translate {
       autocomplete: interaction => interaction.respond([
         {
           name: "Last message",
-          value: interaction.channel!.lastMessageId!.toString()
+          value: interaction.channel!.messages.cache.last()!.id!.toString()
         }
       ]),
       minLength: 8
@@ -88,10 +88,10 @@ export class Translate {
     inputLanguage: SourceLanguageCode | undefined,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     const message = await command.channel.messages.fetch(messageID);
-    if (!message)
+    if (message === null)
       return void await command.reply({
         embeds: [Embed.error(`Could not find message with ID \`${messageID}\`\n${NOTE}`)],
         ephemeral: true

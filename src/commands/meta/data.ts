@@ -26,7 +26,7 @@ export class Data {
     path = "",
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     try {
       const db = new Firebase(process.env.FIREBASE_URL!);
@@ -60,7 +60,7 @@ export class Data {
     path: string,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     try {
       const db = new Firebase(process.env.FIREBASE_URL!);

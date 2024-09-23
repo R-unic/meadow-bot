@@ -21,7 +21,7 @@ export function deleteIfPossible(message?: Message, time = 0): void {
     try {
       if (message === undefined || !message.deletable) return;
       await message.delete();
-    } catch(e) {}
+    } catch (e) { }
   }, time);
 }
 
@@ -35,15 +35,19 @@ export function deleteIfPossible(message?: Message, time = 0): void {
  */
 export async function getCommandIDs(client: Client): Promise<{ [name: string]: string }> {
   try {
-      const commands = await client.application?.commands.fetch();
-      if (!commands)
-        return {};
+    const commands = await client.application?.commands.fetch();
+    if (!commands)
+      return {};
 
-      return Object.fromEntries(commands.map(command => [command.name, command.id]));
+    return Object.fromEntries(commands.map(command => [command.name, command.id]));
   } catch (error) {
     Log.error(`Issue fetching global commands: ${error}`);
     return {};
   }
+}
+
+export function commaFormat(n: number): string {
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 /**
@@ -79,7 +83,7 @@ export namespace File {
     try {
       const stats = statSync(path);
       return stats.isFile();
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }
@@ -88,7 +92,7 @@ export namespace File {
     try {
       const stats = statSync(path);
       return exists(path) && stats.isDirectory();
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }

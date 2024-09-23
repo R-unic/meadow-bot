@@ -24,7 +24,7 @@ export class ViewLog {
     type: string,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     type = type.toLowerCase();
     if (!VALID_LOG_TYPES.includes(type))

@@ -33,7 +33,7 @@ export class Tags {
     content: string,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     await GuildData.addTag(name, content);
     await command.reply({
@@ -54,8 +54,8 @@ export class Tags {
     name: string,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
-    if (!await GuildData.getTag(name))
+    if (command.channel === null) return;
+    if (await GuildData.getTag(name) === undefined)
       return void await command.reply({
         embeds: [Embed.error(`No tag with the name \`${name}\` exists.`)]
       });
@@ -78,9 +78,9 @@ export class Tags {
     name: string,
     command: CommandInteraction
   ): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
     const tag = await GuildData.getTag(name);
-    if (!tag)
+    if (tag === undefined)
       return void await command.reply({
         embeds: [Embed.error(`No tag with the name \`${name}\` exists.`)],
         ephemeral: true
@@ -94,7 +94,7 @@ export class Tags {
   @Slash({ description: "Lists all tag names that exist" })
   @SlashGroup("tags")
   public async list(command: CommandInteraction): Promise<void> {
-    if (!command.channel) return;
+    if (command.channel === null) return;
 
     const tags = await GuildData.getTags();
     const tagList = tags.map(({ name }) => name).join(", ");
