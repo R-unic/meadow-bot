@@ -4,8 +4,9 @@ import { Firebase } from "../firebase.js";
 
 class LevelSystemField {
   public constructor(
-    private readonly dataKey: string
-  ) {}
+    private readonly dataKey: string,
+    private readonly maximum?: number
+  ) { }
 
   public async increment(member: GuildMember, increment = 1): Promise<number> {
     const currentValue = await this.get(member);
@@ -14,6 +15,7 @@ class LevelSystemField {
 
   public async set(member: GuildMember, value: number): Promise<number> {
     const currentValue = await this.get(member);
+    value = this.maximum !== undefined ? Math.min(value, this.maximum) : value;
     await LevelSystemData.db.set(this.getDirectory(member), value);
     return currentValue;
   }
@@ -30,6 +32,10 @@ class LevelSystemField {
 const BASE_XP_FACTOR = 80;
 const MESSAGE_XP_FACTOR = 10;
 class XpField extends LevelSystemField {
+  public constructor() {
+    super("xp");
+  }
+
   public override async increment(member: GuildMember, increment = 1): Promise<number> {
     const value = await super.increment(member, increment);
     const level = await LevelSystemData.level.get(member);
@@ -40,19 +46,21 @@ class XpField extends LevelSystemField {
     if (newValue >= xpToLevelUp) {
       LevelSystemData.level.increment(member);
       this.increment(member, newValue - xpToLevelUp);
-      return 1;
     }
 
-    return 0;
+    return value;
   }
 }
+
+export const MAX_LEVEL = 100;
+export const MAX_PRESTIGE = 25;
 
 /** @see GuildData */
 export class LevelSystemData {
   public static readonly db = new Firebase(process.env.FIREBASE_URL!);
-  public static readonly level = new LevelSystemField("level");
-  public static readonly xp = new LevelSystemField("xp");
-  public static readonly prestige = new LevelSystemField("prestige");
+  public static readonly xp = new XpField;
+  public static readonly level = new LevelSystemField("level", MAX_LEVEL);
+  public static readonly prestige = new LevelSystemField("prestige", MAX_PRESTIGE);
 
   /**
    * Adds a random amount of XP to the user
