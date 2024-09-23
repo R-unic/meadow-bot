@@ -27,10 +27,49 @@ class LevelSystemField {
   }
 }
 
+const BASE_XP_FACTOR = 80;
+const MESSAGE_XP_FACTOR = 10;
+class XpField extends LevelSystemField {
+  public override async increment(member: GuildMember, increment = 1): Promise<number> {
+    const value = await super.increment(member, increment);
+    const level = await LevelSystemData.level.get(member);
+    const prestige = await LevelSystemData.prestige.get(member);
+    const newValue = value + increment;
+    const xpToLevelUp = calculateXP(prestige, level, BASE_XP_FACTOR);
+
+    if (newValue >= xpToLevelUp) {
+      LevelSystemData.level.increment(member);
+      this.increment(member, newValue - xpToLevelUp);
+      return 1;
+    }
+
+    return 0;
+  }
+}
+
 /** @see GuildData */
 export class LevelSystemData {
   public static readonly db = new Firebase(process.env.FIREBASE_URL!);
   public static readonly level = new LevelSystemField("level");
   public static readonly xp = new LevelSystemField("xp");
   public static readonly prestige = new LevelSystemField("prestige");
+
+  /**
+   * Adds a random amount of XP to the user
+   * @returns True if the user leveled up
+   */
+  public static async addXP(member: GuildMember): Promise<boolean> {
+    const level = await this.level.get(member);
+    const prestige = await this.prestige.get(member);
+    const xpToAdd = calculateXP(prestige, level, MESSAGE_XP_FACTOR);
+    await this.xp.increment(member, xpToAdd);
+
+    const newLevel = await this.level.get(member);
+    return newLevel > level;
+  }
+}
+
+function calculateXP(prestige: number, level: number, factor: number) {
+  const prestigeMultiplier = 1 + prestige * 0.1; // 10% increase per prestige level
+  return (level ** 2) + level * prestigeMultiplier * factor;
 }
