@@ -12,11 +12,13 @@ export class Sniper {
   public async messageCreate([message]: ArgsOf<"messageCreate">): Promise<void> {
     const member = message.member!;
     const leveledUp = await LevelSystemData.addXP(member);
+    const prestige = await LevelSystemData.prestige.get(member);
+    const level = await LevelSystemData.level.get(member);
     if (leveledUp)
       message.reply({
         embeds: [
           Embed.common("You leveled up!", "🎉")
-            .setDescription(`You are now level ${toRoman(await LevelSystemData.prestige.get(member))}-${await LevelSystemData.level.get(member)}.`)
+            .setDescription(`You are now level ${prestige === 0 ? "" : toRoman(prestige) + "-"}${level}.`)
         ]
       });
   }

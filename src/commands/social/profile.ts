@@ -27,7 +27,7 @@ export class Profile {
           .addFields(
             {
               name: "Prestige",
-              value: toRoman(prestige),
+              value: prestige === 0 ? "0" : toRoman(prestige),
               inline: true,
             },
             {
