@@ -45,8 +45,8 @@ class XpField extends LevelSystemField {
     const xpToLevelUp = getXpToLevelUp(prestige, level);
 
     if (newValue >= xpToLevelUp) {
-      LevelSystemData.level.increment(member);
-      this.increment(member, newValue - xpToLevelUp);
+      await LevelSystemData.level.increment(member);
+      await this.set(member, newValue - xpToLevelUp);
     }
 
     return value;

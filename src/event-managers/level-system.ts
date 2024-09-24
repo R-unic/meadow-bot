@@ -16,6 +16,9 @@ export class Sniper {
     const level = await LevelSystemData.level.get(member);
     if (leveledUp)
       message.reply({
+        options: {
+          ephemeral: true
+        },
         embeds: [
           Embed.common("You leveled up!", "🎉")
             .setDescription(`You are now level ${prestige === 0 ? "" : toRoman(prestige) + "-"}${level}.`)
