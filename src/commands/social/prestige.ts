@@ -4,12 +4,11 @@ import { type CommandInteraction, type GuildMember, TimestampStyles, time } from
 const { default: { toRoman } } = await import("roman-numerals");
 
 import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE, getXpToLevelUp } from "../../data/level-system.js";
-import { commaFormat } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
 @Category("Social")
-export class Profile {
+export class Prestige {
   @Slash({ description: "Increases your prestige and resets your level if you are max level." })
   public async prestige(command: CommandInteraction): Promise<void> {
     if (command.guild === null) return;
