@@ -29,9 +29,9 @@ export class Prestige {
       });
 
     await LevelSystemData.prestige.increment(member);
-    await LevelSystemData.level.set(member, 0);
+    await LevelSystemData.level.set(member, 1);
     await command.reply({
-      embeds: [Embed.success(`You have successfully prestiged! You are now prestige ${toRoman(prestige)}.`)]
+      embeds: [Embed.success(`You have successfully prestiged! You are now prestige ${toRoman(prestige + 1)}.`)]
     });
   }
 }
