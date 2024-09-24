@@ -8,7 +8,7 @@ import { commaFormat } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
-@Category("Info")
+@Category("Social")
 export class Profile {
   @Slash({ description: "Returns your profile embed including prestige, level, XP, etc." })
   public async profile(command: CommandInteraction): Promise<void> {
