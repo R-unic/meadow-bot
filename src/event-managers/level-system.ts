@@ -14,8 +14,8 @@ export class Sniper {
     const leveledUp = await LevelSystemData.addXP(member);
     const prestige = await LevelSystemData.prestige.get(member);
     const level = await LevelSystemData.level.get(member);
-    if (leveledUp)
-      message.reply({
+    if (leveledUp) {
+      const reply = await message.reply({
         options: {
           ephemeral: true
         },
@@ -24,5 +24,7 @@ export class Sniper {
             .setDescription(`You are now level ${prestige === 0 ? "" : toRoman(prestige) + "-"}${level}.`)
         ]
       });
+      setTimeout(() => reply.delete(), 4000);
+    }
   }
 }
