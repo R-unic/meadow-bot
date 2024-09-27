@@ -1,6 +1,6 @@
-import { Discord, Slash } from "discordx";
+import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
-import { type CommandInteraction, type GuildMember, TimestampStyles, time } from "discord.js";
+import { type CommandInteraction, type GuildMember, type User, ApplicationCommandOptionType, TimestampStyles, time } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
 import { LevelSystemData, getXpToLevelUp } from "../../data/level-system.js";
@@ -11,10 +11,19 @@ import Embed from "../../embed-presets.js";
 @Category("Social")
 export class Profile {
   @Slash({ description: "Returns your profile embed including prestige, level, XP, etc." })
-  public async profile(command: CommandInteraction): Promise<void> {
+  public async profile(
+    @SlashOption({
+      description: "The user to view the profile of (omit for self)",
+      name: "user",
+      required: false,
+      type: ApplicationCommandOptionType.User,
+    })
+    user: Maybe<User>,
+    command: CommandInteraction
+  ): Promise<void> {
     if (command.guild === null) return;
 
-    const member = <GuildMember>command.member!;
+    const member = await command.guild.members.fetch(user ?? command.user);
     const prestige = await LevelSystemData.prestige.get(member);
     const level = await LevelSystemData.level.get(member);
     const xp = await LevelSystemData.xp.get(member);
