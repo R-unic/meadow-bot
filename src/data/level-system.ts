@@ -31,7 +31,7 @@ class LevelSystemField {
 }
 
 const BASE_XP_FACTOR = 80;
-const MESSAGE_XP_FACTOR = 4;
+const MESSAGE_XP_FACTOR = 8;
 class XpField extends LevelSystemField {
   public constructor() {
     super("xp", 0);
@@ -53,9 +53,9 @@ class XpField extends LevelSystemField {
   }
 }
 
-function calculateXP(prestige: number, level: number, factor: number) {
+function calculateXP(prestige: number, level: number, factor: number): number {
   const prestigeMultiplier = 1 + prestige * 0.1; // 10% increase per prestige level
-  return (level ** 2) + level * prestigeMultiplier * factor;
+  return (level ** 2) / (factor * 1.5) + level * prestigeMultiplier * factor;
 }
 
 export const MAX_LEVEL = 100;
@@ -83,7 +83,7 @@ export class LevelSystemData {
   public static async addXP(member: GuildMember): Promise<boolean> {
     const level = await this.level.get(member);
     const prestige = await this.prestige.get(member);
-    const xpToAdd = calculateXP(prestige, level, MESSAGE_XP_FACTOR);
+    const xpToAdd = getXpPerMessage(prestige, level);
     await this.xp.increment(member, xpToAdd);
 
     const newLevel = await this.level.get(member);
