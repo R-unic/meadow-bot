@@ -21,10 +21,12 @@ export class Prestige {
 
     if (!isMaxLevel)
       return void await command.reply({
+        options: { ephemeral: true },
         embeds: [Embed.error("Cannot prestige: You are not max level.")]
       });
     if (isMaxPrestige)
       return void await command.reply({
+        options: { ephemeral: true },
         embeds: [Embed.error("Cannot prestige: You are max prestige.")]
       });
 

@@ -1,8 +1,8 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
+import { SourceLanguageCode, type TargetLanguageCode, Translator } from "deepl-node";
 import { ApplicationCommandOptionType, messageLink } from "discord.js";
 import type { CommandInteraction, Snowflake } from "discord.js";
-import { LanguageCode, SourceLanguageCode, type TargetLanguageCode, Translator } from "deepl-node";
 
 import Embed from "../../embed-presets.js";
 

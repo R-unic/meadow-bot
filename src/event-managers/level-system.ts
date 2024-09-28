@@ -3,6 +3,7 @@ import { NotBot } from "@discordx/utilities";
 const { default: { toRoman } } = await import("roman-numerals");
 
 import { LevelSystemData } from "../data/level-system.js";
+import { deleteIfPossible } from "../utility.js";
 import Embed from "../embed-presets.js";
 
 @Discord()
@@ -24,7 +25,7 @@ export class Sniper {
             .setDescription(`You are now level ${prestige === 0 ? "" : toRoman(prestige) + "-"}${level}.`)
         ]
       });
-      setTimeout(() => reply.delete(), 4000);
+      deleteIfPossible(reply, 4000);
     }
   }
 }

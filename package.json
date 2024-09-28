@@ -45,6 +45,6 @@
     "@types/roman-numerals": "^0.3.2",
     "forever": "^4.0.3",
     "nodemon": "^3.1.0",
-    "typescript": "^5.4.3"
+    "typescript": "^5.6.2"
   }
 }
