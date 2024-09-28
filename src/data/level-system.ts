@@ -65,6 +65,10 @@ export function getXpToLevelUp(prestige: number, level: number) {
   return calculateXP(prestige, level, BASE_XP_FACTOR);
 }
 
+export function getXpPerMessage(prestige: number, level: number) {
+  return calculateXP(prestige, level, MESSAGE_XP_FACTOR);
+}
+
 /** @see GuildData */
 export class LevelSystemData {
   public static readonly db = new Firebase(process.env.FIREBASE_URL!);

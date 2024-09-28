@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { type CommandInteraction, type GuildMember, type User, ApplicationCommandOptionType, TimestampStyles, time } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
-import { LevelSystemData, getXpToLevelUp } from "../../data/level-system.js";
+import { LevelSystemData, getXpPerMessage, getXpToLevelUp } from "../../data/level-system.js";
 import { commaFormat } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
@@ -28,6 +28,7 @@ export class Profile {
     const level = await LevelSystemData.level.get(member);
     const xp = await LevelSystemData.xp.get(member);
     const xpToLevelUp = getXpToLevelUp(prestige, level);
+    const xpPerMessage = getXpPerMessage(prestige, level);
 
     await command.reply({
       embeds: [
@@ -52,6 +53,11 @@ export class Profile {
             {
               name: "XP to level up",
               value: commaFormat(xpToLevelUp),
+              inline: true,
+            },
+            {
+              name: "XP per message",
+              value: commaFormat(xpPerMessage),
               inline: true,
             },
             {
