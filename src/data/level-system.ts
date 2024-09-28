@@ -31,7 +31,7 @@ class LevelSystemField {
 }
 
 const BASE_XP_FACTOR = 80;
-const MESSAGE_XP_FACTOR = 10;
+const MESSAGE_XP_FACTOR = 4;
 class XpField extends LevelSystemField {
   public constructor() {
     super("xp", 0);

@@ -1,6 +1,7 @@
 {
   "wizardcity": {
     "Name": "Wizard City",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/e/ef/%28Icon%29_Wizard_City.png",
     "Quests": 39,
     "LevelRange": {
       "First": 0,
@@ -16,6 +17,7 @@
   },
   "krokotopia": {
     "Name": "Krokotopia",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/b/ba/%28Icon%29_Krokotopia.png",
     "Quests": 65,
     "LevelRange": {
       "First": 5,
@@ -34,6 +36,7 @@
   },
   "marleybone": {
     "Name": "Marleybone",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/f/f3/%28Icon%29_Marleybone.png",
     "Quests": 50,
     "LevelRange": {
       "First": 15,
@@ -52,6 +55,7 @@
   },
   "mooshu": {
     "Name": "MooShu",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/6/6f/%28Icon%29_MooShu.png",
     "Quests": 88,
     "LevelRange": {
       "First": 20,
@@ -74,6 +78,7 @@
   },
   "dragonspyre": {
     "Name": "Dragonspyre",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/1/1e/%28Icon%29_Dragonspyre.png",
     "Quests": 106,
     "LevelRange": {
       "First": 30,
@@ -94,6 +99,7 @@
   },
   "celestia": {
     "Name": "Celestia",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/e/e4/%28Icon%29_Celestia.png",
     "Quests": 95,
     "LevelRange": {
       "First": 40,
@@ -114,6 +120,7 @@
   },
   "zafaria": {
     "Name": "Zafaria",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/0/09/%28Icon%29_Zafaria.png",
     "Quests": 148,
     "LevelRange": {
       "First": 50,
@@ -135,6 +142,7 @@
   },
   "avalon": {
     "Name": "Avalon",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/b/b1/%28Icon%29_Avalon.png",
     "Quests": 161,
     "LevelRange": {
       "First": 60,
@@ -156,6 +164,7 @@
   },
   "azteca": {
     "Name": "Azteca",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/5/5c/%28Icon%29_Azteca.png",
     "Quests": 197,
     "LevelRange": {
       "First": 70,
@@ -180,6 +189,7 @@
   },
   "khrysalis": {
     "Name": "Khrysalis",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/1/1d/%28Icon%29_Khrysalis.png",
     "Quests": 277,
     "LevelRange": {
       "First": 80,
@@ -205,6 +215,7 @@
   },
   "polaris": {
     "Name": "Polaris",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/2/2b/%28Icon%29_Polaris.png",
     "Quests": 99,
     "LevelRange": {
       "First": 100,
@@ -226,6 +237,7 @@
   },
   "mirage": {
     "Name": "Mirage",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/b/ba/%28Icon%29_Mirage.png",
     "Quests": 115,
     "LevelRange": {
       "First": 110,
@@ -247,6 +259,7 @@
   },
   "empyrea": {
     "Name": "Empyrea",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/f/f8/%28Icon%29_Empyrea.png",
     "Quests": 149,
     "LevelRange": {
       "First": 120,
@@ -276,6 +289,7 @@
   },
   "karamelle": {
     "Name": "Karamelle",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/0/0e/%28Icon%29_Karamelle.png",
     "Quests": 80,
     "LevelRange": {
       "First": 130,
@@ -296,6 +310,7 @@
   },
   "lemuria": {
     "Name": "Lemuria",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/e/e8/%28Icon%29_Lemuria.png",
     "Quests": 101,
     "LevelRange": {
       "First": 140,
@@ -315,6 +330,7 @@
   },
   "novus": {
     "Name": "Novus",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/7/7a/%28Icon%29_Novus.png",
     "Quests": 88,
     "LevelRange": {
       "First": 150,
@@ -333,6 +349,7 @@
   },
   "wallaru": {
     "Name": "Wallaru",
+    "Icon": "https://wiki.wizard101central.com/wiki/images/e/e5/%28Icon%29_Wallaru.png",
     "Quests": 83,
     "LevelRange": {
       "First": 160,

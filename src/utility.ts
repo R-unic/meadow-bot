@@ -1,7 +1,7 @@
 import { PermissionGuard } from "@discordx/utilities";
 import type { Client } from "discordx";
-import type { Message, PermissionsString } from "discord.js";
-import { type PathLike, copyFileSync, readFileSync, rmSync, statSync } from "fs";
+import { type Message, type PermissionsString, AttachmentBuilder } from "discord.js";
+import { type PathLike, copyFileSync, readFileSync, rmSync, statSync, writeFileSync } from "fs";
 
 import Log from "./logger.js";
 import Embed from "./embed-presets.js";
@@ -10,6 +10,19 @@ export const RequirePermissions = (permissions: PermissionsString[]) => Permissi
   ephemeral: true,
   embeds: [Embed.noPermissions(permissions)]
 });
+
+interface TemporaryAttachmentData {
+  readonly attachment: AttachmentBuilder,
+  readonly url: string;
+}
+
+export function createTemporaryAttachment(fileName: string, fileData: string | DataView<ArrayBufferLike>): TemporaryAttachmentData {
+  writeFileSync(fileName, fileData);
+  return {
+    attachment: new AttachmentBuilder(fileName),
+    url: `attachment://${fileName}`
+  };
+}
 
 /**
  * Checks if a message exists and is deletable, and if so deletes it after a specified amount of time (or 0 seconds).

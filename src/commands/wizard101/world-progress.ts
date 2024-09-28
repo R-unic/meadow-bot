@@ -3,6 +3,7 @@ import { Category } from "@discordx/utilities";
 import { type CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 
 import Embed from "../../embed-presets.js";
+import { createTemporaryAttachment } from "../../utility.js";
 const { default: Worlds } = await import('../../data/wiz-worlds.json', { with: { type: "json" } });
 
 type World = (typeof Worlds)[keyof typeof Worlds];
@@ -47,13 +48,16 @@ export class WorldProgress {
     if (questNumber > world.Quests)
       return void await command.reply({
         options: { ephemeral: true },
-        embeds: [Embed.error(`That is not a valid quest number in ${world.Name}. ${world.Name} only has ${world.Quests} quests.`)]
+        embeds: [Embed.error(`That is not a valid quest number. ${world.Name} only has ${world.Quests} quests.`)]
       });
 
+    const tempAttachment = createTemporaryAttachment("world_icon.png", new DataView(await fetch(world.Icon).then(res => res.arrayBuffer())));
     await command.reply({
+      files: [tempAttachment.attachment],
       embeds: [
         Embed.common(`Progress through ${world.Name}`, "🌎")
           .setDescription(`You are **${Math.floor((questNumber / world.Quests) * 100 * 10) / 10}**% of the way through ${world.Name}. You have **${world.Quests - questNumber}** quests left.`)
+          .setThumbnail(tempAttachment.url)
       ]
     });
   }
