@@ -1,9 +1,9 @@
 import { Discord, Slash } from "discordx";
 import { Category } from "@discordx/utilities";
-import { type CommandInteraction, type GuildMember, TimestampStyles, time } from "discord.js";
+import type { CommandInteraction, GuildMember } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
-import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE, getXpToLevelUp } from "../../data/level-system.js";
+import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE } from "../../data/level-system.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()

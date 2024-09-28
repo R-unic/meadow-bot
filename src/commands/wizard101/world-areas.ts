@@ -1,6 +1,6 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
-import { type CommandInteraction, ApplicationCommandOptionType } from "discord.js";
+import { type CommandInteraction, ApplicationCommandOptionType, bold } from "discord.js";
 
 import Embed from "../../embed-presets.js";
 import { createTemporaryAttachment, findWorld } from "../../utility.js";
@@ -8,9 +8,9 @@ const { default: Worlds } = await import('../../data/wiz-worlds.json', { with: {
 
 @Discord()
 @Category("Wizard101")
-export class WorldProgress {
-  @Slash({ description: "Returns your progress through the given Wizard101 world." })
-  public async "world-progress"(
+export class WorldAreas {
+  @Slash({ description: "Returns all area names in the given Wizard101 world." })
+  public async "world-areas"(
     @SlashOption({
       description: "The name or abbreviation of the world",
       name: "world-name",
@@ -19,14 +19,6 @@ export class WorldProgress {
       type: ApplicationCommandOptionType.String
     })
     name: string,
-    @SlashOption({
-      description: "The current quest number you are on",
-      name: "quest-number",
-      required: true,
-      minValue: 0,
-      type: ApplicationCommandOptionType.Integer
-    })
-    questNumber: number,
     command: CommandInteraction
   ): Promise<void> {
     if (command.channel === null) return;
@@ -38,18 +30,12 @@ export class WorldProgress {
         embeds: [Embed.error("That is not a valid Wizard101 world.")]
       });
 
-    if (questNumber > world.Quests)
-      return void await command.reply({
-        options: { ephemeral: true },
-        embeds: [Embed.error(`That is not a valid quest number. **${world.Name}** only has **${world.Quests}** quests.`)]
-      });
-
     const tempAttachment = createTemporaryAttachment("world_icon.png", new DataView(await fetch(world.Icon).then(res => res.arrayBuffer())));
     await command.reply({
       files: [tempAttachment.attachment],
       embeds: [
-        Embed.common(`Progress through ${world.Name}`, "🌎")
-          .setDescription(`You are **${Math.floor((questNumber / world.Quests) * 100 * 10) / 10}**% of the way through ${world.Name}. You have **${world.Quests - questNumber}** quests left.`)
+        Embed.common(`Areas in ${world.Name}`, "🌎")
+          .setDescription(world.Areas.map(area => `- ${area}`).join("\n"))
           .setThumbnail(tempAttachment.url)
       ]
     });

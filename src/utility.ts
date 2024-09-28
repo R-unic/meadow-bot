@@ -5,18 +5,26 @@ import { type PathLike, copyFileSync, readFileSync, rmSync, statSync, writeFileS
 
 import Log from "./logger.js";
 import Embed from "./embed-presets.js";
+const { default: Worlds } = await import('./data/wiz-worlds.json', { with: { type: "json" } });
 
 export const RequirePermissions = (permissions: PermissionsString[]) => PermissionGuard(permissions, {
   ephemeral: true,
   embeds: [Embed.noPermissions(permissions)]
 });
 
+type WizWorld = (typeof Worlds)[keyof typeof Worlds];
+
+export function findWorld(search: string): Maybe<WizWorld> {
+  return Object.values(Worlds).find(world => world.Abbreviation === search.toLowerCase() || world.Name.toLowerCase() === search.toLowerCase())
+    ?? Worlds[<keyof typeof Worlds>search.toLowerCase().replace(/ /, "")];
+}
+
 interface TemporaryAttachmentData {
   readonly attachment: AttachmentBuilder,
   readonly url: string;
 }
 
-export function createTemporaryAttachment(fileName: string, fileData: string | DataView<ArrayBufferLike>): TemporaryAttachmentData {
+export function createTemporaryAttachment(fileName: string, fileData: string | DataView): TemporaryAttachmentData {
   writeFileSync(fileName, fileData);
   return {
     attachment: new AttachmentBuilder(fileName),

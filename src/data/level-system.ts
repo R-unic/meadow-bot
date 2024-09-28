@@ -55,7 +55,7 @@ class XpField extends LevelSystemField {
 
 function calculateXP(prestige: number, level: number, factor: number): number {
   const prestigeMultiplier = 1 + prestige * 0.1; // 10% increase per prestige level
-  return (level ** 2) / (factor * 1.5) + level * prestigeMultiplier * factor;
+  return Math.floor((level ** 2) / (factor * 1.6) + level * prestigeMultiplier * factor);
 }
 
 export const MAX_LEVEL = 100;
