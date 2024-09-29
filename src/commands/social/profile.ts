@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { type CommandInteraction, type GuildMember, type User, ApplicationCommandOptionType, TimestampStyles, time } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
-import { LevelSystemData, getXpPerMessage, getXpToLevelUp } from "../../data/level-system.js";
+import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE, getXpPerMessage, getXpToLevelUp } from "../../data/level-system.js";
 import { commaFormat } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
@@ -37,12 +37,12 @@ export class Profile {
           .addFields(
             {
               name: "Prestige",
-              value: prestige === 0 ? "0" : toRoman(prestige),
+              value: prestige === 0 ? "0" : toRoman(prestige) + (prestige === MAX_PRESTIGE ? " (max)" : ""),
               inline: true,
             },
             {
               name: "Level",
-              value: level.toString(),
+              value: level.toString() + (level === MAX_LEVEL ? " (max)" : ""),
               inline: true,
             },
             {
@@ -52,12 +52,12 @@ export class Profile {
             },
             {
               name: "XP to level up",
-              value: commaFormat(xpToLevelUp),
+              value: level === MAX_LEVEL ? "n/a" : commaFormat(xpToLevelUp),
               inline: true,
             },
             {
               name: "XP per message",
-              value: commaFormat(xpPerMessage),
+              value: level === MAX_LEVEL ? "n/a" : commaFormat(xpPerMessage),
               inline: true,
             },
             {
