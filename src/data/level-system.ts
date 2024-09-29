@@ -87,6 +87,9 @@ export class LevelSystemData {
     await this.xp.increment(member, xpToAdd);
 
     const newLevel = await this.level.get(member);
+    if (newLevel >= MAX_LEVEL)
+      await this.xp.set(member, 0);
+
     return newLevel > level;
   }
 }

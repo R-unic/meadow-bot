@@ -2,7 +2,7 @@ import { type ArgsOf, Discord, Guard, On } from "discordx";
 import { NotBot } from "@discordx/utilities";
 const { default: { toRoman } } = await import("roman-numerals");
 
-import { LevelSystemData } from "../data/level-system.js";
+import { LevelSystemData, MAX_LEVEL } from "../data/level-system.js";
 import { deleteIfPossible } from "../utility.js";
 import Embed from "../embed-presets.js";
 
@@ -12,6 +12,8 @@ export class Sniper {
   @Guard(NotBot)
   public async messageCreate([message]: ArgsOf<"messageCreate">): Promise<void> {
     const member = message.member!;
+    if (await LevelSystemData.level.get(member) >= MAX_LEVEL) return;
+
     const leveledUp = await LevelSystemData.addXP(member);
     const prestige = await LevelSystemData.prestige.get(member);
     const level = await LevelSystemData.level.get(member);
