@@ -55,8 +55,10 @@ function calculateXP(level: number, factor: number): number {
   return Math.floor((level ** 2) + level * factor);
 }
 
-export const MAX_LEVEL = 100;
-export const MAX_PRESTIGE = 25;
+
+function random(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 const BASE_XP_FACTOR = 80;
 const MESSAGE_XP_FACTOR = 8;
@@ -65,10 +67,21 @@ export function getXpToLevelUp(prestige: number, level: number): number {
   return Math.floor(calculateXP(level, BASE_XP_FACTOR) / prestigeMultiplier);
 }
 
-export function getXpPerMessage(prestige: number, level: number): number {
+export function getXpPerMessage(prestige: number, level: number, type?: "min" | "max"): number {
   const prestigeMultiplier = 1 + prestige * 0.15; // 15% increase per prestige level
-  return Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier / 1.5);
+  const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier / 2);
+  const variation = 1.5;
+  const variationMultiplier = random(1 / variation, variation);
+  if (type === "min")
+    return Math.floor(median * (1 / variation));
+  else if (type === "max")
+    return Math.floor(median * variation);
+
+  return Math.floor(median * variationMultiplier);
 }
+
+export const MAX_LEVEL = 100;
+export const MAX_PRESTIGE = 25;
 
 /** @see GuildData */
 export class LevelSystemData {

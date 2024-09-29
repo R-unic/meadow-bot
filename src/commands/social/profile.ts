@@ -28,7 +28,8 @@ export class Profile {
     const level = await LevelSystemData.level.get(member);
     const xp = await LevelSystemData.xp.get(member);
     const xpToLevelUp = getXpToLevelUp(prestige, level);
-    const xpPerMessage = getXpPerMessage(prestige, level);
+    const minXpPerMessage = getXpPerMessage(prestige, level, "min");
+    const maxXpPerMessage = getXpPerMessage(prestige, level, "max");
 
     await command.reply({
       embeds: [
@@ -57,7 +58,7 @@ export class Profile {
             },
             {
               name: "XP per message",
-              value: level === MAX_LEVEL ? "n/a" : commaFormat(xpPerMessage),
+              value: level === MAX_LEVEL ? "n/a" : (commaFormat(minXpPerMessage) + " - " + commaFormat(maxXpPerMessage)),
               inline: true,
             },
             {
