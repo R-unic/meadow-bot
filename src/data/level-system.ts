@@ -30,8 +30,6 @@ class LevelSystemField {
   }
 }
 
-const BASE_XP_FACTOR = 80;
-const MESSAGE_XP_FACTOR = 8;
 class XpField extends LevelSystemField {
   public constructor() {
     super("xp", 0);
@@ -53,20 +51,23 @@ class XpField extends LevelSystemField {
   }
 }
 
-function calculateXP(prestige: number, level: number, factor: number): number {
-  const prestigeMultiplier = 1 + prestige * 0.1; // 10% increase per prestige level
-  return Math.floor((level ** 2) / (factor * 1.6) + level * prestigeMultiplier * factor);
+function calculateXP(level: number, factor: number): number {
+  return Math.floor((level ** 2) + level * factor);
 }
 
 export const MAX_LEVEL = 100;
 export const MAX_PRESTIGE = 25;
 
-export function getXpToLevelUp(prestige: number, level: number) {
-  return calculateXP(prestige, level, BASE_XP_FACTOR);
+const BASE_XP_FACTOR = 80;
+const MESSAGE_XP_FACTOR = 8;
+export function getXpToLevelUp(prestige: number, level: number): number {
+  const prestigeMultiplier = 1 + prestige * 0.10; // 10% decrease per prestige level
+  return Math.floor(calculateXP(level, BASE_XP_FACTOR) / prestigeMultiplier);
 }
 
-export function getXpPerMessage(prestige: number, level: number) {
-  return calculateXP(prestige, level, MESSAGE_XP_FACTOR);
+export function getXpPerMessage(prestige: number, level: number): number {
+  const prestigeMultiplier = 1 + prestige * 0.15; // 15% increase per prestige level
+  return Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier / 1.5);
 }
 
 /** @see GuildData */
