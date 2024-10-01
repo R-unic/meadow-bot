@@ -216,7 +216,7 @@
   "polaris": {
     "Name": "Polaris",
     "Icon": "https://wiki.wizard101central.com/wiki/images/2/2b/%28Icon%29_Polaris.png",
-    "Quests": 99,
+    "Quests": 98,
     "LevelRange": {
       "First": 100,
       "Second": 110
