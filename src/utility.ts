@@ -98,7 +98,6 @@ const timePatterns = {
 export function toSeconds(time: string): number {
   const [_, value, unit] = time.replace(/\s+/g, "").match(/(\d+)(\D)/) ?? [];
   const timeUnit = <keyof typeof timePatterns>unit.toLowerCase();
-  console.log(value, timeUnit)
   return parseFloat(value) * timePatterns[timeUnit];
 }
 

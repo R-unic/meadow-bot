@@ -14,29 +14,25 @@ export class ActiveBoosters {
     if (command.guild === null) return;
 
     const member = await command.guild.members.fetch(command.user);
-    const activeBoosters = await LevelSystemData.activeBoosters.get(member);
+    const activeBoosters = await LevelSystemData.activeBoosters.getUnexpired(member);
     const boosterTypes = new Set<string>;
     for (const booster of activeBoosters)
       boosterTypes.add(booster.type);
 
-    console.log(boosterTypes)
     const fields = Array.from(boosterTypes)
       .map<EmbedField>(boosterType => {
-        console.log(boosterType)
         const boostersOfType = activeBoosters.filter(booster => booster.type === boosterType);
         return {
           name: boosterType,
           value: boostersOfType
             .map(booster => {
-              const remainingTime = Math.floor(Math.max((booster.startedAt + booster.length) - (Date.now() / 1000), 0));
+              const remainingTime = Math.floor(Math.max((booster.startedAt + booster.length) - Math.floor(Date.now() / 1000), 0));
               return `- **+${booster.amount}% (${toRemainingTime(booster.length).toUpperCase()})**: ${toRemainingTime(remainingTime)} remaining`;
             })
             .join("\n"),
           inline: true
         }
       });
-
-    console.log(fields)
 
     const embed = Embed.common(`${member.user.globalName}'s Profile`)
       .setThumbnail(member.displayAvatarURL())

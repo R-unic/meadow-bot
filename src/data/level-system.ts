@@ -22,7 +22,7 @@ interface ActiveBoosterData {
   length: number;
 }
 
-class ActiveBooster implements ActiveBoosterData {
+export class ActiveBooster implements ActiveBoosterData {
   public constructor(
     public readonly type: string,
     public length: number,
@@ -31,7 +31,7 @@ class ActiveBooster implements ActiveBoosterData {
   ) { }
 
   public static fromData(data: ActiveBoosterData): ActiveBooster {
-    return new ActiveBooster(data.type, Math.floor(Date.now() / 1000) - data.startedAt, data.amount);
+    return new ActiveBooster(data.type, data.length, data.amount, data.startedAt);
   }
 
   public toData(): ActiveBoosterData {
@@ -67,28 +67,32 @@ class ActiveBoostersField {
   }
 
   public async getBoostPercent(member: GuildMember, type: string): Promise<number> {
-    const activeBoosters = await this.get(member);
-    const nonExpiredBoosters = activeBoosters
-      .filter(booster => !ActiveBooster.fromData(booster).isExpired);
-
-    if (activeBoosters !== nonExpiredBoosters)
-      await this.set(member, nonExpiredBoosters)
-
-    return nonExpiredBoosters
+    return (await this.getUnexpired(member))
       .filter(booster => booster.type === type)
       .sort((a, b) => a.amount - b.amount)[0]?.amount ?? 0;
   }
 
-  public async get(member: GuildMember): Promise<ActiveBoosterData[]> {
+  public async getUnexpired(member: GuildMember): Promise<ActiveBoosterData[]> {
+    const activeBoosters = await this.get(member);
+    const unexpiredBoosters = activeBoosters
+      .filter(booster => !ActiveBooster.fromData(booster).isExpired);
+
+    if (activeBoosters !== unexpiredBoosters)
+      await this.set(member, unexpiredBoosters);
+
+    return unexpiredBoosters;
+  }
+
+  private async get(member: GuildMember): Promise<ActiveBoosterData[]> {
     return await LevelSystemData.db.get(this.getDirectory(member), []);
   }
 
   private async set(member: GuildMember, value: ActiveBoosterData[]): Promise<ActiveBoosterData[]> {
     const currentValue = await this.get(member);
-    const nonExpiredBoosters = value
+    const unexpiredBoosters = value
       .filter(booster => !ActiveBooster.fromData(booster).isExpired)
 
-    await LevelSystemData.db.set(this.getDirectory(member), nonExpiredBoosters);
+    await LevelSystemData.db.set(this.getDirectory(member), unexpiredBoosters);
     return currentValue;
   }
 
