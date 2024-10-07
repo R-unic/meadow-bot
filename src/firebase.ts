@@ -43,8 +43,14 @@ export class Firebase {
     await this.delete("");
   }
 
-  public async increment(path?: string, delta = 1): Promise<void> {
-    await this.set(path, await this.get<number>(path) + delta);
+  public async decrement(path?: string, delta = 1, minimum?: number): Promise<void> {
+    const newValue = await this.get<number>(path) - delta;
+    await this.set(path, minimum !== undefined ? Math.max(newValue, minimum) : newValue);
+  }
+
+  public async increment(path?: string, delta = 1, maximum?: number): Promise<void> {
+    const newValue = await this.get<number>(path) + delta;
+    await this.set(path, maximum !== undefined ? Math.min(newValue, maximum) : newValue);
   }
 
   public async addToArray<T>(path: string, value: T, maxArraySize?: number): Promise<void> {

@@ -1,6 +1,6 @@
 import { Discord, Slash } from "discordx";
 import { Category } from "@discordx/utilities";
-import type { CommandInteraction, GuildMember } from "discord.js";
+import { italic, type CommandInteraction, type GuildMember } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
 import { BoosterType, LevelSystemData, MAX_LEVEL, MAX_PRESTIGE } from "../../data/level-system.js";
@@ -35,7 +35,7 @@ export class Prestige {
     await LevelSystemData.xp.set(member, 0);
     await LevelSystemData.xpBoosters[BoosterType.Experience3H_10].increment(member);
     await command.reply({
-      embeds: [Embed.success(`You have successfully prestiged! You are now prestige ${toRoman(prestige + 1)}.\n\n*You have earned a 3-hour XP booster. View your boosters using /boosters.*`)]
+      embeds: [Embed.success(`You have successfully prestiged! You are now prestige ${toRoman(prestige + 1)}.\n\n${italic("You have earned a 3-hour XP booster. View your boosters using </boosters:1292921134609862766>.")}`)]
     });
   }
 }

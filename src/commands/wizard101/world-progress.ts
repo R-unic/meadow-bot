@@ -15,8 +15,10 @@ export class WorldProgress {
       description: "The name or abbreviation of the world",
       name: "world-name",
       required: true,
-      autocomplete: interaction => interaction.respond(Object.values(Worlds).map(world => ({ name: world.Name, value: world.Name }))),
-      type: ApplicationCommandOptionType.String
+      type: ApplicationCommandOptionType.String,
+      autocomplete(interaction) {
+        return interaction.respond(Object.values(Worlds).map(world => ({ name: world.Name, value: world.Name })));
+      }
     })
     name: string,
     @SlashOption({

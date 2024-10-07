@@ -19,7 +19,18 @@ export class ViewLog {
       description: `The type of logs to view (${VALID_TYPES_LIST})`,
       name: "type",
       required: true,
-      type: ApplicationCommandOptionType.String
+      type: ApplicationCommandOptionType.String,
+      autocomplete(interaction) {
+        return interaction.respond([
+          {
+            name: "out",
+            value: "out"
+          }, {
+            name: "error",
+            value: "error"
+          }
+        ]);
+      }
     })
     type: string,
     command: CommandInteraction

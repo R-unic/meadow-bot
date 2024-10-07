@@ -13,6 +13,7 @@ export class Boosters {
     if (command.guild === null) return;
 
     const member = await command.guild.members.fetch(command.user);
+    const defaultOwnedBoosters = await LevelSystemData.getDefaultOwnedBoosters();
     const ownedBoosters = await LevelSystemData.getOwnedBoosters(member);
 
     await command.reply({
@@ -22,8 +23,8 @@ export class Boosters {
           .addFields(
             {
               name: "Experience",
-              value: Object.entries(ownedBoosters)
-                .map<[string, number]>(([type, amount]) => [BoosterType[<BoosterType>parseInt(type)], amount])
+              value: Object.entries(defaultOwnedBoosters)
+                .map<[string, number]>(([type, amount]) => [BoosterType[<BoosterType>parseInt(type)], ownedBoosters[<BoosterType>parseInt(type)] ?? amount])
                 .filter(([typeName]) => typeName.startsWith("Experience"))
                 .map(([typeName, amount]) => {
                   const [_, length, boostAmount] = typeName.match(/(\d+H)_(\d+)/)!;

@@ -35,6 +35,9 @@ class ActiveBooster {
 }
 
 class ActiveBoostersField {
+  /**
+   * NOTE: Verify that the member owns the booster you're trying to add!
+   */
   public async add(member: GuildMember, type: BoosterType): Promise<ActiveBooster[]> {
     let boosters = await this.get(member);
     const booster = new ActiveBooster(...getBoosterDataFromType(type));
@@ -45,6 +48,7 @@ class ActiveBoostersField {
     }
 
     boosters.push(currentBooster ?? booster);
+    await LevelSystemData.db.decrement(`levelSystem/${member.id}/ownedBoosters/${type}`, 1, 0);
     return await this.set(member, boosters);
   }
 
@@ -108,7 +112,9 @@ class XpField extends LevelSystemField {
     const value = await super.increment(member, increment);
     const level = await LevelSystemData.level.get(member);
     const prestige = await LevelSystemData.prestige.get(member);
-    const newValue = value + increment;
+    const boostPercent = await LevelSystemData.activeBoosters.getBoostPercent(member);
+    const boostMultiplier = 1 + boostPercent / 100;
+    const newValue = value + increment * boostMultiplier;
     const xpToLevelUp = getXpToLevelUp(prestige, level);
 
     if (newValue >= xpToLevelUp) {
@@ -179,12 +185,15 @@ export class LevelSystemData {
   }
 
   public static async getOwnedBoosters(member: GuildMember): Promise<Record<BoosterType, number>> {
-    const defaultValue = <Record<BoosterType, number>>Object.fromEntries(
+    const defaultValue = LevelSystemData.getDefaultOwnedBoosters();
+    return await this.db.get(`levelSystem/${member.id}/ownedBoosters`, defaultValue);
+  }
+
+  public static getDefaultOwnedBoosters(): Record<BoosterType, number> {
+    return <Record<BoosterType, number>>Object.fromEntries(
       Object.values(BoosterType)
         .filter(value => typeof value === "number")
         .map(member => [member, 0])
     );
-
-    return await this.db.get(`levelSystem/${member.id}/ownedBoosters`, defaultValue);
   }
 }
