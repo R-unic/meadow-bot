@@ -80,6 +80,30 @@ export function capitalize(s: string): string {
   return s.replace(/\S+/g, word => word.slice(0, 1).toUpperCase() + word.slice(1));
 }
 
+export function random(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const s = 1, m = 60, h = 3600, d = 86400, w = 604800;
+const timePatterns = {
+  s, second: s, seconds: s,
+  m, minute: m, minutes: m,
+  h, hour: h, hours: h,
+  d, day: d, days: d,
+  w, week: w, weeks: w
+};
+
+// Takes a remaining time string (e.g. 1d 5h 10s) and
+// converts it to the amount of time it represents in seconds.
+export function toSeconds(time: string): number {
+  const matches = time.replace(/\s+/g, "")[0].match(/(\d+)(\D)/) ?? [];
+  return matches.reduce((sum, [value, unit]) => {
+    const timeUnit = <keyof typeof timePatterns>unit;
+    const figure = parseFloat(value);
+    return sum + figure * timePatterns[timeUnit];
+  }, 0);
+}
+
 export namespace File {
   export function remove(path: PathLike, force = false, recursive = false): void {
     if (!exists(path))

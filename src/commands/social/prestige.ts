@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import type { CommandInteraction, GuildMember } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
-import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE } from "../../data/level-system.js";
+import { BoosterType, LevelSystemData, MAX_LEVEL, MAX_PRESTIGE } from "../../data/level-system.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -33,8 +33,9 @@ export class Prestige {
     await LevelSystemData.prestige.increment(member);
     await LevelSystemData.level.set(member, 1);
     await LevelSystemData.xp.set(member, 0);
+    await LevelSystemData.xpBoosters[BoosterType.Experience3H_10].increment(member);
     await command.reply({
-      embeds: [Embed.success(`You have successfully prestiged! You are now prestige ${toRoman(prestige + 1)}.`)]
+      embeds: [Embed.success(`You have successfully prestiged! You are now prestige ${toRoman(prestige + 1)}.\n\n*You have earned a 3-hour XP booster. View your boosters using /boosters.*`)]
     });
   }
 }
