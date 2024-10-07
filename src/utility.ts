@@ -102,6 +102,29 @@ export function toSeconds(time: string): number {
   return parseFloat(value) * timePatterns[timeUnit];
 }
 
+export function toRemainingTime(seconds: number): string {
+  const days = Math.floor(seconds / d);
+  seconds %= d;
+
+  const hours = Math.floor(seconds / h);
+  seconds %= h;
+
+  const minutes = Math.floor(seconds / m);
+  seconds %= m;
+
+  let remainingTime = "";
+  if (days > 0)
+    remainingTime += days + "d ";
+  if (hours > 0)
+    remainingTime += hours + "h ";
+  if (minutes > 0)
+    remainingTime += minutes + "m ";
+  if (seconds > 0)
+    remainingTime += seconds + "s ";
+
+  return remainingTime.trim();
+}
+
 export namespace File {
   export function remove(path: PathLike, force = false, recursive = false): void {
     if (!exists(path))

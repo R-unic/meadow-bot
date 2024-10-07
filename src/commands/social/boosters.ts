@@ -1,6 +1,6 @@
 import { Discord, Slash } from "discordx";
 import { Category } from "@discordx/utilities";
-import type { CommandInteraction } from "discord.js";
+import { EmbedField, type CommandInteraction } from "discord.js";
 
 import { BoosterType, LevelSystemData } from "../../data/level-system.js";
 import Embed from "../../embed-presets.js";
@@ -13,27 +13,34 @@ export class Boosters {
     if (command.guild === null) return;
 
     const member = await command.guild.members.fetch(command.user);
-    const defaultOwnedBoosters = await LevelSystemData.getDefaultOwnedBoosters();
-    const ownedBoosters = await LevelSystemData.getOwnedBoosters(member);
+    const boosterTypes = new Set<string>;
+    for (const type of Object.values(BoosterType).filter(type => typeof type === "number")) {
+      const [_, name] = BoosterType[type].match(/([A-Za-z]+)(\d+[A-Z])_(\d+)/)!
+      boosterTypes.add(name);
+    }
+
+    const fields = await Promise.all(
+      Array.from(boosterTypes)
+        .map<Promise<EmbedField>>(async name => {
+          return {
+            name,
+            value: (await Promise.all(Object.entries(LevelSystemData.xpBoosters)
+              .map(async ([type, field]) => {
+                const typeName = BoosterType[<BoosterType>parseInt(type)]
+                const [_, length, boostAmount] = typeName.match(/(\d+H)_(\d+)/)!;
+                return `- **+${boostAmount}% (${length})**: ${await field.get(member)}`;
+              })))
+              .join("\n"),
+            inline: true
+          }
+        })
+    );
 
     await command.reply({
       embeds: [
         Embed.common(`${member.user.globalName}'s Profile`)
           .setThumbnail(member.displayAvatarURL())
-          .addFields(
-            {
-              name: "Experience",
-              value: Object.entries(defaultOwnedBoosters)
-                .map<[string, number]>(([type, amount]) => [BoosterType[<BoosterType>parseInt(type)], ownedBoosters[<BoosterType>parseInt(type)] ?? amount])
-                .filter(([typeName]) => typeName.startsWith("Experience"))
-                .map(([typeName, amount]) => {
-                  const [_, length, boostAmount] = typeName.match(/(\d+H)_(\d+)/)!;
-                  return `- **+${boostAmount}% (${length})**: ${amount}`;
-                })
-                .join("\n"),
-              inline: true,
-            },
-          )
+          .addFields(fields)
       ]
     });
   }

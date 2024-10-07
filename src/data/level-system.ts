@@ -10,30 +10,33 @@ export enum BoosterType {
   Experience24H_10
 }
 
-function getBoosterDataFromType(type: BoosterType): [length: number, amount: number] {
-  const [_, __, length, amount] = BoosterType[type].match(/([A-Za-z]+)(\d+[A-Z])_(\d+)/)!;
-  return [toSeconds(length), parseInt(amount)];
+function getBoosterDataFromType(type: BoosterType): [name: string, length: number, amount: number] {
+  const [_, name, length, amount] = BoosterType[type].match(/([A-Za-z]+)(\d+[A-Z])_(\d+)/)!;
+  return [name, toSeconds(length), parseInt(amount)];
 }
 
 interface ActiveBoosterData {
-  length: number;
+  readonly type: string;
   readonly amount: number;
   readonly startedAt: number;
+  length: number;
 }
 
 class ActiveBooster implements ActiveBoosterData {
   public constructor(
+    public readonly type: string,
     public length: number,
     public readonly amount: number,
     public readonly startedAt = Math.floor(Date.now() / 1000)
   ) { }
 
   public static fromData(data: ActiveBoosterData): ActiveBooster {
-    return new ActiveBooster(Math.floor(Date.now() / 1000) - data.startedAt, data.amount);
+    return new ActiveBooster(data.type, Math.floor(Date.now() / 1000) - data.startedAt, data.amount);
   }
 
   public toData(): ActiveBoosterData {
     return {
+      type: this.type,
       length: this.length,
       amount: this.amount,
       startedAt: this.startedAt
@@ -63,14 +66,14 @@ class ActiveBoostersField {
     return await this.set(member, boosters);
   }
 
-  public async getBoostPercent(member: GuildMember): Promise<number> {
+  public async getBoostPercent(member: GuildMember, type: string): Promise<number> {
     const nonExpiredBoosters = (await this.get(member))
-      .filter(booster => !ActiveBooster.fromData(booster).isExpired);
+      .filter(booster => !ActiveBooster.fromData(booster).isExpired && booster.type === type);
 
     return nonExpiredBoosters.sort((a, b) => a.amount - b.amount)[0]?.amount ?? 0;
   }
 
-  private async get(member: GuildMember): Promise<ActiveBoosterData[]> {
+  public async get(member: GuildMember): Promise<ActiveBoosterData[]> {
     return await LevelSystemData.db.get(this.getDirectory(member), []);
   }
 
@@ -88,7 +91,7 @@ class ActiveBoostersField {
   }
 }
 
-class LevelSystemField {
+export class LevelSystemField {
   public constructor(
     private readonly dataKey: string,
     private readonly defaultValue?: number,
@@ -125,7 +128,7 @@ class XpField extends LevelSystemField {
     const value = await super.increment(member, increment);
     const level = await LevelSystemData.level.get(member);
     const prestige = await LevelSystemData.prestige.get(member);
-    const boostPercent = await LevelSystemData.activeBoosters.getBoostPercent(member);
+    const boostPercent = await LevelSystemData.activeBoosters.getBoostPercent(member, "Experience");
     const boostMultiplier = 1 + boostPercent / 100;
     const newValue = value + increment * boostMultiplier;
     const xpToLevelUp = getXpToLevelUp(prestige, level);
@@ -195,18 +198,5 @@ export class LevelSystemData {
       await this.xp.set(member, 0);
 
     return newLevel > level;
-  }
-
-  public static async getOwnedBoosters(member: GuildMember): Promise<Record<BoosterType, number>> {
-    const defaultValue = LevelSystemData.getDefaultOwnedBoosters();
-    return await this.db.get(`levelSystem/${member.id}/ownedBoosters`, defaultValue);
-  }
-
-  public static getDefaultOwnedBoosters(): Record<BoosterType, number> {
-    return <Record<BoosterType, number>>Object.fromEntries(
-      Object.values(BoosterType)
-        .filter(value => typeof value === "number")
-        .map(member => [member, 0])
-    );
   }
 }
