@@ -67,10 +67,16 @@ class ActiveBoostersField {
   }
 
   public async getBoostPercent(member: GuildMember, type: string): Promise<number> {
-    const nonExpiredBoosters = (await this.get(member))
-      .filter(booster => !ActiveBooster.fromData(booster).isExpired && booster.type === type);
+    const activeBoosters = await this.get(member);
+    const nonExpiredBoosters = activeBoosters
+      .filter(booster => !ActiveBooster.fromData(booster).isExpired);
 
-    return nonExpiredBoosters.sort((a, b) => a.amount - b.amount)[0]?.amount ?? 0;
+    if (activeBoosters !== nonExpiredBoosters)
+      await this.set(member, nonExpiredBoosters)
+
+    return nonExpiredBoosters
+      .filter(booster => booster.type === type)
+      .sort((a, b) => a.amount - b.amount)[0]?.amount ?? 0;
   }
 
   public async get(member: GuildMember): Promise<ActiveBoosterData[]> {
