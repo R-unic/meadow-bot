@@ -53,12 +53,12 @@ class ActiveBoostersField {
    * NOTE: Verify that the member owns the booster you're trying to add!
    */
   public async add(member: GuildMember, type: BoosterType): Promise<ActiveBoosterData[]> {
-    let boosters = await this.get(member);
+    const boosters = await this.get(member);
     const booster = new ActiveBooster(...getBoosterDataFromType(type));
-    const currentBooster = boosters.find(otherBooster => otherBooster.amount === booster.amount);
+    const currentBooster = boosters.find(otherBooster => otherBooster.amount === booster.amount && otherBooster.type === booster.type);
     if (currentBooster !== undefined) {
-      boosters = boosters.splice(boosters.indexOf(currentBooster), 1);
-      currentBooster.length += booster.amount;
+      boosters.splice(boosters.indexOf(currentBooster), 1);
+      currentBooster.length += booster.length;
     }
 
     boosters.push(currentBooster ?? booster);
