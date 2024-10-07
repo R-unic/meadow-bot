@@ -1,9 +1,9 @@
 import type { GuildMember } from "discord.js";
 
 import { Firebase } from "../firebase.js";
-import { random, toSeconds } from "src/utility.js";
+import { random, toSeconds } from "../utility.js";
 
-export const enum BoosterType {
+export enum BoosterType {
   Experience1H_10,
   Experience3H_10,
   Experience8H_10,
@@ -176,5 +176,15 @@ export class LevelSystemData {
       await this.xp.set(member, 0);
 
     return newLevel > level;
+  }
+
+  public static async getOwnedBoosters(member: GuildMember): Promise<Record<BoosterType, number>> {
+    const defaultValue = <Record<BoosterType, number>>Object.fromEntries(
+      Object.values(BoosterType)
+        .filter(value => typeof value === "number")
+        .map(member => [member, 0])
+    );
+
+    return await this.db.get(`levelSystem/${member.id}/ownedBoosters`, defaultValue);
   }
 }
