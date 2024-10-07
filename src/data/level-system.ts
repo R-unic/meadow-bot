@@ -11,26 +11,37 @@ export enum BoosterType {
 }
 
 function getBoosterDataFromType(type: BoosterType): [length: number, amount: number] {
-  switch (type) {
-    case BoosterType.Experience1H_10: return [toSeconds("1 hour"), 10];
-    case BoosterType.Experience3H_10: return [toSeconds("3 hour"), 10];
-    case BoosterType.Experience8H_10: return [toSeconds("8 hour"), 10];
-    case BoosterType.Experience24H_10: return [toSeconds("24 hour"), 10];
-  }
+  const [_, __, length, amount] = BoosterType[type].match(/([A-Za-z]+)(\d+[A-Z])_(\d+)/)!;
+  return [toSeconds(length), parseInt(amount)];
 }
 
-class ActiveBooster {
-  public readonly startedAt: number;
+interface ActiveBoosterData {
+  length: number;
+  readonly amount: number;
+  readonly startedAt: number;
+}
 
+class ActiveBooster implements ActiveBoosterData {
   public constructor(
     public length: number,
-    public readonly amount: number
-  ) {
-    this.startedAt = Date.now() / 1000;
+    public readonly amount: number,
+    public readonly startedAt = Math.floor(Date.now() / 1000)
+  ) { }
+
+  public static fromData(data: ActiveBoosterData): ActiveBooster {
+    return new ActiveBooster(Math.floor(Date.now() / 1000) - data.startedAt, data.amount);
+  }
+
+  public toData(): ActiveBoosterData {
+    return {
+      length: this.length,
+      amount: this.amount,
+      startedAt: this.startedAt
+    };
   }
 
   public get isExpired(): boolean {
-    return (Date.now() / 1000) - this.startedAt >= this.length;
+    return Math.floor(Date.now() / 1000) - this.startedAt >= this.length;
   }
 }
 
@@ -38,7 +49,7 @@ class ActiveBoostersField {
   /**
    * NOTE: Verify that the member owns the booster you're trying to add!
    */
-  public async add(member: GuildMember, type: BoosterType): Promise<ActiveBooster[]> {
+  public async add(member: GuildMember, type: BoosterType): Promise<ActiveBoosterData[]> {
     let boosters = await this.get(member);
     const booster = new ActiveBooster(...getBoosterDataFromType(type));
     const currentBooster = boosters.find(otherBooster => otherBooster.amount === booster.amount);
@@ -54,18 +65,20 @@ class ActiveBoostersField {
 
   public async getBoostPercent(member: GuildMember): Promise<number> {
     const nonExpiredBoosters = (await this.get(member))
-      .filter(booster => !booster.isExpired);
+      .filter(booster => !ActiveBooster.fromData(booster).isExpired);
 
     return nonExpiredBoosters.sort((a, b) => a.amount - b.amount)[0]?.amount ?? 0;
   }
 
-  private async get(member: GuildMember): Promise<ActiveBooster[]> {
+  private async get(member: GuildMember): Promise<ActiveBoosterData[]> {
     return await LevelSystemData.db.get(this.getDirectory(member), []);
   }
 
-  private async set(member: GuildMember, value: ActiveBooster[]): Promise<ActiveBooster[]> {
+  private async set(member: GuildMember, value: ActiveBoosterData[]): Promise<ActiveBoosterData[]> {
     const currentValue = await this.get(member);
-    const nonExpiredBoosters = value.filter(booster => !booster.isExpired);
+    const nonExpiredBoosters = value
+      .filter(booster => !ActiveBooster.fromData(booster).isExpired)
+
     await LevelSystemData.db.set(this.getDirectory(member), nonExpiredBoosters);
     return currentValue;
   }

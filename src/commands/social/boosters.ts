@@ -28,7 +28,7 @@ export class Boosters {
                 .filter(([typeName]) => typeName.startsWith("Experience"))
                 .map(([typeName, amount]) => {
                   const [_, length, boostAmount] = typeName.match(/(\d+H)_(\d+)/)!;
-                  return `- **${boostAmount}% (${length})**: ${amount}`;
+                  return `- **+${boostAmount}% (${length})**: ${amount}`;
                 })
                 .join("\n"),
               inline: true,

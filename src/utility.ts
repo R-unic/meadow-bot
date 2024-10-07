@@ -96,12 +96,10 @@ const timePatterns = {
 // Takes a remaining time string (e.g. 1d 5h 10s) and
 // converts it to the amount of time it represents in seconds.
 export function toSeconds(time: string): number {
-  const matches = time.replace(/\s+/g, "")[0].match(/(\d+)(\D)/) ?? [];
-  return matches.reduce((sum, [value, unit]) => {
-    const timeUnit = <keyof typeof timePatterns>unit;
-    const figure = parseFloat(value);
-    return sum + figure * timePatterns[timeUnit];
-  }, 0);
+  const [_, value, unit] = time.replace(/\s+/g, "").match(/(\d+)(\D)/) ?? [];
+  const timeUnit = <keyof typeof timePatterns>unit.toLowerCase();
+  console.log(value, timeUnit)
+  return parseFloat(value) * timePatterns[timeUnit];
 }
 
 export namespace File {
