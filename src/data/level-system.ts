@@ -128,9 +128,7 @@ class XpField extends LevelSystemField {
     const value = await super.increment(member, increment);
     const level = await LevelSystemData.level.get(member);
     const prestige = await LevelSystemData.prestige.get(member);
-    const boostPercent = await LevelSystemData.activeBoosters.getBoostPercent(member, "Experience");
-    const boostMultiplier = 1 + boostPercent / 100;
-    const newValue = value + increment * boostMultiplier;
+    const newValue = value + increment;
     const xpToLevelUp = getXpToLevelUp(prestige, level);
 
     if (newValue >= xpToLevelUp) {
@@ -153,9 +151,11 @@ export function getXpToLevelUp(prestige: number, level: number): number {
   return Math.floor(calculateXP(level, BASE_XP_FACTOR) / prestigeMultiplier);
 }
 
-export function getXpPerMessage(prestige: number, level: number, type?: "min" | "max"): number {
+export async function getXpPerMessage(member: GuildMember, prestige: number, level: number, type?: "min" | "max"): Promise<number> {
   const prestigeMultiplier = 1 + prestige * 0.15; // 15% increase per prestige level
-  const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier / 2.5);
+  const boostPercent = await LevelSystemData.activeBoosters.getBoostPercent(member, "Experience");
+  const boostMultiplier = 1 + boostPercent / 100;
+  const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier * boostMultiplier / 2.5);
   const variation = 1.5;
   const variationMultiplier = random(1 / variation, variation);
   if (type === "min")
@@ -190,7 +190,7 @@ export class LevelSystemData {
   public static async addXP(member: GuildMember): Promise<boolean> {
     const level = await this.level.get(member);
     const prestige = await this.prestige.get(member);
-    const xpToAdd = getXpPerMessage(prestige, level);
+    const xpToAdd = await getXpPerMessage(member, prestige, level);
     await this.xp.increment(member, xpToAdd);
 
     const newLevel = await this.level.get(member);

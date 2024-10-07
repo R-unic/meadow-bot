@@ -29,8 +29,8 @@ export class Profile {
     const xp = await LevelSystemData.xp.get(member);
     const activeBoosters = await LevelSystemData.activeBoosters.get(member);
     const xpToLevelUp = getXpToLevelUp(prestige, level);
-    const minXpPerMessage = getXpPerMessage(prestige, level, "min");
-    const maxXpPerMessage = getXpPerMessage(prestige, level, "max");
+    const minXpPerMessage = await getXpPerMessage(member, prestige, level, "min");
+    const maxXpPerMessage = await getXpPerMessage(member, prestige, level, "max");
 
     await command.reply({
       embeds: [
