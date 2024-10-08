@@ -1,105 +1,7 @@
 import type { GuildMember } from "discord.js";
 
-import { Firebase } from "../firebase.js";
-import { random, toSeconds } from "../utility.js";
-
-export enum BoosterType {
-  Experience1H_10,
-  Experience3H_10,
-  Experience8H_10,
-  Experience24H_10
-}
-
-function getBoosterDataFromType(type: BoosterType): [name: string, length: number, amount: number] {
-  const [_, name, length, amount] = BoosterType[type].match(/([A-Za-z]+)(\d+[A-Z])_(\d+)/)!;
-  return [name, toSeconds(length), parseInt(amount)];
-}
-
-interface ActiveBoosterData {
-  readonly type: string;
-  readonly amount: number;
-  readonly startedAt: number;
-  length: number;
-}
-
-export class ActiveBooster implements ActiveBoosterData {
-  public constructor(
-    public readonly type: string,
-    public length: number,
-    public readonly amount: number,
-    public readonly startedAt = Math.floor(Date.now() / 1000)
-  ) { }
-
-  public static fromData(data: ActiveBoosterData): ActiveBooster {
-    return new ActiveBooster(data.type, data.length, data.amount, data.startedAt);
-  }
-
-  public toData(): ActiveBoosterData {
-    return {
-      type: this.type,
-      length: this.length,
-      amount: this.amount,
-      startedAt: this.startedAt
-    };
-  }
-
-  public get isExpired(): boolean {
-    return Math.floor(Date.now() / 1000) - this.startedAt >= this.length;
-  }
-}
-
-class ActiveBoostersField {
-  /**
-   * NOTE: Verify that the member owns the booster you're trying to add!
-   */
-  public async add(member: GuildMember, type: BoosterType): Promise<ActiveBoosterData[]> {
-    const boosters = await this.get(member);
-    const booster = new ActiveBooster(...getBoosterDataFromType(type));
-    const currentBooster = boosters.find(otherBooster => otherBooster.amount === booster.amount && otherBooster.type === booster.type);
-    if (currentBooster !== undefined) {
-      boosters.splice(boosters.indexOf(currentBooster), 1);
-      currentBooster.length += booster.length;
-    }
-
-    boosters.push(currentBooster ?? booster);
-    await LevelSystemData.db.decrement(`levelSystem/${member.id}/ownedBoosters/${type}`, 1, 0);
-    return await this.set(member, boosters);
-  }
-
-  public async getBoostPercent(member: GuildMember, type: string): Promise<number> {
-    return (await this.getUnexpired(member))
-      .filter(booster => booster.type === type)
-      .sort((a, b) => a.amount - b.amount)[0]?.amount ?? 0;
-  }
-
-  public async getUnexpired(member: GuildMember): Promise<ActiveBoosterData[]> {
-    const activeBoosters = await this.get(member);
-    const unexpiredBoosters = activeBoosters
-      .filter(booster => !ActiveBooster.fromData(booster).isExpired);
-
-    if (activeBoosters !== unexpiredBoosters)
-      await this.set(member, unexpiredBoosters);
-
-    return unexpiredBoosters;
-  }
-
-  private async get(member: GuildMember): Promise<ActiveBoosterData[]> {
-    return await LevelSystemData.db.get(this.getDirectory(member), []);
-  }
-
-  private async set(member: GuildMember, value: ActiveBoosterData[]): Promise<ActiveBoosterData[]> {
-    const currentValue = await this.get(member);
-    const unexpiredBoosters = value
-      .filter(booster => !ActiveBooster.fromData(booster).isExpired)
-
-    await LevelSystemData.db.set(this.getDirectory(member), unexpiredBoosters);
-    return currentValue;
-  }
-
-  private getDirectory(member: GuildMember): string {
-    return `levelSystem/${member.id}/activeBoosters`;
-  }
-}
+import { Firebase, random } from "../utility.js";
+import { BoostersData } from "./boosters.js";
 
 export class LevelSystemField {
   public constructor(
@@ -116,12 +18,12 @@ export class LevelSystemField {
   public async set(member: GuildMember, value: number): Promise<number> {
     const currentValue = await this.get(member);
     value = this.maximum !== undefined ? Math.min(value, this.maximum) : value;
-    await LevelSystemData.db.set(this.getDirectory(member), value);
+    await Firebase.set(this.getDirectory(member), value);
     return currentValue;
   }
 
   public async get(member: GuildMember): Promise<number> {
-    return await LevelSystemData.db.get(this.getDirectory(member), this.defaultValue);
+    return await Firebase.get(this.getDirectory(member), this.defaultValue);
   }
 
   private getDirectory(member: GuildMember): string {
@@ -158,14 +60,14 @@ const BASE_XP_FACTOR = 80;
 const MESSAGE_XP_FACTOR = 8;
 export function getXpToLevelUp(prestige: number, level: number): number {
   const prestigeMultiplier = 1 + prestige * 0.10; // 10% decrease per prestige level
-  return Math.floor(calculateXP(level, BASE_XP_FACTOR) / prestigeMultiplier);
+  return Math.floor(calculateXP(level, BASE_XP_FACTOR) / prestigeMultiplier * 1.5);
 }
 
 export async function getXpPerMessage(member: GuildMember, prestige: number, level: number, type?: "min" | "max"): Promise<number> {
   const prestigeMultiplier = 1 + prestige * 0.15; // 15% increase per prestige level
-  const boostPercent = await LevelSystemData.activeBoosters.getBoostPercent(member, "Experience");
+  const boostPercent = await BoostersData.activeBoosters.getBoostPercent(member, "Experience");
   const boostMultiplier = 1 + boostPercent / 100;
-  const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier * boostMultiplier / 2.5);
+  const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier * boostMultiplier / 3);
   const variation = 1.5;
   const variationMultiplier = random(1 / variation, variation);
   if (type === "min")
@@ -181,17 +83,9 @@ export const MAX_PRESTIGE = 25;
 
 /** @see GuildData */
 export class LevelSystemData {
-  public static readonly db = new Firebase(process.env.FIREBASE_URL!);
   public static readonly xp = new XpField;
   public static readonly level = new LevelSystemField("level", 1, MAX_LEVEL);
   public static readonly prestige = new LevelSystemField("prestige", 0, MAX_PRESTIGE);
-  public static readonly activeBoosters = new ActiveBoostersField;
-  public static readonly xpBoosters = {
-    [BoosterType.Experience1H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience1H_10}`, 0),
-    [BoosterType.Experience3H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience3H_10}`, 0),
-    [BoosterType.Experience8H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience8H_10}`, 0),
-    [BoosterType.Experience24H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience24H_10}`, 0),
-  };
 
   /**
    * Adds a random amount of XP to the user

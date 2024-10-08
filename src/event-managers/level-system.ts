@@ -2,8 +2,8 @@ import { type ArgsOf, Discord, Guard, On } from "discordx";
 import { NotBot } from "@discordx/utilities";
 const { default: { toRoman } } = await import("roman-numerals");
 
-import { LevelSystemData, MAX_LEVEL } from "../data/level-system.js";
 import { deleteIfPossible } from "../utility.js";
+import { LevelSystemData, MAX_LEVEL } from "../data/level-system.js";
 import Embed from "../embed-presets.js";
 
 @Discord()

@@ -3,6 +3,7 @@ import { Category } from "@discordx/utilities";
 import { type CommandInteraction, type User, ApplicationCommandOptionType, TimestampStyles, time } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
+import { BoostersData } from "../../data/boosters.js";
 import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE, getXpPerMessage, getXpToLevelUp } from "../../data/level-system.js";
 import { commaFormat } from "../../utility.js";
 import Embed from "../../embed-presets.js";
@@ -27,7 +28,7 @@ export class Profile {
     const prestige = await LevelSystemData.prestige.get(member);
     const level = await LevelSystemData.level.get(member);
     const xp = await LevelSystemData.xp.get(member);
-    const activeBoosters = await LevelSystemData.activeBoosters.getUnexpired(member);
+    const activeBoosters = await BoostersData.activeBoosters.getUnexpired(member);
     const xpToLevelUp = getXpToLevelUp(prestige, level);
     const minXpPerMessage = await getXpPerMessage(member, prestige, level, "min");
     const maxXpPerMessage = await getXpPerMessage(member, prestige, level, "max");

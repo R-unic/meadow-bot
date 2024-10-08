@@ -2,7 +2,7 @@ import { Discord, Slash } from "discordx";
 import { Category } from "@discordx/utilities";
 import { EmbedField, type CommandInteraction } from "discord.js";
 
-import { BoosterType, LevelSystemData } from "../../data/level-system.js";
+import { BoostersData, BoosterType } from "../../data/boosters.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -24,7 +24,7 @@ export class Boosters {
         .map<Promise<EmbedField>>(async name => {
           return {
             name,
-            value: (await Promise.all(Object.entries(LevelSystemData.xpBoosters)
+            value: (await Promise.all(Object.entries(BoostersData.ownedBoosters)
               .map(async ([type, field]) => {
                 const typeName = BoosterType[<BoosterType>parseInt(type)]
                 const [_, length, boostAmount] = typeName.match(/(\d+H)_(\d+)/)!;

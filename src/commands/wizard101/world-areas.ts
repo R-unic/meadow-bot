@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { type CommandInteraction, ApplicationCommandOptionType, bold } from "discord.js";
 
 import Embed from "../../embed-presets.js";
-import { createTemporaryAttachment, findWorld } from "../../utility.js";
+import { createTemporaryAttachment, findWizWorld } from "../../utility.js";
 const { default: Worlds } = await import('../../data/wiz-worlds.json', { with: { type: "json" } });
 
 @Discord()
@@ -25,7 +25,7 @@ export class WorldAreas {
   ): Promise<void> {
     if (command.channel === null) return;
 
-    const world = findWorld(name);
+    const world = findWizWorld(name);
     if (world === undefined)
       return void await command.reply({
         options: { ephemeral: true },

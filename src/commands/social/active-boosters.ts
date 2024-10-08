@@ -2,8 +2,8 @@ import { Discord, Slash } from "discordx";
 import { Category } from "@discordx/utilities";
 import { EmbedField, type CommandInteraction } from "discord.js";
 
-import { LevelSystemData } from "../../data/level-system.js";
 import { toRemainingTime } from "../../utility.js";
+import { BoostersData } from "../../data/boosters.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -14,7 +14,7 @@ export class ActiveBoosters {
     if (command.guild === null) return;
 
     const member = await command.guild.members.fetch(command.user);
-    const activeBoosters = await LevelSystemData.activeBoosters.getUnexpired(member);
+    const activeBoosters = await BoostersData.activeBoosters.getUnexpired(member);
     const boosterTypes = new Set<string>;
     for (const booster of activeBoosters)
       boosterTypes.add(booster.type);

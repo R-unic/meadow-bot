@@ -2,7 +2,7 @@ import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
 
-import { BoosterType, LevelSystemData } from "../../data/level-system.js";
+import { BoostersData, BoosterType } from "../../data/boosters.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -32,12 +32,12 @@ export class UseBooster {
     if (command.guild === null) return;
 
     const member = await command.guild.members.fetch(command.user);
-    if (await LevelSystemData.xpBoosters[type].get(member) <= 0)
+    if (await BoostersData.ownedBoosters[type].get(member) <= 0)
       return void await command.reply({
         embeds: [Embed.error("Cannot activate booster: You do not own a booster of this type!")]
       });
 
-    await LevelSystemData.activeBoosters.add(member, type);
+    await BoostersData.activeBoosters.add(member, type);
     await command.reply({
       embeds: [Embed.success(`Successfully activated booster!`)]
     });
