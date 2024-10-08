@@ -39,9 +39,8 @@ class XpField extends LevelSystemField {
   public override async increment(member: GuildMember, increment = 1): Promise<number> {
     const value = await super.increment(member, increment);
     const level = await LevelSystemData.level.get(member);
-    const prestige = await LevelSystemData.prestige.get(member);
     const newValue = value + increment;
-    const xpToLevelUp = getXpToLevelUp(prestige, level);
+    const xpToLevelUp = getXpToLevelUp(level);
 
     if (newValue >= xpToLevelUp) {
       await LevelSystemData.level.increment(member);
@@ -58,16 +57,15 @@ function calculateXP(level: number, factor: number): number {
 
 const BASE_XP_FACTOR = 80;
 const MESSAGE_XP_FACTOR = 8;
-export function getXpToLevelUp(prestige: number, level: number): number {
-  const prestigeMultiplier = 1 + prestige * 0.10; // 10% decrease per prestige level
-  return Math.floor(calculateXP(level, BASE_XP_FACTOR) / prestigeMultiplier * 1.5);
+export function getXpToLevelUp(level: number): number {
+  return calculateXP(level, BASE_XP_FACTOR);
 }
 
 export async function getXpPerMessage(member: GuildMember, prestige: number, level: number, type?: "min" | "max"): Promise<number> {
   const prestigeMultiplier = 1 + prestige * 0.15; // 15% increase per prestige level
   const boostPercent = await BoostersData.activeBoosters.getBoostPercent(member, "Experience");
   const boostMultiplier = 1 + boostPercent / 100;
-  const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier * boostMultiplier / 3);
+  const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier * boostMultiplier / 2.5);
   const variation = 1.5;
   const variationMultiplier = random(1 / variation, variation);
   if (type === "min")
