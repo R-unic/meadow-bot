@@ -79,18 +79,23 @@ export class TicTacToe {
 
   private generateBoard(winner: Player): Board {
     const board = Array<string>(9).fill(" ");
-    const allPositions = Array.from({ length: 9 }, (_, i) => i);
-    const xPositions = shuffle(allPositions).slice(0, 5);
-    const oPositions = allPositions.filter(pos => !xPositions.includes(pos));
-    for (const pos of xPositions)
-      board[pos] = X_EMOJI;
-    for (const pos of oPositions)
-      board[pos] = O_EMOJI;
-
     const winnerEmoji = winner === 0 ? X_EMOJI : O_EMOJI;
+    const loserEmoji = winner === 0 ? O_EMOJI : X_EMOJI;
     const winningLine = WINNING_LINES[random(0, WINNING_LINES.length - 1)];
-    for (const pos of winningLine)
-      board[pos] = winnerEmoji;
+    for (const position of winningLine)
+      board[position] = winnerEmoji;
+
+    const remainingPositions = board
+      .map((cell, index) => cell === ' ' ? index : null)
+      .filter(index => index !== null);
+
+    const winnerMovesCount = Math.floor(remainingPositions.length / 2) + 1;
+    const loserMovesCount = remainingPositions.length - winnerMovesCount;
+    const moves = shuffle(remainingPositions);
+    for (let i = 0; i < moves.length; i++) {
+      const symbol = i < loserMovesCount ? loserEmoji : winnerEmoji;
+      board[moves[i]] = symbol;
+    }
 
     const [first, second, third, fourth, fifth, sixth, seventh, eighth, ninth] = board;
     return [
