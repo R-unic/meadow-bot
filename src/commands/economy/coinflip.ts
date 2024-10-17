@@ -55,11 +55,6 @@ export class Coinflip {
         ephemeral: true,
         embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
       });
-    if (amount <= 0)
-      return void await command.reply({
-        ephemeral: true,
-        embeds: [Embed.error("You can not bet nothing or less than nothing.")]
-      });
 
     const flip = random<CoinSide>(0, 1);
     if (flip === side) {
