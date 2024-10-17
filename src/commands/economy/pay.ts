@@ -3,7 +3,6 @@ import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type User, type CommandInteraction, userMention, GuildMember } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { commaFormat } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -38,7 +37,7 @@ export class Pay {
     const money = await EconomyData.money.get(member);
     if (amount > money)
       return void await command.reply({
-        embeds: [Embed.error(`You do not have **${EconomyData.dollarSign}${amount}** to pay. You need **${EconomyData.dollarSign}${amount - money}** more.`)]
+        embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to pay.`, money, amount)]
       });
 
     await EconomyData.money.decrement(member, amount);

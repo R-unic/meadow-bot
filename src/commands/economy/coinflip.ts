@@ -6,18 +6,34 @@ import { EconomyData } from "../../data/economy.js";
 import { random } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
+enum CoinSide {
+  Tails,
+  Heads
+}
+
 @Discord()
 @Category("Economy")
-export class Dice {
-  @Slash({ description: "Bet on a die rolling your chosen number." })
-  public async dice(
+export class Coinflip {
+  @Slash({ description: "Bet on a coin flip landing on your chosen side." })
+  public async coinflip(
     @SlashOption({
-      description: "The number to bet on",
-      name: "number",
+      description: "Heads or tails (0 tails - 1 heads)",
+      name: "side",
       required: true,
       type: ApplicationCommandOptionType.Integer,
+      autocomplete(interaction) {
+        interaction.respond([
+          {
+            name: "Heads",
+            value: 1
+          }, {
+            name: "Tails",
+            value: 0
+          }
+        ]);
+      }
     })
-    number: number,
+    side: CoinSide,
     @SlashOption({
       description: "The amount to bet",
       name: "amount",
@@ -36,19 +52,19 @@ export class Dice {
         embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
       });
 
-    const roll = random(1, 6);
-    if (roll === number) {
-      await EconomyData.money.increment(member, amount * 5); // EV = 0.5
+    const flip = random<CoinSide>(0, 1);
+    if (flip === side) {
+      await EconomyData.money.increment(member, amount); // EV = 0.5
       await command.reply({
         embeds: [
-          Embed.win(`The die rolled **${roll}** which is the same number you chose.`, amount)
+          Embed.win(`The coin landed on **${CoinSide[flip].toLowerCase()}** which is the same side you chose.`, amount)
         ]
       });
     } else {
       await EconomyData.money.decrement(member, amount);
       await command.reply({
         embeds: [
-          Embed.lose(`The die rolled **${roll}**.`, amount)
+          Embed.lose(`The coin landed on **${CoinSide[flip].toLowerCase()}**.`, amount)
         ]
       });
     }

@@ -85,8 +85,8 @@ export function capitalize(s: string): string {
   return s.replace(/\S+/g, word => word.slice(0, 1).toUpperCase() + word.slice(1));
 }
 
-export function random(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+export function random<T extends number = number>(min: T, max: T): T {
+  return <T>(Math.floor(Math.random() * (max - min + 1)) + min);
 }
 
 const s = 1, m = 60, h = 3600, d = 86400, w = 604800;
