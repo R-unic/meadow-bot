@@ -113,5 +113,9 @@ export class BoostersData {
     [BoosterType.Experience3H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience3H_10}`, 0),
     [BoosterType.Experience8H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience8H_10}`, 0),
     [BoosterType.Experience24H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience24H_10}`, 0),
+    [BoosterType.Money1H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money1H_10}`, 0),
+    [BoosterType.Money3H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money3H_10}`, 0),
+    [BoosterType.Money8H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money8H_10}`, 0),
+    [BoosterType.Money24H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money24H_10}`, 0)
   };
 }

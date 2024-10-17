@@ -12,7 +12,7 @@ export class Balance {
   @Slash({ description: "Returns your cash balance." })
   public async balance(
     @SlashOption({
-      description: "The user to view the profile of (omit for self)",
+      description: "The user to view the balance of (omit for self)",
       name: "user",
       required: false,
       type: ApplicationCommandOptionType.User,
