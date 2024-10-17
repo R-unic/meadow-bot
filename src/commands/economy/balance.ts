@@ -28,7 +28,7 @@ export class Balance {
 
     await command.reply({
       embeds: [
-        Embed.common("💵")
+        Embed.common()
           .setAuthor({
             name: (isExecutorsBalance ? "Your" : userMention(member.id) + "'s") + " Balance",
             iconURL: member.displayAvatarURL()
