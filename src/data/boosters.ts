@@ -1,7 +1,7 @@
 import type { GuildMember } from "discord.js";
 
 import { Firebase, toSeconds } from "../utility.js";
-import { LevelSystemField } from "./level-system.js";
+import { DataField, DataName } from "./data-field.js";
 
 export enum BoosterType {
   Experience1H_10,
@@ -105,9 +105,9 @@ class ActiveBoostersField {
 export class BoostersData {
   public static readonly activeBoosters = new ActiveBoostersField;
   public static readonly ownedBoosters = {
-    [BoosterType.Experience1H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience1H_10}`, 0),
-    [BoosterType.Experience3H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience3H_10}`, 0),
-    [BoosterType.Experience8H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience8H_10}`, 0),
-    [BoosterType.Experience24H_10]: new LevelSystemField(`ownedBoosters/${BoosterType.Experience24H_10}`, 0),
+    [BoosterType.Experience1H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience1H_10}`, 0),
+    [BoosterType.Experience3H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience3H_10}`, 0),
+    [BoosterType.Experience8H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience8H_10}`, 0),
+    [BoosterType.Experience24H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience24H_10}`, 0),
   };
 }

@@ -1,39 +1,12 @@
 import type { GuildMember } from "discord.js";
 
-import { Firebase, random } from "../utility.js";
+import { random } from "../utility.js";
 import { BoostersData } from "./boosters.js";
+import { DataField, DataName } from "./data-field.js";
 
-export class LevelSystemField {
-  public constructor(
-    private readonly dataKey: string,
-    private readonly defaultValue?: number,
-    private readonly maximum?: number
-  ) { }
-
-  public async increment(member: GuildMember, increment = 1): Promise<number> {
-    const currentValue = await this.get(member);
-    return await this.set(member, currentValue + increment);
-  }
-
-  public async set(member: GuildMember, value: number): Promise<number> {
-    const currentValue = await this.get(member);
-    value = this.maximum !== undefined ? Math.min(value, this.maximum) : value;
-    await Firebase.set(this.getDirectory(member), value);
-    return currentValue;
-  }
-
-  public async get(member: GuildMember): Promise<number> {
-    return await Firebase.get(this.getDirectory(member), this.defaultValue);
-  }
-
-  private getDirectory(member: GuildMember): string {
-    return `levelSystem/${member.id}/${this.dataKey}`;
-  }
-}
-
-class XpField extends LevelSystemField {
+class XpField extends DataField {
   public constructor() {
-    super("xp", 0);
+    super(DataName.LevelSystem, "xp", 0);
   }
 
   public override async increment(member: GuildMember, increment = 1): Promise<number> {
@@ -82,8 +55,8 @@ export const MAX_PRESTIGE = 25;
 /** @see GuildData */
 export class LevelSystemData {
   public static readonly xp = new XpField;
-  public static readonly level = new LevelSystemField("level", 1, MAX_LEVEL);
-  public static readonly prestige = new LevelSystemField("prestige", 0, MAX_PRESTIGE);
+  public static readonly level = new DataField(DataName.LevelSystem, "level", 1, MAX_LEVEL);
+  public static readonly prestige = new DataField(DataName.LevelSystem, "prestige", 0, MAX_PRESTIGE);
 
   /**
    * Adds a random amount of XP to the user
