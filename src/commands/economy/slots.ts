@@ -36,7 +36,13 @@ export class Slots {
         embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
       });
 
-    const [first, second, third] = shuffle(["🍒", "🍋", "🍉", "⭐", "🍇"]).slice(-3);
+    const rolledSlots = [];
+    for (let i = 0; i < 3; i++) {
+      const [slot] = shuffle(["🍒", "🍋", "🍉", "⭐", "🍇"]);
+      rolledSlots.push(slot);
+    }
+
+    const [first, second, third] = rolledSlots;
     if (first === second && second === third) {
       await EconomyData.money.increment(member, amount * 10); // EV = 0.5
       await replyWithEmbed(command, await Embed.win(`Jackpot!`, member, amount));
