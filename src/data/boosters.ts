@@ -7,7 +7,11 @@ export enum BoosterType {
   Experience1H_10,
   Experience3H_10,
   Experience8H_10,
-  Experience24H_10
+  Experience24H_10,
+  Money1H_10,
+  Money3H_10,
+  Money8H_10,
+  Money24H_10
 }
 
 function getBoosterDataFromType(type: BoosterType): [name: string, length: number, amount: number] {

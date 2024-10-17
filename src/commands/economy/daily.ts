@@ -23,7 +23,7 @@ export class Daily {
       });
 
     await EconomyData.lastDailyClaim.set(member, Math.floor(Date.now() / 1000))
-    await EconomyData.money.increment(member, reward);
+    await EconomyData.money.earn(member, reward);
     await command.reply({
       embeds: [Embed.success(`You have successfully claimed your daily reward of **${EconomyData.dollarSign}${commaFormat(reward)}**!`)]
     });
