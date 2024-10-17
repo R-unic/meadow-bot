@@ -14,7 +14,7 @@ export class Prestige {
   public async prestige(command: CommandInteraction): Promise<void> {
     if (command.guild === null) return;
 
-    const member = <GuildMember>command.member!;
+    const member = <GuildMember>command.member;
     const prestige = await LevelSystemData.prestige.get(member);
     const level = await LevelSystemData.level.get(member);
     const isMaxLevel = level === MAX_LEVEL;

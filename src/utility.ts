@@ -87,7 +87,7 @@ export function random(min: number, max: number): number {
 }
 
 const s = 1, m = 60, h = 3600, d = 86400, w = 604800;
-const timePatterns = {
+export const time = {
   s, second: s, seconds: s,
   m, minute: m, minutes: m,
   h, hour: h, hours: h,
@@ -97,10 +97,10 @@ const timePatterns = {
 
 // Takes a remaining time string (e.g. 1d 5h 10s) and
 // converts it to the amount of time it represents in seconds.
-export function toSeconds(time: string): number {
-  const [_, value, unit] = time.replace(/\s+/g, "").match(/(\d+)(\D)/) ?? [];
-  const timeUnit = <keyof typeof timePatterns>unit.toLowerCase();
-  return parseFloat(value) * timePatterns[timeUnit];
+export function toSeconds(timeString: string): number {
+  const [_, value, unit] = timeString.replace(/\s+/g, "").match(/(\d+)(\D)/) ?? [];
+  const timeUnit = <keyof typeof time>unit.toLowerCase();
+  return parseFloat(value) * time[timeUnit];
 }
 
 export function toRemainingTime(seconds: number): string {
