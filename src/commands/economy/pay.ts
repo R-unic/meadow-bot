@@ -34,6 +34,11 @@ export class Pay {
         ephemeral: true,
         embeds: [Embed.error("You cannot pay yourself!")]
       });
+    if (amount <= 0)
+      return void await command.reply({
+        ephemeral: true,
+        embeds: [Embed.error(`You can pay nothing or less than nothing.`)]
+      });
 
     const member = <GuildMember>command.member;
     const money = await EconomyData.money.get(member);
