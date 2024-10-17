@@ -17,7 +17,7 @@ export class Weekly {
     const reward = random(1500, 3000);
     const now = Math.floor(Date.now() / 1000);
     const lastClaim = await EconomyData.lastWeeklyClaim.get(member);
-    if (now - lastClaim <= time.day)
+    if (now - lastClaim <= time.week)
       return void await command.reply({
         embeds: [Embed.error(`You have already claimed your weekly reward this week!`)]
       });
