@@ -27,7 +27,7 @@ export class Sniper {
             .setDescription(`You are now level ${prestige === 0 ? "" : toRoman(prestige) + "-"}${level}.`)
         ]
       });
-      deleteIfPossible(reply, 4000);
+      deleteIfPossible(reply, 4000, 3);
     }
   }
 }

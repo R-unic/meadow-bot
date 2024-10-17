@@ -39,12 +39,15 @@ export function createTemporaryAttachment(fileName: string, fileData: string | D
  * @param message The message to check.
  * @param time The amount of time to wait before deleting the message, in milliseconds.
  */
-export function deleteIfPossible(message?: Message, time = 0): void {
+export function deleteIfPossible(message?: Message, time = 0, retries = 0): void {
   setTimeout(async () => {
     try {
       if (message === undefined || !message.deletable) return;
       await message.delete();
-    } catch (e) { }
+    } catch (e) {
+      if (retries > 0)
+        deleteIfPossible(message, time, retries - 1);
+    }
   }, time);
 }
 
