@@ -19,6 +19,7 @@ export class Daily {
     const lastClaim = await EconomyData.lastDailyClaim.get(member);
     if (now - lastClaim <= time.day)
       return void await command.reply({
+        ephemeral: true,
         embeds: [Embed.error(`You have already claimed your daily reward today!`)]
       });
 

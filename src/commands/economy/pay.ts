@@ -30,6 +30,7 @@ export class Pay {
 
     if (user === command.user)
       return void await command.reply({
+        ephemeral: true,
         embeds: [Embed.error("You cannot pay yourself!")]
       });
 

@@ -47,13 +47,17 @@ export default class Embed {
       .setDescription(message);
   }
 
-  public static common(title: string, emoji?: string): EmbedBuilder {
-    return new EmbedBuilder()
-      .setTitle(title + (emoji !== undefined ? " " + emoji : ""))
+  public static common(title?: string, emoji?: string): EmbedBuilder {
+    const embed = new EmbedBuilder()
       .setColor(EmbedColor.Blue)
       .setFooter({
         text: "Developed by @_runic_",
         iconURL: "https://cdn.discordapp.com/avatars/1188234972100829274/8ed0d41a07cd34742e6b26b5cb54d52f.webp"
       });
+
+    if (title !== undefined)
+      embed.setTitle(title + (emoji !== undefined ? " " + emoji : ""))
+
+    return embed;
   }
 }

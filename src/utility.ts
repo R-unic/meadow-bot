@@ -1,14 +1,16 @@
 import { PermissionGuard } from "@discordx/utilities";
 import type { Client } from "discordx";
-import { type Message, type PermissionsString, AttachmentBuilder } from "discord.js";
+import { type Message, type PermissionsString, type CommandInteraction, type EmbedBuilder, AttachmentBuilder } from "discord.js";
 import { type PathLike, copyFileSync, readFileSync, rmSync, statSync, writeFileSync } from "fs";
 
+import { Firebase } from "./firebase.js";
 import Log from "./logger.js";
 import Embed from "./embed-presets.js";
-import { Firebase as FirebaseDB } from "./firebase.js";
-const { default: Worlds } = await import('./data/wiz-worlds.json', { with: { type: "json" } });
+const { default: Worlds } = await import("./data/wiz-worlds.json", { with: { type: "json" } });
 
-export const Firebase = new FirebaseDB(process.env.FIREBASE_URL!);
+const db = new Firebase(process.env.FIREBASE_URL!);
+export { db as Firebase };
+
 export const RequirePermissions = (permissions: PermissionsString[]) => PermissionGuard(permissions, {
   ephemeral: true,
   embeds: [Embed.noPermissions(permissions)]
@@ -19,6 +21,10 @@ type WizWorld = (typeof Worlds)[keyof typeof Worlds];
 export function findWizWorld(search: string): Maybe<WizWorld> {
   return Object.values(Worlds).find(world => world.Abbreviation === search.toLowerCase() || world.Name.toLowerCase() === search.toLowerCase())
     ?? Worlds[<keyof typeof Worlds>search.toLowerCase().replace(/ /, "")];
+}
+
+export async function replyWithEmbed(command: CommandInteraction, embed: EmbedBuilder): Promise<void> {
+  await command.reply({ embeds: [embed] });
 }
 
 interface TemporaryAttachmentData {

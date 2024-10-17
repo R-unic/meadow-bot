@@ -67,6 +67,7 @@ export class Data {
       const result = await db.get(path);
       if (result === undefined)
         return void await command.reply({
+          ephemeral: true,
           embeds: [Embed.error(`There is no data at path \`${path}\`.`)]
         });
 

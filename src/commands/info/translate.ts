@@ -95,15 +95,15 @@ export class Translate {
     const message = await command.channel.messages.fetch(messageID);
     if (message === null)
       return void await command.reply({
-        embeds: [Embed.error(`Could not find message with ID \`${messageID}\`\n${NOTE}`)],
-        ephemeral: true
+        ephemeral: true,
+        embeds: [Embed.error(`Could not find message with ID \`${messageID}\`\n${NOTE}`)]
       });
 
     const validTargetLanguageCodes = (await translator.getTargetLanguages()).map(({ code }) => code);
     if (!validTargetLanguageCodes.includes(targetLanguage))
       return void await command.reply({
-        embeds: [Embed.error(`\`${targetLanguage}\` is not a valid language to translate to.\nValid languages: ${validTargetLanguageCodes.map(lang => `\`${lang}\``).join(", ")}`)],
-        ephemeral: true
+        ephemeral: true,
+        embeds: [Embed.error(`\`${targetLanguage}\` is not a valid language to translate to.\nValid languages: ${validTargetLanguageCodes.map(lang => `\`${lang}\``).join(", ")}`)]
       });
 
     const result = await translator.translateText(message.content, inputLanguage === undefined ? null : inputLanguage, targetLanguage);

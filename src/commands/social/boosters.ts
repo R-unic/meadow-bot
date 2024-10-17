@@ -38,8 +38,11 @@ export class Boosters {
 
     await command.reply({
       embeds: [
-        Embed.common(`${member.user.globalName}'s Profile`)
-          .setThumbnail(member.displayAvatarURL())
+        Embed.common()
+          .setAuthor({
+            name: `${member.user.globalName}'s Boosters`,
+            iconURL: member.displayAvatarURL()
+          })
           .addFields(fields)
       ]
     });

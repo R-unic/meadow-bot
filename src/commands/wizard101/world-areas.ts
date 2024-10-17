@@ -1,10 +1,10 @@
 import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
-import { type CommandInteraction, ApplicationCommandOptionType, bold } from "discord.js";
+import { type CommandInteraction, ApplicationCommandOptionType } from "discord.js";
 
-import Embed from "../../embed-presets.js";
 import { createTemporaryAttachment, findWizWorld } from "../../utility.js";
-const { default: Worlds } = await import('../../data/wiz-worlds.json', { with: { type: "json" } });
+import Embed from "../../embed-presets.js";
+const { default: Worlds } = await import("../../data/wiz-worlds.json", { with: { type: "json" } });
 
 @Discord()
 @Category("Wizard101")

@@ -19,6 +19,7 @@ export class Weekly {
     const lastClaim = await EconomyData.lastWeeklyClaim.get(member);
     if (now - lastClaim <= time.week)
       return void await command.reply({
+        ephemeral: true,
         embeds: [Embed.error(`You have already claimed your weekly reward this week!`)]
       });
 

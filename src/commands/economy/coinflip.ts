@@ -63,9 +63,7 @@ export class Coinflip {
     } else {
       await EconomyData.money.decrement(member, amount);
       await command.reply({
-        embeds: [
-          Embed.lose(`The coin landed on **${CoinSide[flip].toLowerCase()}**.`, amount)
-        ]
+        embeds: [Embed.lose(`The coin landed on **${CoinSide[flip].toLowerCase()}**.`, amount)]
       });
     }
   }

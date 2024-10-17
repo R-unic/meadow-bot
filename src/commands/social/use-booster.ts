@@ -34,6 +34,7 @@ export class UseBooster {
     const member = await command.guild.members.fetch(command.user);
     if (await BoostersData.ownedBoosters[type].get(member) <= 0)
       return void await command.reply({
+        ephemeral: true,
         embeds: [Embed.error("Cannot activate booster: You do not own a booster of this type!")]
       });
 

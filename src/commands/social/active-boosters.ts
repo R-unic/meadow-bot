@@ -34,8 +34,11 @@ export class ActiveBoosters {
         }
       });
 
-    const embed = Embed.common(`${member.user.globalName}'s Profile`)
-      .setThumbnail(member.displayAvatarURL())
+    const embed = Embed.common()
+      .setAuthor({
+        name: `${member.user.globalName}'s Active Boosters`,
+        iconURL: member.displayAvatarURL()
+      })
       .addFields(fields);
 
     if (fields.length === 0)

@@ -35,8 +35,11 @@ export class Profile {
 
     await command.reply({
       embeds: [
-        Embed.common(`${member.user.globalName}'s Profile`)
-          .setThumbnail(member.displayAvatarURL())
+        Embed.common()
+          .setAuthor({
+            name: `${member.user.globalName}'s Profile`,
+            iconURL: member.displayAvatarURL()
+          })
           .addFields(
             {
               name: "Prestige",
