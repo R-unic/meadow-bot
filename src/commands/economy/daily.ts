@@ -14,7 +14,7 @@ export class Daily {
     if (command.guild === null) return;
 
     const member = <GuildMember>command.member;
-    const reward = random(250, 500);
+    const reward = random(50, 200);
     const now = Math.floor(Date.now() / 1000);
     const lastClaim = await EconomyData.lastDailyClaim.get(member);
     if (now - lastClaim <= time.day)
