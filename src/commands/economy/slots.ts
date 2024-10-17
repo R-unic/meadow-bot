@@ -43,15 +43,16 @@ export class Slots {
     }
 
     const [first, second, third] = rolledSlots;
+    const display = rolledSlots.join("\\|") + "\n\n";
     if (first === second && second === third) {
       await EconomyData.money.increment(member, amount * 10); // EV = 0.5
-      await replyWithEmbed(command, await Embed.win(`Jackpot!`, member, amount));
+      await replyWithEmbed(command, await Embed.win(`${display}Jackpot!`, member, amount));
     } else if (first === second || first === third || second === third) {
       await EconomyData.money.increment(member, amount); // EV = 0.5
-      await replyWithEmbed(command, await Embed.win(`You got a pair!`, member, amount));
+      await replyWithEmbed(command, await Embed.win(`${display}You got a pair!`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);
-      await replyWithEmbed(command, await Embed.lose(`No matches.`, member, amount));
+      await replyWithEmbed(command, await Embed.lose(`${display}No matches.`, member, amount));
     }
   }
 }
