@@ -20,4 +20,5 @@ export class EconomyData {
   public static readonly dollarSign = "$";
   public static readonly money = new MoneyField;
   public static readonly lastDailyClaim = new DataField(DataName.Economy, "lastDailyClaim", 0);
+  public static readonly lastWeeklyClaim = new DataField(DataName.Economy, "lastWeeklyClaim", 0);
 }

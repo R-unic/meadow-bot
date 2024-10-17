@@ -41,6 +41,7 @@ export async function getXpPerMessage(member: GuildMember, prestige: number, lev
   const median = Math.floor(calculateXP(level, MESSAGE_XP_FACTOR) * prestigeMultiplier * boostMultiplier / 2.5);
   const variation = 1.5;
   const variationMultiplier = random(1 / variation, variation);
+
   if (type === "min")
     return Math.floor(median * (1 / variation));
   else if (type === "max")
