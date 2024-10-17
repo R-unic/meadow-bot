@@ -15,6 +15,8 @@ export class Dice {
       description: "The number to bet on",
       name: "number",
       required: true,
+      minValue: 1,
+      maxValue: 6,
       type: ApplicationCommandOptionType.Integer,
     })
     number: number,
@@ -22,6 +24,7 @@ export class Dice {
       description: "The amount to bet",
       name: "amount",
       required: true,
+      minValue: 1,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,
@@ -31,16 +34,16 @@ export class Dice {
 
     const member = <GuildMember>command.member;
     const money = await EconomyData.money.get(member);
-    if (amount <= 0)
-      return void await command.reply({
-        ephemeral: true,
-        embeds: [Embed.error("You can not bet nothing or less than nothing.")]
-      });
-
     if (amount > money)
       return void await command.reply({
         ephemeral: true,
         embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
+      });
+
+    if (number > 6)
+      return void await command.reply({
+        ephemeral: true,
+        embeds: [Embed.error("You can not bet on more than 6 in a dice game.")]
       });
 
     const roll = random(1, 6);

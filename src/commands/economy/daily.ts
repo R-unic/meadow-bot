@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import type { CommandInteraction, GuildMember } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { commaFormat, random, time } from "../../utility.js";
+import { commaFormat, random, replyWithEmbed, time } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -27,8 +27,6 @@ export class Daily {
     await EconomyData.money.earn(member, reward);
 
     const newMoney = await EconomyData.money.get(member);
-    await command.reply({
-      embeds: [Embed.success(`You have successfully claimed your daily reward of **${EconomyData.dollarSign}${commaFormat(reward)}**!\nYou now have **${EconomyData.dollarSign}${commaFormat(newMoney)}**`)]
-    });
+    await replyWithEmbed(command, Embed.success(`You have successfully claimed your daily reward of **${EconomyData.dollarSign}${commaFormat(reward)}**!\nYou now have **${EconomyData.dollarSign}${commaFormat(newMoney)}**`));
   }
 }

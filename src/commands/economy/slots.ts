@@ -15,6 +15,7 @@ export class Slots {
       description: "The amount to bet",
       name: "amount",
       required: true,
+      minValue: 1,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,
@@ -24,12 +25,6 @@ export class Slots {
 
     const member = <GuildMember>command.member;
     const money = await EconomyData.money.get(member);
-    if (amount <= 0)
-      return void await command.reply({
-        ephemeral: true,
-        embeds: [Embed.error("You can not bet nothing or less than nothing.")]
-      });
-
     if (amount > money)
       return void await command.reply({
         ephemeral: true,

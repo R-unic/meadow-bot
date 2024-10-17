@@ -22,6 +22,7 @@ export class Pay {
       description: "The amount to pay the user",
       name: "amount",
       required: true,
+      minValue: 1,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,
@@ -33,11 +34,6 @@ export class Pay {
       return void await command.reply({
         ephemeral: true,
         embeds: [Embed.error("You cannot pay yourself!")]
-      });
-    if (amount <= 0)
-      return void await command.reply({
-        ephemeral: true,
-        embeds: [Embed.error("You can pay nothing or less than nothing.")]
       });
 
     const member = <GuildMember>command.member;

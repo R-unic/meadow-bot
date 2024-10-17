@@ -20,6 +20,8 @@ export class Coinflip {
       description: "Heads or tails (0 tails - 1 heads)",
       name: "side",
       required: true,
+      minValue: 0,
+      maxValue: 1,
       type: ApplicationCommandOptionType.Integer,
       autocomplete(interaction) {
         interaction.respond([
@@ -38,6 +40,7 @@ export class Coinflip {
       description: "The amount to bet",
       name: "amount",
       required: true,
+      minValue: 1,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,
