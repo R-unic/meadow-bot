@@ -15,6 +15,10 @@ export class DataField {
     private readonly maximum?: number
   ) { }
 
+  public async decrement(member: GuildMember, increment = 1): Promise<number> {
+    return await this.increment(member, -increment)
+  }
+
   public async increment(member: GuildMember, increment = 1): Promise<number> {
     const currentValue = await this.get(member);
     return await this.set(member, currentValue + increment);
