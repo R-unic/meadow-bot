@@ -20,7 +20,7 @@ export class Daily {
     if (now - lastClaim <= time.day)
       return void await command.reply({
         ephemeral: true,
-        embeds: [Embed.error(`You have already claimed your daily reward today!`)]
+        embeds: [Embed.error("You have already claimed your daily reward today!")]
       });
 
     await EconomyData.lastDailyClaim.set(member, Math.floor(Date.now() / 1000));

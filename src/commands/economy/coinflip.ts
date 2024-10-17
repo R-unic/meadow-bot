@@ -55,7 +55,7 @@ export class Coinflip {
     if (amount <= 0)
       return void await command.reply({
         ephemeral: true,
-        embeds: [Embed.error(`You can not bet nothing or less than nothing.`)]
+        embeds: [Embed.error("You can not bet nothing or less than nothing.")]
       });
 
     const flip = random<CoinSide>(0, 1);

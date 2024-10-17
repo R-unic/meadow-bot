@@ -3,21 +3,14 @@ import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction, type GuildMember } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { random, replyWithEmbed } from "../../utility.js";
+import { random, replyWithEmbed, shuffle } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
 @Category("Economy")
-export class Dice {
-  @Slash({ description: "Bet on a die rolling your chosen number." })
-  public async dice(
-    @SlashOption({
-      description: "The number to bet on",
-      name: "number",
-      required: true,
-      type: ApplicationCommandOptionType.Integer,
-    })
-    number: number,
+export class Slots {
+  @Slash({ description: "Bet on slots rolling matches." })
+  public async slots(
     @SlashOption({
       description: "The amount to bet",
       name: "amount",
@@ -43,13 +36,16 @@ export class Dice {
         embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
       });
 
-    const roll = random(1, 6);
-    if (roll === number) {
-      await EconomyData.money.increment(member, amount * 5); // EV = 0.5
-      await replyWithEmbed(command, await Embed.win(`The die rolled **${roll}** which is the same number you chose.`, member, amount));
+    const [first, second, third] = shuffle(["🍒", "🍋", "🍉", "⭐", "🍇"]).slice(-3);
+    if (first === second && second === third) {
+      await EconomyData.money.increment(member, amount * 10); // EV = 0.5
+      await replyWithEmbed(command, await Embed.win(`Jackpot!`, member, amount));
+    } else if (first === second || first === third || second === third) {
+      await EconomyData.money.increment(member, amount); // EV = 0.5
+      await replyWithEmbed(command, await Embed.win(`You got a pair!`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);
-      await replyWithEmbed(command, await Embed.lose(`The die rolled **${roll}**.`, member, amount));
+      await replyWithEmbed(command, await Embed.lose(`No matches.`, member, amount));
     }
   }
 }

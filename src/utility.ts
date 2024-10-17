@@ -78,6 +78,16 @@ export async function getCommandIDs(client: Client): Promise<{ [name: string]: s
   }
 }
 
+export function shuffle<T>(array: T[]): T[] {
+  const shuffledArray = [...array];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const randomIndex = random(0, i);
+    [shuffledArray[i], shuffledArray[randomIndex]] = [shuffledArray[randomIndex], shuffledArray[i]];
+  }
+
+  return shuffledArray;
+}
+
 export function commaFormat(n: number): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

@@ -20,7 +20,7 @@ export class Weekly {
     if (now - lastClaim <= time.week)
       return void await command.reply({
         ephemeral: true,
-        embeds: [Embed.error(`You have already claimed your weekly reward this week!`)]
+        embeds: [Embed.error("You have already claimed your weekly reward this week!")]
       });
 
     await EconomyData.lastWeeklyClaim.set(member, Math.floor(Date.now() / 1000));

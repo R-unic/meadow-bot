@@ -23,12 +23,17 @@ export class Balance {
     if (command.guild === null) return;
 
     const member = await command.guild.members.fetch(user ?? command.user);
+    const isExecutorsBalance = member === command.member;
     const money = await EconomyData.money.get(member);
 
     await command.reply({
       embeds: [
-        Embed.common("Balance", "💵")
-          .setDescription(`${member === command.member ? "You" : userMention(member.id)} ${member === command.member ? "have" : "has"} **${EconomyData.dollarSign}${commaFormat(money)}**.`)
+        Embed.common("💵")
+          .setAuthor({
+            name: (isExecutorsBalance ? "Your" : userMention(member.id) + "'s") + " Balance",
+            iconURL: member.displayAvatarURL()
+          })
+          .setDescription(`${isExecutorsBalance ? "You" : userMention(member.id)} ${member === command.member ? "have" : "has"} **${EconomyData.dollarSign}${commaFormat(money)}**.`)
       ]
     });
   }
