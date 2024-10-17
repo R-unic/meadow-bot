@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction, type GuildMember } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { random } from "../../utility.js";
+import { random, replyWithEmbed } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 enum CoinSide {
@@ -49,22 +49,17 @@ export class Coinflip {
     const money = await EconomyData.money.get(member);
     if (amount > money)
       return void await command.reply({
+        ephemeral: true,
         embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
       });
 
     const flip = random<CoinSide>(0, 1);
     if (flip === side) {
       await EconomyData.money.increment(member, amount); // EV = 0.5
-      await command.reply({
-        embeds: [
-          Embed.win(`The coin landed on **${CoinSide[flip].toLowerCase()}** which is the same side you chose.`, amount)
-        ]
-      });
+      await replyWithEmbed(command, await Embed.win(`The coin landed on **${CoinSide[flip].toLowerCase()}** which is the same side you chose.`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);
-      await command.reply({
-        embeds: [Embed.lose(`The coin landed on **${CoinSide[flip].toLowerCase()}**.`, amount)]
-      });
+      await replyWithEmbed(command, await Embed.lose(`The coin landed on **${CoinSide[flip].toLowerCase()}**.`, member, amount));
     }
   }
 }

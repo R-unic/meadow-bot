@@ -40,10 +40,10 @@ export class Dice {
     const roll = random(1, 6);
     if (roll === number) {
       await EconomyData.money.increment(member, amount * 5); // EV = 0.5
-      await replyWithEmbed(command, Embed.win(`The die rolled **${roll}** which is the same number you chose.`, amount));
+      await replyWithEmbed(command, await Embed.win(`The die rolled **${roll}** which is the same number you chose.`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);
-      await replyWithEmbed(command, Embed.lose(`The die rolled **${roll}**.`, amount));
+      await replyWithEmbed(command, await Embed.lose(`The die rolled **${roll}**.`, member, amount));
     }
   }
 }

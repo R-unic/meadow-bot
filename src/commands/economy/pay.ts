@@ -2,6 +2,7 @@ import { Discord, Slash, SlashOption } from "discordx";
 import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type User, type CommandInteraction, userMention, GuildMember } from "discord.js";
 
+import { commaFormat } from "../../utility.js";
 import { EconomyData } from "../../data/economy.js";
 import Embed from "../../embed-presets.js";
 
@@ -38,13 +39,16 @@ export class Pay {
     const money = await EconomyData.money.get(member);
     if (amount > money)
       return void await command.reply({
+        ephemeral: true,
         embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to pay.`, money, amount)]
       });
 
     await EconomyData.money.decrement(member, amount);
     await EconomyData.money.increment(await command.guild.members.fetch(user), amount);
+
+    const newMoney = await EconomyData.money.get(member);
     await command.reply({
-      embeds: [Embed.success(`Successfully paid ${userMention(user.id)} **${EconomyData.dollarSign}${amount}**!`)]
+      embeds: [Embed.success(`Successfully paid ${userMention(user.id)} **${EconomyData.dollarSign}${amount}**!\nYou now have **${EconomyData.dollarSign}${commaFormat(newMoney)}**`)]
     });
   }
 }

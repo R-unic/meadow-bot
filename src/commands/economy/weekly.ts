@@ -25,8 +25,10 @@ export class Weekly {
 
     await EconomyData.lastWeeklyClaim.set(member, Math.floor(Date.now() / 1000));
     await EconomyData.money.earn(member, reward);
+
+    const newMoney = await EconomyData.money.get(member);
     await command.reply({
-      embeds: [Embed.success(`You have successfully claimed your weekly reward of **${EconomyData.dollarSign}${commaFormat(reward)}**!`)]
+      embeds: [Embed.success(`You have successfully claimed your weekly reward of **${EconomyData.dollarSign}${commaFormat(reward)}**!\nYou now have **${EconomyData.dollarSign}${commaFormat(newMoney)}**`)]
     });
   }
 }
