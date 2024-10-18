@@ -34,7 +34,7 @@ export class Prestige {
     await LevelSystemData.prestige.increment(member);
     await LevelSystemData.level.set(member, 1);
     await LevelSystemData.xp.set(member, 0);
-    await BoostersData.ownedBoosters[BoosterType.Experience3H_10].increment(member);
+    await BoostersData.ownedBoosters[BoosterType.Money8H_10].increment(member);
     await command.reply({
       embeds: [Embed.success(`You have successfully prestiged! You are now prestige ${toRoman(prestige + 1)}${prestige === MAX_LEVEL ? " (max)" : ""}.\n\n${italic("You have earned a 3-hour XP booster. View your boosters using </boosters:1292921134609862766>.")}`)]
     });
