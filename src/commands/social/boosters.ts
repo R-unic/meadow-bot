@@ -25,8 +25,9 @@ export class Boosters {
           return {
             name,
             value: (await Promise.all(Object.entries(BoostersData.ownedBoosters)
+              .filter(([type]) => BoosterType[<BoosterType>parseInt(type)].startsWith(name))
               .map(async ([type, field]) => {
-                const typeName = BoosterType[<BoosterType>parseInt(type)]
+                const typeName = BoosterType[<BoosterType>parseInt(type)];
                 const [_, length, boostAmount] = typeName.match(/(\d+H)_(\d+)/)!;
                 return `- **+${boostAmount}% (${length})**: ${await field.get(member)}`;
               })))
