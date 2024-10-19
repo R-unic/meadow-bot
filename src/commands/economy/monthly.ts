@@ -27,6 +27,6 @@ export class Monthly {
     await EconomyData.money.earn(member, reward);
 
     const newMoney = await EconomyData.money.get(member);
-    await replyWithEmbed(command, Embed.success(`You have successfully claimed your monthly reward of ${currencyFormat(reward)}!\nYou now have ${currencyFormat(newMoney)}`));
+    await replyWithEmbed(command, Embed.success(`You have successfully claimed your monthly reward of ${currencyFormat(reward)}!\nYou now have ${currencyFormat(newMoney)}.`));
   }
 }

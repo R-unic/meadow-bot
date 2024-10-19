@@ -7,7 +7,7 @@ import Embed from "../../embed-presets.js";
 @Discord()
 @Category("Fun")
 export class Poke {
-  @Slash({ description: "Pokes a user" })
+  @Slash({ description: "Pokes a user." })
   public async poke(
     @SlashOption({
       description: "The user to poke",

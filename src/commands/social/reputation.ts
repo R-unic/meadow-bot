@@ -42,7 +42,7 @@ export class Reputation {
     await replyWithEmbed(command,
       Embed.common()
         .setAuthor({
-          name: `${isExecutor ? "Your" : member.user.globalName + "'s"} RP`,
+          name: `${isExecutor ? "Your" : member.user.globalName + "'s"} RP 🎖️`,
           iconURL: member.displayAvatarURL()
         })
         .setDescription(`${isExecutor ? "You have" : userMention(member.id) + " has"} ${reputationPointsFormat(rp)}`)
