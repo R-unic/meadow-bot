@@ -1,6 +1,6 @@
 import type { Attachment, Snowflake } from "discord.js";
 
-interface Snipe {
+export interface Snipe {
   readonly authorID: Snowflake;
   readonly messageID: Snowflake;
   readonly channelID: Snowflake;
@@ -9,7 +9,7 @@ interface Snipe {
   readonly timestamp: number;
 }
 
-interface Tag {
+export interface Tag {
   readonly name: string;
   readonly content: string;
 }

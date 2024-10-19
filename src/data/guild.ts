@@ -1,7 +1,7 @@
 import type { Message } from "discord.js";
 
 import { Firebase } from "../utility.js";
-import type { Tag, Snipe } from "types/structs.js";
+import type { Tag, Snipe } from "./models/guild.js";
 
 const MAX_SNIPES_PER_GUILD = 15; // also per category, meaning the number of delete snipes does not count towards the max amount of edit snipes
 

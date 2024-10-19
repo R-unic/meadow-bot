@@ -1,9 +1,9 @@
 import type { GuildMember } from "discord.js";
 
-import { DataField, DataName } from "./data-field.js";
+import { MemberNumberField, DataName } from "./data-field.js";
 import { BoostersData } from "./boosters.js";
 
-class MoneyField extends DataField {
+class MoneyField extends MemberNumberField {
   public constructor() {
     super(DataName.Economy, "money", 0);
   }
@@ -18,8 +18,10 @@ class MoneyField extends DataField {
 /** @see GuildData */
 export class EconomyData {
   public static readonly dollarSign = "$";
+  public static readonly bankInterestRate = 5; // percent
+  public static readonly interestSpeed = 6 * 60 * 60; // gain interest every six hours
   public static readonly money = new MoneyField;
-  public static readonly moneyInBank = new DataField(DataName.Economy, "moneyInBank", 0);
-  public static readonly lastDailyClaim = new DataField(DataName.Economy, "lastDailyClaim", 0);
-  public static readonly lastWeeklyClaim = new DataField(DataName.Economy, "lastWeeklyClaim", 0);
+  public static readonly moneyInBank = new MemberNumberField(DataName.Economy, "moneyInBank", 0);
+  public static readonly lastDailyClaim = new MemberNumberField(DataName.Economy, "lastDailyClaim", 0);
+  public static readonly lastWeeklyClaim = new MemberNumberField(DataName.Economy, "lastWeeklyClaim", 0);
 }

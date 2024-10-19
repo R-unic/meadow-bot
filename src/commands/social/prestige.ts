@@ -3,8 +3,9 @@ import { Category } from "@discordx/utilities";
 import { type CommandInteraction, type GuildMember, italic } from "discord.js";
 const { default: { toRoman } } = await import("roman-numerals");
 
-import { BoostersData, BoosterType } from "../../data/boosters.js";
+import { BoostersData } from "../../data/boosters.js";
 import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE } from "../../data/level-system.js";
+import { BoosterType } from "../../data/models/boosters.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()

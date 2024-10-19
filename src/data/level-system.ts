@@ -2,9 +2,9 @@ import type { GuildMember } from "discord.js";
 
 import { random } from "../utility.js";
 import { BoostersData } from "./boosters.js";
-import { DataField, DataName } from "./data-field.js";
+import { MemberNumberField, DataName } from "./data-field.js";
 
-class XpField extends DataField {
+class XpField extends MemberNumberField {
   public constructor() {
     super(DataName.LevelSystem, "xp", 0);
   }
@@ -56,8 +56,8 @@ export const MAX_PRESTIGE = 25;
 /** @see GuildData */
 export class LevelSystemData {
   public static readonly xp = new XpField;
-  public static readonly level = new DataField(DataName.LevelSystem, "level", 1, MAX_LEVEL);
-  public static readonly prestige = new DataField(DataName.LevelSystem, "prestige", 0, MAX_PRESTIGE);
+  public static readonly level = new MemberNumberField(DataName.LevelSystem, "level", 1, MAX_LEVEL);
+  public static readonly prestige = new MemberNumberField(DataName.LevelSystem, "prestige", 0, MAX_PRESTIGE);
 
   /**
    * Adds a random amount of XP to the user

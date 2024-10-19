@@ -1,55 +1,12 @@
 import type { GuildMember } from "discord.js";
 
 import { Firebase, toSeconds } from "../utility.js";
-import { DataField, DataName } from "./data-field.js";
-
-export enum BoosterType {
-  Experience1H_10,
-  Experience3H_10,
-  Experience8H_10,
-  Experience24H_10,
-  Money1H_10,
-  Money3H_10,
-  Money8H_10,
-  Money24H_10
-}
+import { DataName, MemberNumberField } from "./data-field.js";
+import { type ActiveBoosterData, ActiveBooster, BoosterType } from "./models/boosters.js";
 
 function getBoosterDataFromType(type: BoosterType): [name: string, length: number, amount: number] {
   const [_, name, length, amount] = BoosterType[type].match(/([A-Za-z]+)(\d+[A-Z])_(\d+)/)!;
   return [name, toSeconds(length), parseInt(amount)];
-}
-
-interface ActiveBoosterData {
-  readonly type: string;
-  readonly amount: number;
-  readonly startedAt: number;
-  length: number;
-}
-
-export class ActiveBooster implements ActiveBoosterData {
-  public constructor(
-    public readonly type: string,
-    public length: number,
-    public readonly amount: number,
-    public readonly startedAt = Math.floor(Date.now() / 1000)
-  ) { }
-
-  public static fromData(data: ActiveBoosterData): ActiveBooster {
-    return new ActiveBooster(data.type, data.length, data.amount, data.startedAt);
-  }
-
-  public toData(): ActiveBoosterData {
-    return {
-      type: this.type,
-      length: this.length,
-      amount: this.amount,
-      startedAt: this.startedAt
-    };
-  }
-
-  public get isExpired(): boolean {
-    return Math.floor(Date.now() / 1000) - this.startedAt >= this.length;
-  }
 }
 
 class ActiveBoostersField {
@@ -105,17 +62,16 @@ class ActiveBoostersField {
   }
 }
 
-
 export class BoostersData {
   public static readonly activeBoosters = new ActiveBoostersField;
   public static readonly ownedBoosters = {
-    [BoosterType.Experience1H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience1H_10}`, 0),
-    [BoosterType.Experience3H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience3H_10}`, 0),
-    [BoosterType.Experience8H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience8H_10}`, 0),
-    [BoosterType.Experience24H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience24H_10}`, 0),
-    [BoosterType.Money1H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money1H_10}`, 0),
-    [BoosterType.Money3H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money3H_10}`, 0),
-    [BoosterType.Money8H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money8H_10}`, 0),
-    [BoosterType.Money24H_10]: new DataField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money24H_10}`, 0)
+    [BoosterType.Experience1H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience1H_10}`, 0),
+    [BoosterType.Experience3H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience3H_10}`, 0),
+    [BoosterType.Experience8H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience8H_10}`, 0),
+    [BoosterType.Experience24H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience24H_10}`, 0),
+    [BoosterType.Money1H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money1H_10}`, 0),
+    [BoosterType.Money3H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money3H_10}`, 0),
+    [BoosterType.Money8H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money8H_10}`, 0),
+    [BoosterType.Money24H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money24H_10}`, 0)
   };
 }

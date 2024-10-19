@@ -2,7 +2,8 @@ import { Discord, Slash } from "discordx";
 import { Category } from "@discordx/utilities";
 import { EmbedField, type CommandInteraction } from "discord.js";
 
-import { BoostersData, BoosterType } from "../../data/boosters.js";
+import { BoostersData } from "../../data/boosters.js";
+import { BoosterType } from "../../data/models/boosters.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
