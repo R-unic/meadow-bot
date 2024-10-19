@@ -25,10 +25,16 @@ export class GuildData {
 
   public static async deleteTag(name: string): Promise<void> {
     const index = (await this.getTags()).map(({ name }) => name).indexOf(name);
-    await Firebase.delete(`tags/${index}`);
+    await Firebase.delete(`guild/tags/${index}`);
   }
 
-  public static async getSnipes(type: "delete" | "edit"): Promise<Snipe[]> {
+  public static async getSnipes(type?: "delete" | "edit"): Promise<Snipe[]> {
+    if (type === undefined) {
+      const deleteSnipes = await Firebase.get<Snipe[]>("guild/snipes/delete", []);
+      const editSnipes = await Firebase.get<Snipe[]>("guild/snipes/edit", []);
+      return [...deleteSnipes, ...editSnipes];
+    }
+
     return await Firebase.get<Snipe[]>(`guild/snipes/${type}`, []);
   }
 

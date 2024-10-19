@@ -7,7 +7,7 @@ import { LevelSystemData, MAX_LEVEL } from "../data/level-system.js";
 import Embed from "../embed-presets.js";
 
 @Discord()
-export class Sniper {
+export class LevelSystemEventManager {
   @On()
   @Guard(NotBot)
   public async messageCreate([message]: ArgsOf<"messageCreate">): Promise<void> {

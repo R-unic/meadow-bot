@@ -3,6 +3,7 @@ import { Client } from "discordx";
 import { ActivityType, IntentsBitField } from "discord.js";
 import { configDotenv } from "dotenv";
 
+import { callLifecycleHook } from "./lifecycle.js";
 import Log from "./logger.js";
 
 const ROOT = dirname(import.meta.url);
@@ -28,6 +29,7 @@ client.once("ready", async () => {
       type: ActivityType.Listening
     }]
   });
+
   Log.info("Bot online!");
 });
 

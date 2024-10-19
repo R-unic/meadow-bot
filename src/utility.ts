@@ -1,6 +1,6 @@
 import { PermissionGuard } from "@discordx/utilities";
 import type { Client } from "discordx";
-import { type Message, type PermissionsString, type CommandInteraction, type EmbedBuilder, AttachmentBuilder } from "discord.js";
+import { type Message, type PermissionsString, type CommandInteraction, type EmbedBuilder, AttachmentBuilder, Guild } from "discord.js";
 import { type PathLike, copyFileSync, readFileSync, rmSync, statSync, writeFileSync } from "fs";
 
 import { Firebase } from "./firebase.js";
@@ -21,6 +21,10 @@ type WizWorld = (typeof Worlds)[keyof typeof Worlds];
 export function findWizWorld(search: string): Maybe<WizWorld> {
   return Object.values(Worlds).find(world => world.Abbreviation === search.toLowerCase() || world.Name.toLowerCase() === search.toLowerCase())
     ?? Worlds[<keyof typeof Worlds>search.toLowerCase().replace(/ /, "")];
+}
+
+export async function getRunesMeadowGuild(client: Client): Promise<Guild> {
+  return await client.guilds.fetch("1136305719226937425");
 }
 
 export async function replyWithEmbed(command: CommandInteraction, embed: EmbedBuilder): Promise<void> {

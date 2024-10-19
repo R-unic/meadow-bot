@@ -9,7 +9,7 @@ const BOOSTER_ROLE: Snowflake = "1137219435384553558";
 const THANK_YOU_CHANNEL: Snowflake = "1140140495473999872"; // general
 
 @Discord()
-export class NitroBoost {
+export class NitroBoostEventManager {
   @On()
   @Guard(NotBot)
   public async guildMemberUpdate([oldMember, member]: ArgsOf<"guildMemberUpdate">): Promise<void> {
