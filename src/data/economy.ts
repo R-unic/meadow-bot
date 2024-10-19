@@ -1,7 +1,7 @@
 import { ArgsOf, Discord, Once, type Client } from "discordx";
 import type { GuildMember } from "discord.js";
 
-import { getRunesMeadowGuild, time } from "../utility.js";
+import { File, getRunesMeadowGuild, time } from "../utility.js";
 import { MemberNumberField, DataName } from "./data-field.js";
 import { BoostersData } from "./boosters.js";
 
@@ -20,7 +20,13 @@ class MoneyField extends MemberNumberField {
 /** @see GuildData */
 @Discord()
 export class EconomyData {
-  public static readonly dollarSign = "$";
+  public static get dollarSign(): string {
+    try {
+      return File.read(__dirname + "/../../dollar-sign.txt")
+    } catch (_) {
+      return "$";
+    }
+  }
   public static readonly bankInterestRate = 5; // percent
   public static readonly interestSpeed = 6 * 60 * 60; // gain interest every six hours
   public static readonly money = new MoneyField;
