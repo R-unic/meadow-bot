@@ -30,7 +30,7 @@ export class Balance {
       embeds: [
         Embed.common()
           .setAuthor({
-            name: (member === command.member ? "Your" : userMention(member.id) + "'s") + " Balance",
+            name: (member === command.member ? "Your" : member.user.globalName + "'s") + " Balance 💵",
             iconURL: member.displayAvatarURL()
           })
           .addFields({

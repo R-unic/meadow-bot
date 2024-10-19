@@ -1,6 +1,6 @@
 import { Discord, Guard, Slash, SlashGroup, SlashOption } from "discordx";
-import { Category, PermissionGuard } from "@discordx/utilities";
-import { ApplicationCommandOptionType, type CommandInteraction } from "discord.js";
+import { Category } from "@discordx/utilities";
+import { ApplicationCommandOptionType, bold, type CommandInteraction } from "discord.js";
 
 import { GuildData } from "../../data/guild.js";
 import { capitalize, RequirePermissions } from "../../utility.js";
@@ -9,12 +9,12 @@ import Embed from "../../embed-presets.js";
 @Discord()
 @Category("Info")
 @SlashGroup({
-  name: "tags",
-  description: "Commands using the tag system"
+  name: "tag",
+  description: "Commands using the tag system."
 })
 export class Tags {
-  @Slash({ description: "Create a new tag" })
-  @SlashGroup("tags")
+  @Slash({ description: "Create a new tag." })
+  @SlashGroup("tag")
   @Guard(RequirePermissions(["ManageGuild"]))
   public async create(
     @SlashOption({
@@ -41,8 +41,8 @@ export class Tags {
     });
   }
 
-  @Slash({ description: "Delete an existing tag" })
-  @SlashGroup("tags")
+  @Slash({ description: "Delete an existing tag." })
+  @SlashGroup("tag")
   @Guard(RequirePermissions(["ManageGuild"]))
   public async delete(
     @SlashOption({
@@ -66,8 +66,8 @@ export class Tags {
     });
   }
 
-  @Slash({ description: "Views a tag" })
-  @SlashGroup("tags")
+  @Slash({ description: "Views a tag." })
+  @SlashGroup("tag")
   public async view(
     @SlashOption({
       description: "The name of the tag to view",
@@ -91,8 +91,8 @@ export class Tags {
     });
   }
 
-  @Slash({ description: "Lists all tag names that exist" })
-  @SlashGroup("tags")
+  @Slash({ description: "Lists all tag names that exist." })
+  @SlashGroup("tag")
   public async list(command: CommandInteraction): Promise<void> {
     if (command.channel === null) return;
 
@@ -101,7 +101,7 @@ export class Tags {
     await command.reply({
       embeds: [
         Embed.common("All Existing Tags", "🏷️")
-          .setDescription(tagList === "" ? "**No tags exist yet.**" : tagList)
+          .setDescription(tagList === "" ? bold("No tags exist yet.") : tagList)
       ]
     });
   }

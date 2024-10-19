@@ -5,7 +5,7 @@ const { default: { toRoman } } = await import("roman-numerals");
 
 import { BoostersData } from "../../data/boosters.js";
 import { LevelSystemData, MAX_LEVEL, MAX_PRESTIGE, getXpPerMessage, getXpToLevelUp } from "../../data/level-system.js";
-import { commaFormat } from "../../utility.js";
+import { commaFormat, replyWithEmbed } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -33,51 +33,49 @@ export class Profile {
     const minXpPerMessage = await getXpPerMessage(member, prestige, level, "min");
     const maxXpPerMessage = await getXpPerMessage(member, prestige, level, "max");
 
-    await command.reply({
-      embeds: [
-        Embed.common()
-          .setAuthor({
-            name: `${member.user.globalName}'s Profile`,
-            iconURL: member.displayAvatarURL()
-          })
-          .addFields(
-            {
-              name: "Prestige",
-              value: prestige === 0 ? "0" : toRoman(prestige) + (prestige === MAX_PRESTIGE ? " (max)" : ""),
-              inline: true,
-            },
-            {
-              name: "Level",
-              value: level.toString() + (level === MAX_LEVEL ? " (max)" : ""),
-              inline: true,
-            },
-            {
-              name: "XP",
-              value: commaFormat(xp),
-              inline: true,
-            },
-            {
-              name: "XP to level up",
-              value: level === MAX_LEVEL ? "n/a" : commaFormat(xpToLevelUp),
-              inline: true,
-            },
-            {
-              name: "XP per message",
-              value: level === MAX_LEVEL ? "n/a" : (commaFormat(minXpPerMessage) + " - " + commaFormat(maxXpPerMessage)),
-              inline: true,
-            },
-            {
-              name: "Active XP boosters",
-              value: activeBoosters.filter(booster => booster.type === "Experience").length.toString(),
-              inline: true,
-            },
-            {
-              name: "Joined",
-              value: time(member.joinedAt!, TimestampStyles.RelativeTime),
-              inline: true,
-            }
-          )
-      ]
-    });
+    await replyWithEmbed(command,
+      Embed.common()
+        .setAuthor({
+          name: `${member.user.globalName}'s Profile`,
+          iconURL: member.displayAvatarURL()
+        })
+        .addFields(
+          {
+            name: "Prestige",
+            value: prestige === 0 ? "0" : toRoman(prestige) + (prestige === MAX_PRESTIGE ? " (max)" : ""),
+            inline: true,
+          },
+          {
+            name: "Level",
+            value: level.toString() + (level === MAX_LEVEL ? " (max)" : ""),
+            inline: true,
+          },
+          {
+            name: "XP",
+            value: commaFormat(xp),
+            inline: true,
+          },
+          {
+            name: "XP to level up",
+            value: level === MAX_LEVEL ? "n/a" : commaFormat(xpToLevelUp),
+            inline: true,
+          },
+          {
+            name: "XP per message",
+            value: level === MAX_LEVEL ? "n/a" : (commaFormat(minXpPerMessage) + " - " + commaFormat(maxXpPerMessage)),
+            inline: true,
+          },
+          {
+            name: "Active XP boosters",
+            value: activeBoosters.filter(booster => booster.type === "Experience").length.toString(),
+            inline: true,
+          },
+          {
+            name: "Joined",
+            value: time(member.joinedAt!, TimestampStyles.RelativeTime),
+            inline: true,
+          }
+        )
+    );
   }
 }
