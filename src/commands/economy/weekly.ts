@@ -14,7 +14,7 @@ export class Weekly {
     if (command.guild === null) return;
 
     const member = <GuildMember>command.member;
-    const reward = random(500, 1250);
+    const reward = random(800, 1250);
     const now = Math.floor(Date.now() / 1000);
     const lastClaim = await EconomyData.lastWeeklyClaim.get(member);
     if (now - lastClaim <= time.week)
