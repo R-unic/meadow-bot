@@ -115,13 +115,14 @@ export function random<T extends number = number>(min: T, max: T): T {
   return <T>(Math.floor(Math.random() * (max - min + 1)) + min);
 }
 
-const s = 1, m = 60, h = 3600, d = 86400, w = 604800;
+const s = 1, m = 60, h = 60 * m, d = 24 * h, w = 7 * d, mo = 30 * d;
 export const time = {
   s, second: s, seconds: s,
   m, minute: m, minutes: m,
   h, hour: h, hours: h,
   d, day: d, days: d,
-  w, week: w, weeks: w
+  w, week: w, weeks: w,
+  mo, month: mo, months: mo
 };
 
 // Takes a remaining time string (e.g. 1d 5h 10s) and

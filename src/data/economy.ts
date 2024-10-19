@@ -27,6 +27,7 @@ export class EconomyData {
   public static readonly moneyInBank = new MemberNumberField(DataName.Economy, "moneyInBank", 0);
   public static readonly lastDailyClaim = new MemberNumberField(DataName.Economy, "lastDailyClaim", 0);
   public static readonly lastWeeklyClaim = new MemberNumberField(DataName.Economy, "lastWeeklyClaim", 0);
+  public static readonly lastMonthlyClaim = new MemberNumberField(DataName.Economy, "lastMonthlyClaim", 0);
   public static readonly lastInterestGain = new MemberNumberField(DataName.Economy, "lastInterestGain", Date.now() / 1000 - EconomyData.interestSpeed);
 
   @On()
