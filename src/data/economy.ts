@@ -59,8 +59,8 @@ export class EconomyData {
           await EconomyData.lastInterestGain.set(member, (Date.now() / 1000) + remainder);
 
           const moneyInBank = await EconomyData.moneyInBank.get(member);
-          const interestMultiplier = 1 + EconomyData.bankInterestRate / 100;
-          await EconomyData.moneyInBank.set(member, moneyInBank * interestMultiplier * gainAmount);
+          const interestMultiplier = 1 + EconomyData.bankInterestRate * gainAmount / 100;
+          await EconomyData.moneyInBank.set(member, moneyInBank * interestMultiplier);
         }
 
         resolve();
