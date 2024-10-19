@@ -3,6 +3,7 @@ import type { GuildMember } from "discord.js";
 import { Firebase } from "../utility.js";
 
 export const enum DataName {
+  ReputationSystem = "reputationSystem",
   LevelSystem = "levelSystem",
   Economy = "economy"
 }

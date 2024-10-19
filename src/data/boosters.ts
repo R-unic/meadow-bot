@@ -64,6 +64,7 @@ class ActiveBoostersField {
   }
 }
 
+/** @see GuildData */
 @Discord()
 export class BoostersData {
   public static readonly dailyStreak = new MemberNumberField(DataName.LevelSystem, "dailyStreak", 0, 30);

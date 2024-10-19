@@ -25,6 +25,7 @@ export class Profile {
     if (command.guild === null) return;
 
     const member = await command.guild.members.fetch(user ?? command.user);
+    const isExecutor = member === command.member;
     const prestige = await LevelSystemData.prestige.get(member);
     const level = await LevelSystemData.level.get(member);
     const xp = await LevelSystemData.xp.get(member);
@@ -36,7 +37,7 @@ export class Profile {
     await replyWithEmbed(command,
       Embed.common()
         .setAuthor({
-          name: `${member.user.globalName}'s Profile`,
+          name: `${isExecutor ? "Your" : member.user.globalName + "'s"}'s Profile`,
           iconURL: member.displayAvatarURL()
         })
         .addFields({
