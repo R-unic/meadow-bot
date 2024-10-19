@@ -9,7 +9,7 @@ import Embed from "../../embed-presets.js";
 @Category("Meta")
 @Guard(RequirePermissions(["Administrator"]))
 export class Refresh {
-  @Slash({ description: "Refreshes all application commands. Do not use super often or risk rate limiting" })
+  @Slash({ description: "Refreshes all application commands. Do not use super often or risk rate limiting." })
   public async refresh(command: CommandInteraction, client: Client): Promise<void> {
     if (command.channel === null) return;
 

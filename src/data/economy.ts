@@ -20,13 +20,15 @@ class MoneyField extends MemberNumberField {
 /** @see GuildData */
 @Discord()
 export class EconomyData {
+  public static readonly dollarSignFilePath = import.meta.dirname + "/../../dollar-sign.txt";
   public static get dollarSign(): string {
     try {
-      return File.read(__dirname + "/../../dollar-sign.txt")
+      return File.read(this.dollarSignFilePath)
     } catch (_) {
       return "$";
     }
   }
+
   public static readonly bankInterestRate = 5; // percent
   public static readonly interestSpeed = 6 * 60 * 60; // gain interest every six hours
   public static readonly money = new MoneyField;

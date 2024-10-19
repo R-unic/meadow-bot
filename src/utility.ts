@@ -168,8 +168,15 @@ export namespace File {
     rmSync(path, { force, recursive });
   }
 
+  export function write(path: PathLike, content: string | Buffer): void {
+    if (isDirectory(path))
+      throw new Error("Attempt to write to a directory.");
+
+    writeFileSync(path, content);
+  }
+
   export function read(path: PathLike): string {
-    if (!exists(path) && isDirectory(path))
+    if (!exists(path) || isDirectory(path))
       throw new Error("Attempt to read a non-existent file or a directory.");
 
     return readFileSync(path).toString();
