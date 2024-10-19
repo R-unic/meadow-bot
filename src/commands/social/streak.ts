@@ -4,7 +4,7 @@ import { GuildMember, bold, type CommandInteraction } from "discord.js";
 
 import { BoostersData } from "../../data/boosters.js";
 import { replyWithEmbed } from "../../utility.js";
-import Embed from "../../embed-presets.js";
+import Embed, { EmbedColor } from "../../embed-presets.js";
 
 @Discord()
 @Category("Social")
@@ -23,6 +23,7 @@ export class Streak {
           iconURL: member.displayAvatarURL()
         })
         .setDescription(`You have an activity streak of ${bold(streak === 30 ? "30+" : streak.toString())} day${streak > 0 && streak < 2 ? "" : "s"}.`)
+        .setColor(EmbedColor.Orange)
     );
   }
 }

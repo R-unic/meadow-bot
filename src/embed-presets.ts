@@ -6,7 +6,8 @@ import { currencyFormat } from "./utility.js";
 export enum EmbedColor {
   Red = "#AD4234",
   Green = "#3BCC6E",
-  Blue = "#4479CF"
+  Blue = "#4479CF",
+  Orange = "#FF5512"
 }
 
 export default class Embed {

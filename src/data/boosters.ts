@@ -89,7 +89,7 @@ export class BoostersData {
   @Guard(NotBot)
   public messageCreate([{ member }]: ArgsOf<"messageCreate">): void {
     if (member === null) return;
-    this.checkStreak(member);
+    this.checkStreak(member, true);
   }
 
   private poll(client: Client): void {
@@ -110,7 +110,7 @@ export class BoostersData {
     await Promise.all(promises);
   }
 
-  private async checkStreak(member: GuildMember): Promise<void> {
+  private async checkStreak(member: GuildMember, createdMessage = false): Promise<void> {
     const lastStreakIncrement = await BoostersData.lastStreakIncrement.get(member);
     const now = Date.now() / 1000;
     if (now - lastStreakIncrement >= time.day) {
@@ -118,8 +118,7 @@ export class BoostersData {
       await BoostersData.dailyStreak.increment(member);
     } else if (now - lastStreakIncrement >= 2 * time.days) {
       await BoostersData.lastStreakIncrement.set(member, Date.now() / 1000);
-      await BoostersData.dailyStreak.set(member, 1);
+      await BoostersData.dailyStreak.set(member, createdMessage ? 1 : 0);
     }
-
   }
 }
