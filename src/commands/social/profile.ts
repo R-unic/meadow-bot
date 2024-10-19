@@ -39,43 +39,35 @@ export class Profile {
           name: `${member.user.globalName}'s Profile`,
           iconURL: member.displayAvatarURL()
         })
-        .addFields(
-          {
-            name: "Prestige",
-            value: prestige === 0 ? "0" : toRoman(prestige) + (prestige === MAX_PRESTIGE ? " (max)" : ""),
-            inline: true,
-          },
-          {
-            name: "Level",
-            value: level.toString() + (level === MAX_LEVEL ? " (max)" : ""),
-            inline: true,
-          },
-          {
-            name: "XP",
-            value: commaFormat(xp),
-            inline: true,
-          },
-          {
-            name: "XP to level up",
-            value: level === MAX_LEVEL ? "n/a" : commaFormat(xpToLevelUp),
-            inline: true,
-          },
-          {
-            name: "XP per message",
-            value: level === MAX_LEVEL ? "n/a" : (commaFormat(minXpPerMessage) + " - " + commaFormat(maxXpPerMessage)),
-            inline: true,
-          },
-          {
-            name: "Active XP boosters",
-            value: activeBoosters.filter(booster => booster.type === "Experience").length.toString(),
-            inline: true,
-          },
-          {
-            name: "Joined",
-            value: time(member.joinedAt!, TimestampStyles.RelativeTime),
-            inline: true,
-          }
-        )
+        .addFields({
+          name: "Prestige",
+          value: prestige === 0 ? "0" : toRoman(prestige) + (prestige === MAX_PRESTIGE ? " (max)" : ""),
+          inline: true,
+        }, {
+          name: "Level",
+          value: level.toString() + (level === MAX_LEVEL ? " (max)" : ""),
+          inline: true,
+        }, {
+          name: "XP",
+          value: commaFormat(xp),
+          inline: true,
+        }, {
+          name: "XP to level up",
+          value: level === MAX_LEVEL ? "n/a" : commaFormat(xpToLevelUp),
+          inline: true,
+        }, {
+          name: "XP per message",
+          value: level === MAX_LEVEL ? "n/a" : (commaFormat(minXpPerMessage) + " - " + commaFormat(maxXpPerMessage)),
+          inline: true,
+        }, {
+          name: "Active XP boosters",
+          value: activeBoosters.filter(booster => booster.type === "Experience").length.toString(),
+          inline: true,
+        }, {
+          name: "Joined",
+          value: time(member.joinedAt!, TimestampStyles.RelativeTime),
+          inline: true,
+        })
     );
   }
 }

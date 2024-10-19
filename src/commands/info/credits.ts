@@ -14,21 +14,15 @@ export class Credits {
     await command.reply({
       embeds: [
         Embed.common("Credits", "🗒️")
-          .addFields([
-            {
-              name: "Developer",
-              value: userMention("215188040535113729"),
-              inline: true
-            }, /*{
-              name: "Hosting",
-              value: userMention("1037800611669889114"),
-              inline: true
-            },*/ {
-              name: "Source code",
-              value: "[github.com/R-unic/meadow-bot](https://github.com/R-unic/meadow-bot)",
-              inline: true
-            }
-          ])
+          .addFields({
+            name: "Developer",
+            value: userMention("215188040535113729"),
+            inline: true
+          }, {
+            name: "Source code",
+            value: "[github.com/R-unic/meadow-bot](https://github.com/R-unic/meadow-bot)",
+            inline: true
+          })
       ]
     });
   }
