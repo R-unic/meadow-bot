@@ -22,7 +22,7 @@ export class Pay {
       description: "The amount to pay the user",
       name: "amount",
       required: true,
-      minValue: 1,
+      minValue: 0.01,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,

@@ -15,7 +15,7 @@ export class Withdraw {
       description: "The amount to withdraw",
       name: "amount",
       required: true,
-      minValue: 1,
+      minValue: 0.01,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,

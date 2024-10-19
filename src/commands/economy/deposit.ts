@@ -15,7 +15,7 @@ export class Deposit {
       description: "The amount to deposit",
       name: "amount",
       required: true,
-      minValue: 1,
+      minValue: 0.01,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,

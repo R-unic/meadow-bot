@@ -24,7 +24,7 @@ export class Dice {
       description: "The amount to bet",
       name: "amount",
       required: true,
-      minValue: 1,
+      minValue: 0.01,
       type: ApplicationCommandOptionType.Number,
     })
     amount: number,
