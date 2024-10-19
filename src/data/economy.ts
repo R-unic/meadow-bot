@@ -4,7 +4,6 @@ import type { GuildMember } from "discord.js";
 import { getRunesMeadowGuild, time } from "../utility.js";
 import { MemberNumberField, DataName } from "./data-field.js";
 import { BoostersData } from "./boosters.js";
-import Log from "../logger.js";
 
 class MoneyField extends MemberNumberField {
   public constructor() {

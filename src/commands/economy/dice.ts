@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction, type GuildMember } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { random, replyWithEmbed } from "../../utility.js";
+import { currencyFormat, random, replyWithEmbed } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -37,7 +37,7 @@ export class Dice {
     if (amount > money)
       return void await command.reply({
         ephemeral: true,
-        embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
+        embeds: [Embed.insufficientMoney(`You do not have ${currencyFormat(amount)} to bet.`, money, amount)]
       });
 
     if (number > 6)

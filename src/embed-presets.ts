@@ -1,7 +1,7 @@
 import { EmbedBuilder, GuildMember, type PermissionsString } from "discord.js";
 
 import { EconomyData } from "./data/economy.js";
-import { commaFormat } from "./utility.js";
+import { currencyFormat } from "./utility.js";
 
 export enum EmbedColor {
   Red = "#AD4234",
@@ -14,18 +14,18 @@ export default class Embed {
     const money = await EconomyData.money.get(member);
     return this.common("You won!", "🎉")
       .setColor(EmbedColor.Green)
-      .setDescription(`${message} You won **${EconomyData.dollarSign}${commaFormat(amount)}**!\nYour current balance is now **${EconomyData.dollarSign}${commaFormat(money)}**.`);
+      .setDescription(`${message} You won ${currencyFormat(amount)}!\nYour current balance is now ${currencyFormat(money)}.`);
   }
 
   public static async lose(message: string, member: GuildMember, amount: number): Promise<EmbedBuilder> {
     const money = await EconomyData.money.get(member);
     return this.common("You lost!", "💔")
       .setColor(EmbedColor.Red)
-      .setDescription(`${message} You lost **${EconomyData.dollarSign}${commaFormat(amount)}**.\nYour current balance is now **${EconomyData.dollarSign}${commaFormat(money)}**.`);
+      .setDescription(`${message} You lost ${currencyFormat(amount)}.\nYour current balance is now ${currencyFormat(money)}.`);
   }
 
   public static insufficientMoney(message: string, money: number, amount: number): EmbedBuilder {
-    return this.error(`${message} You need **${EconomyData.dollarSign}${amount - money}** more.`);
+    return this.error(`${message} You need ${currencyFormat(amount - money)} more.`);
   }
 
   public static success(message: string): EmbedBuilder {

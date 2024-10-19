@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type User, type CommandInteraction, userMention } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { commaFormat } from "../../utility.js";
+import { currencyFormat } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -35,11 +35,11 @@ export class Balance {
           })
           .addFields({
             name: "Cash",
-            value: `**${EconomyData.dollarSign}${commaFormat(money)}**`,
+            value: currencyFormat(money),
             inline: true
           }, {
             name: "Bank",
-            value: `**${EconomyData.dollarSign}${commaFormat(moneyInBank)}**`,
+            value: currencyFormat(moneyInBank),
             inline: true
           })
       ]

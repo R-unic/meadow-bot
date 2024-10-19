@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, type CommandInteraction, type GuildMember } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { commaFormat, replyWithEmbed } from "../../utility.js";
+import { currencyFormat, replyWithEmbed } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 @Discord()
@@ -28,6 +28,6 @@ export class Deposit {
     await EconomyData.moneyInBank.increment(member, amount);
 
     const newMoney = await EconomyData.money.get(member);
-    await replyWithEmbed(command, Embed.success(`You have successfully deposited **${EconomyData.dollarSign}${commaFormat(amount)}** into your bank!\nYou now have **${EconomyData.dollarSign}${commaFormat(newMoney)}** in cash.`));
+    await replyWithEmbed(command, Embed.success(`You have successfully deposited ${currencyFormat(amount)} into your bank!\nYou now have ${currencyFormat(newMoney)} in cash.`));
   }
 }

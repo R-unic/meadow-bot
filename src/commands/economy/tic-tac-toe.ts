@@ -3,7 +3,7 @@ import { Category } from "@discordx/utilities";
 import { ApplicationCommandOptionType, bold, type CommandInteraction, type GuildMember } from "discord.js";
 
 import { EconomyData } from "../../data/economy.js";
-import { random, replyWithEmbed, shuffle } from "../../utility.js";
+import { currencyFormat, random, replyWithEmbed, shuffle } from "../../utility.js";
 import Embed from "../../embed-presets.js";
 
 enum Player { X, O }
@@ -63,7 +63,7 @@ export class TicTacToe {
     if (amount > money)
       return void await command.reply({
         ephemeral: true,
-        embeds: [Embed.insufficientMoney(`You do not have **${EconomyData.dollarSign}${amount}** to bet.`, money, amount)]
+        embeds: [Embed.insufficientMoney(`You do not have ${currencyFormat(amount)} to bet.`, money, amount)]
       });
 
     const chosenWinner = random<Player>(0, 1);

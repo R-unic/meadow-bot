@@ -6,6 +6,7 @@ import { type PathLike, copyFileSync, readFileSync, rmSync, statSync, writeFileS
 import { Firebase } from "./firebase.js";
 import Log from "./logger.js";
 import Embed from "./embed-presets.js";
+import { EconomyData } from "./data/economy.js";
 const { default: Worlds } = await import("./data/wiz-worlds.json", { with: { type: "json" } });
 
 const db = new Firebase(process.env.FIREBASE_URL!);
@@ -92,7 +93,7 @@ export function shuffle<T>(array: T[]): T[] {
   return shuffledArray;
 }
 
-export function commaFormat(n: number): string {
+export function commaFormat(n: number | string): string {
   return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
@@ -103,6 +104,11 @@ export function commaFormat(n: number): string {
  */
 export function capitalize(s: string): string {
   return s.replace(/\S+/g, word => word.slice(0, 1).toUpperCase() + word.slice(1));
+}
+
+export function currencyFormat(n: number): string {
+  const decimalFormatted = Number.isInteger(n) ? n.toString() : n.toFixed(2);
+  return `**${EconomyData.dollarSign}${commaFormat(decimalFormatted)}**`;
 }
 
 export function random<T extends number = number>(min: T, max: T): T {
