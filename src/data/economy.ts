@@ -1,4 +1,4 @@
-import { ArgsOf, Discord, On, type Client } from "discordx";
+import { ArgsOf, Discord, Once, type Client } from "discordx";
 import type { GuildMember } from "discord.js";
 
 import { getRunesMeadowGuild, time } from "../utility.js";
@@ -30,7 +30,7 @@ export class EconomyData {
   public static readonly lastMonthlyClaim = new MemberNumberField(DataName.Economy, "lastMonthlyClaim", 0);
   public static readonly lastInterestGain = new MemberNumberField(DataName.Economy, "lastInterestGain", Date.now() / 1000 - EconomyData.interestSpeed);
 
-  @On()
+  @Once()
   public ready([client]: ArgsOf<"ready">): void {
     this.poll(<Client>client);
   }

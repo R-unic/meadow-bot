@@ -1,6 +1,8 @@
+import { NotBot } from "@discordx/utilities";
+import { Discord, Guard, On, Once, type Client, type ArgsOf } from "discordx";
 import type { GuildMember } from "discord.js";
 
-import { Firebase, toSeconds } from "../utility.js";
+import { Firebase, getRunesMeadowGuild, time, toSeconds } from "../utility.js";
 import { DataName, MemberNumberField } from "./data-field.js";
 import { type ActiveBoosterData, ActiveBooster, BoosterType } from "./models/boosters.js";
 
@@ -62,7 +64,10 @@ class ActiveBoostersField {
   }
 }
 
+@Discord()
 export class BoostersData {
+  public static readonly dailyStreak = new MemberNumberField(DataName.LevelSystem, "dailyStreak", 0, 30);
+  public static readonly lastStreakIncrement = new MemberNumberField(DataName.LevelSystem, "lastStreakIncrement", 0);
   public static readonly activeBoosters = new ActiveBoostersField;
   public static readonly ownedBoosters = {
     [BoosterType.Experience1H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Experience1H_10}`, 0),
@@ -74,4 +79,47 @@ export class BoostersData {
     [BoosterType.Money8H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money8H_10}`, 0),
     [BoosterType.Money24H_10]: new MemberNumberField(DataName.LevelSystem, `ownedBoosters/${BoosterType.Money24H_10}`, 0)
   };
+
+  @Once()
+  public async ready([client]: ArgsOf<"ready">): Promise<void> {
+    this.poll(<Client>client);
+  }
+
+  @On()
+  @Guard(NotBot)
+  public messageCreate([{ member }]: ArgsOf<"messageCreate">): void {
+    if (member === null) return;
+    this.checkStreak(member);
+  }
+
+  private poll(client: Client): void {
+    this.checkAllMemberStreaks(client);
+    setTimeout(async () => {
+      await this.checkAllMemberStreaks(client);
+      this.poll(client);
+    }, 15 * 1000 * time.minutes); // every 15 minutes
+  }
+
+  private async checkAllMemberStreaks(client: Client): Promise<void> {
+    const guild = await getRunesMeadowGuild(<Client>client);
+    const members = await guild.members.fetch();
+    const promises: Promise<void>[] = [];
+    for (const member of members.values())
+      promises.push(this.checkStreak(member));
+
+    await Promise.all(promises);
+  }
+
+  private async checkStreak(member: GuildMember): Promise<void> {
+    const lastStreakIncrement = await BoostersData.lastStreakIncrement.get(member);
+    const now = Date.now() / 1000;
+    if (now - lastStreakIncrement >= time.day) {
+      await BoostersData.lastStreakIncrement.set(member, Date.now() / 1000);
+      await BoostersData.dailyStreak.increment(member);
+    } else if (now - lastStreakIncrement >= 2 * time.days) {
+      await BoostersData.lastStreakIncrement.set(member, Date.now() / 1000);
+      await BoostersData.dailyStreak.set(member, 1);
+    }
+
+  }
 }
