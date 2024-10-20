@@ -69,7 +69,7 @@ export class TicTacToe {
     const chosenWinner = random<Player>(0, 1);
     const board = this.generateBoard(chosenWinner).map(row => row.join(" ")).join("\n") + "\n\n";
     if (winner === chosenWinner) {
-      await EconomyData.money.increment(member, amount); // EV = 0.5
+      await EconomyData.money.earn(member, amount); // EV = 0.5
       await replyWithEmbed(command, await Embed.win(`${board}${bold(Player[chosenWinner])} won the game, which is who you predicted!`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);

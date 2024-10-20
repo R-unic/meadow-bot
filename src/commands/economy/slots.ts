@@ -40,10 +40,10 @@ export class Slots {
     const [first, second, third] = rolledSlots;
     const display = rolledSlots.join(" **\\|** ") + "\n\n";
     if (first === second && second === third) {
-      await EconomyData.money.increment(member, amount * 10); // EV = 0.5
+      await EconomyData.money.earn(member, amount * 10); // EV = 0.5
       await replyWithEmbed(command, await Embed.win(`${display}Jackpot!`, member, amount * 10));
     } else if (first === second || first === third || second === third) {
-      await EconomyData.money.increment(member, amount); // EV = 0.5
+      await EconomyData.money.earn(member, amount); // EV = 0.5
       await replyWithEmbed(command, await Embed.win(`${display}You got a pair!`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);

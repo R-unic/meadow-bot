@@ -58,7 +58,7 @@ export class Coinflip {
 
     const flip = random<CoinSide>(0, 1);
     if (flip === side) {
-      await EconomyData.money.increment(member, amount); // EV = 0.5
+      await EconomyData.money.earn(member, amount); // EV = 0.5
       await replyWithEmbed(command, await Embed.win(`The coin landed on **${CoinSide[flip].toLowerCase()}** which is the same side you chose.`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);
