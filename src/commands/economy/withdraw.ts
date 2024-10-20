@@ -14,17 +14,18 @@ export class Withdraw {
     @SlashOption({
       description: "The amount to withdraw",
       name: "amount",
-      required: true,
+      required: false,
       minValue: 0.01,
       type: ApplicationCommandOptionType.Number,
     })
-    amount: number,
+    amount: Maybe<number>,
     command: CommandInteraction
   ): Promise<void> {
     if (command.guild === null) return;
 
     const member = <GuildMember>command.member;
     const money = await EconomyData.moneyInBank.get(member);
+    amount ??= money;
     if (amount > money)
       return void await command.reply({
         ephemeral: true,
