@@ -13,7 +13,9 @@ class MoneyField extends MemberNumberField {
   public async earn(member: GuildMember, amount = 1): Promise<number> {
     const boostPercent = await BoostersData.activeBoosters.getBoostPercent(member, "Money");
     const boostMultiplier = 1 + boostPercent / 100;
-    return await this.increment(member, amount * boostMultiplier);
+    const increment = amount * boostMultiplier;
+    await this.increment(member, increment);
+    return increment;
   }
 }
 

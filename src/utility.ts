@@ -115,8 +115,16 @@ export function currencyFormat(n: number): string {
   return `**${EconomyData.dollarSign}${commaFormat(decimalFormatted)}**`;
 }
 
-export function random<T extends number = number>(min: T, max: T): T {
-  return <T>(Math.floor(Math.random() * (max - min + 1)) + min);
+const RNGS = new Map<number, SeededRNG>;
+export function random<T extends number = number>(min: T, max: T, seed?: number): T {
+  let rng: Maybe<SeededRNG>;
+  if (seed !== undefined) {
+    rng = RNGS.get(seed) ?? new SeededRNG(seed);
+    RNGS.set(seed, rng);
+  }
+
+  const randomizer = seed === undefined ? Math : rng!;
+  return <T>(Math.floor(randomizer.random() * (max - min + 1)) + min);
 }
 
 const s = 1, m = 60, h = 60 * m, d = 24 * h, w = 7 * d, mo = 30 * d;
@@ -158,6 +166,21 @@ export function toRemainingTime(seconds: number): string {
     remainingTime += Math.floor(seconds) + "s ";
 
   return remainingTime.trim();
+}
+
+export class SeededRNG {
+  constructor(
+    private seed: number
+  ) { }
+
+  public random(): number {
+    const a = 1664525;
+    const c = 1013904223;
+    const m = Math.pow(2, 32);
+
+    this.seed = (a * this.seed + c) % m;
+    return this.seed / m;
+  }
 }
 
 export namespace File {

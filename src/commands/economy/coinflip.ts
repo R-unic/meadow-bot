@@ -56,9 +56,9 @@ export class Coinflip {
         embeds: [Embed.insufficientMoney(`You do not have ${currencyFormat(amount)} to bet.`, money, amount)]
       });
 
-    const flip = random<CoinSide>(0, 1);
+    const flip = random<CoinSide>(0, 1, parseInt(command.user.id));
     if (flip === side) {
-      await EconomyData.money.earn(member, amount); // EV = 0.5
+      amount = await EconomyData.money.earn(member, amount); // EV = 0.5
       await replyWithEmbed(command, await Embed.win(`The coin landed on **${CoinSide[flip].toLowerCase()}** which is the same side you chose.`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);

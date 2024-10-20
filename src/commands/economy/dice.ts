@@ -46,10 +46,10 @@ export class Dice {
         embeds: [Embed.error("You can not bet on more than 6 in a dice game.")]
       });
 
-    const roll = random(1, 6);
+    const roll = random(1, 6, parseInt(command.user.id));
     if (roll === number) {
-      await EconomyData.money.earn(member, amount * 5); // EV = 0.5
-      await replyWithEmbed(command, await Embed.win(`The die rolled **${roll}** which is the same number you chose.`, member, amount * 5));
+      amount = await EconomyData.money.earn(member, amount * 5); // EV = 0.5
+      await replyWithEmbed(command, await Embed.win(`The die rolled **${roll}** which is the same number you chose.`, member, amount));
     } else {
       await EconomyData.money.decrement(member, amount);
       await replyWithEmbed(command, await Embed.lose(`The die rolled **${roll}**.`, member, amount));
