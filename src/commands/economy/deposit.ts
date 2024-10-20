@@ -24,6 +24,13 @@ export class Deposit {
     if (command.guild === null) return;
 
     const member = <GuildMember>command.member;
+    const money = await EconomyData.money.get(member);
+    if (amount > money)
+      return void await command.reply({
+        ephemeral: true,
+        embeds: [Embed.insufficientMoney(`You do not have ${currencyFormat(amount)} to deposit.`, money, amount)]
+      });
+
     await EconomyData.money.decrement(member, amount);
     await EconomyData.moneyInBank.increment(member, amount);
 

@@ -24,6 +24,13 @@ export class Withdraw {
     if (command.guild === null) return;
 
     const member = <GuildMember>command.member;
+    const money = await EconomyData.moneyInBank.get(member);
+    if (amount > money)
+      return void await command.reply({
+        ephemeral: true,
+        embeds: [Embed.insufficientMoney(`You do not have ${currencyFormat(amount)} to withdraw.`, money, amount)]
+      });
+
     await EconomyData.moneyInBank.decrement(member, amount);
     await EconomyData.money.increment(member, amount);
 
